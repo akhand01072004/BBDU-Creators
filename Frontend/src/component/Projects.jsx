@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { enqueueSnackbar } from 'notistack';
 
 function Projects() {
     const [projects, setProjects] = useState([]);
@@ -7,10 +8,15 @@ function Projects() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch(''); // Ensure the URL matches your server's endpoint
+                const response = await fetch('http://localhost:3000/user/api/projects'); // Ensure the URL matches your server's endpoint
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
                 setProjects(data);
+                if(response.status === 201){
+                    enqueueSnackbar('User Added Successfully', {variant: 'success'})
+                }else{
+                    enqueueSnackbar('User not added', {variant: 'error'})
+                }
             } catch (error) {
                 console.error("Error fetching projects:", error);
             }

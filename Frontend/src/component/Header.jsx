@@ -1,8 +1,13 @@
 
 import "./Design.css"
 import {ReactTyped} from "react-typed";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const handleclick = async () => {
+    navigate("/UploadProjects")
+  }
   return (
     <>
       <header className="container-md h-screen  ok">
@@ -13,7 +18,7 @@ const Header = () => {
                 <h1 className="text-6xl    fs">  BABU BANARASI  </h1>
                 <h1 className='text-6xl  fs'> DAS UNIVERSITY </h1>
                 <h5 className="mt-12"><ReactTyped className="text-3xl " strings={["Innovate. Create. Showcase"]} typeSpeed={100} loop /></h5>
-                <button className=" mt-12 text-white font-normal cursur-pointer bg-green-500 p-1 rounded-md px-2 hover:bg-green-700">Upload Project</button>
+                <button onClick={handleclick} className=" mt-12 text-white font-normal cursur-pointer bg-green-500 p-1 rounded-md px-2 hover:bg-green-700">Upload Project</button>
               </div>
 
             </div>

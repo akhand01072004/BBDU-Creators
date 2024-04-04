@@ -21,29 +21,25 @@ const SignUp = () => {
     },
     // Step4 : what happens when form is submitted
     onSubmit : async(values, action) => {
-      console.log(values);
-      // const {name,email,pass} = values;
-      const data = {
-        name : values.name,
-        email : values.email,
-        password : values.password
-      }
-      const res = await fetch('http://localhost:3000/api/user/register',{
+      const res = await fetch('http://localhost:3000/user/add',{
         method:'POST',
-        credentials: "include",
-        body: JSON.stringify(data),
+        body: JSON.stringify(values),
         headers: {
           "Content-Type":"application/json"
         },
       })
-      console.log(data);
-      if(res.status === 201){
+      action.resetForm();
+      console.log(res.status);
+      
+      if(res.status === 200){
         enqueueSnackbar('User Added Successfully', {variant: 'success'})
+      }else if(res.status === 400){
+        enqueueSnackbar('User already exist', {variant: 'error'})
       }else{
         enqueueSnackbar('User not added', {variant: 'error'})
-      }
+      }}
 
-  }})
+    })
 
 
   return (

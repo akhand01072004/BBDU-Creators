@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Sign.css';
 
 const UploadProjects = () => {
@@ -20,24 +20,35 @@ const UploadProjects = () => {
    const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('projectName', projectName);
-    formData.append('department', department);
-    formData.append('githubRepo', githubRepo);
-    // Assuming projectImage and projectVideo are files; adjust if they're handled differently
-    if (projectImage) formData.append('projectImage', projectImage);
-    if (projectVideo) formData.append('projectVideo', projectVideo);
+    // const formData = new FormData();
+    // formData.append('name', name);
+    // formData.append('email', email);
+    // formData.append('projectName', projectName);
+    // formData.append('department', department);
+    // formData.append('githubRepo', githubRepo);
+    // // Assuming projectImage and projectVideo are files; adjust if they're handled differently
+    // if (projectImage) formData.append('projectImage', projectImage);
+    // if (projectVideo) formData.append('projectVideo', projectVideo);
+
+    const  formData = {
+        name : name,
+        email : email,
+        projectName : projectName,
+        department : department,
+        githubRepo : githubRepo
+    }
 
     try {
       // Adjust the endpoint as necessary
-      const response = await fetch('/api/projects', {
+      const response = await fetch('http://localhost:3000/user/api/uploadprojects', {
         method: 'POST',
-        body: formData,
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type":"application/json"
+        },
       });
       const data = await response.json();
-      console.log('Form submission successful', data);
+      console.log('Form submission successful',data);
       // Reset form and states if needed
     } catch (error) {
       console.error('Form submission error', error);
@@ -105,7 +116,7 @@ const UploadProjects = () => {
 
                     {/* Submit Button */}
                     <div className="flex justify-center mt-6">
-                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
+                        <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
                     </div>
                 </form>
             </div>

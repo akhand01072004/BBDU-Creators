@@ -3,18 +3,20 @@ const app = express();
 const port = 3000;
 const cors = require('cors')
 
-const UserRouter = require('./Routers/User')
+const UserRouter = require('./Routers/User');
+const ProjRouter = require('./Routers/Projects');
 
-app.use(cors());
+
 
 app.use(cors({
-    origin: ['http://localhost:5174'],
+    origin: ['http://localhost:5173'],
 }))
 
 // middleware
 app.use(express.json());
 
-app.use('/user', UserRouter)
+app.use('/user', UserRouter);
+app.use('/user', ProjRouter);
 
 
 app.listen(port, () => {

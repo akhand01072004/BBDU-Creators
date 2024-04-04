@@ -1,16 +1,10 @@
-// app.js or routes.js
 const express = require('express');
-const mongoose = require('mongoose');
-const Project = require('./models/Project'); // Import your model
+const router = express.Router();
+const Project = require('../Models/Projects'); // Import your model
 
-const app = express();
-app.use(express.json()); // Middleware to parse JSON bodies
-
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost/yourdbname', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // POST route to submit a new project
-app.post('/api/projects', async (req, res) => {
+router.post('/api/uploadprojects', async (req, res) => {
   try {
     const project = new Project(req.body);
     await project.save();
@@ -21,7 +15,7 @@ app.post('/api/projects', async (req, res) => {
 });
 
 // GET route to fetch all projects
-app.get('/api/projects', async (req, res) => {
+router.get('/api/projects', async (req, res) => {
   try {
     const projects = await Project.find({});
     res.status(200).send(projects);
@@ -30,7 +24,6 @@ app.get('/api/projects', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = router;
+
+

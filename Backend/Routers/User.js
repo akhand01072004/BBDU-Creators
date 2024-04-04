@@ -1,10 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const Model=  require('../Models/User')
+const Model=  require('../Models/User');
 
-router.post('/add', (req, res) => {
+
+router.post('/add', async(req, res) => {
     console.log(req.body)
-    new Model(req.body).save()
+    let user = await Model.findOne({
+        email: req.body.email,
+    });
+    if(user){
+        return res.status(400).json({
+            message: "User already exists"
+        });
+    }
+    await new Model(req.body).save()
     .then((result) => {
        res.json(result) 
     }).catch((err) => {
