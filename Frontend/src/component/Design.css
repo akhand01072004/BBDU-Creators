@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+.fs{
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+}
+.bg:hover{
+    background-color: #166534;
+    color :black;
+}
+
+.image{
+    background-image: url("../assets/Illustration1.png");
+    background-size: cover;
+    width: 600px;
+    height: 400px;   
+}
+
+.b2{
+    width: 600px;
+    height: 400px;     
+    display: flex;
+    justify-content: center;
+    align-items:center;   
+}
+.b3{
+    height: 300px;
+    width: 500px;
+    text-align: left;
+}
+.t1{
+    margin-top: 80px;
+}
+.height{
+    
+    height: 220px;
+}
+
+.img1{
+    background-image: url("../assets/Paytm.svg");
+    background-size: cover;
+}
+.img2{
+    background-image: url("../assets/google.svg");
+    background-size: cover;
+}
+.img3{
+    background-image: url("../assets/instagram.svg");
+    background-size: cover;
+}
+.img4{
+    background-image: url("../assets/sbi.png");
+    background-size: cover;
+}
+.img5{
+    background-image: url("../assets/whatsapp.png");
+    background-size:cover;
+}
+.img6{
+    background-image: url("../assets/bird.png");
+    background-size: cover;
+}
+
+/* ----------section 2---------- */
+
+.sec2{
+    background-image: url("../assets/sec2.png");
+    background-size: cover;
+    
+}
+
+
+
+.m{
+    margin-right: 65px;
+}
+
+.m1{
+    background-image: url("../assets/m1.svg");
+    background-size:contain;
+}
+.m2{
+    background-image: url("../assets/m2.svg");
+    background-size:contain;
+}
+.m3{
+    background-image: url("../assets/m3.svg");
+    background-size:contain;
+}
+.m4{
+    background-image: url("../assets/m4.svg");
+    background-size:contain;
+}
+.m5{
+    background-image: url("../assets/m5.svg");
+    background-size:contain;
+}
+.m6{
+    background-image: url("../assets/m6.svg");
+    background-size:contain;
+}
+
+/*----------------------- section3---------------- */
+.sec3{
+    background-image: url("../assets/back3.png");
+    background-size: cover;
+}
+.image1{
+    background-image: url("../assets/b3.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* height: 700px; */
+}
+
+.same{
+    margin-top: 200px;
+    margin-bottom: 200px;
+    height: 600px;
+    width: 500px;
+    /* border: 2px solid black; */
+}
+.fw{
+    font-weight: 700;
+}
+
+/* ---------section 4 ------------- */
+.sm{
+    /* border: 2px solid black; */
+    height: 300px;
+    width: 300px;
+}
+
+.picture{
+    background-image: url("../assets/bmw.jpg");
+    background-size: cover;
+    
+    height: 250px;
+    width: 100%;
+}
+.picture1{
+    background-image: url("../assets/rg.jpg");
+    background-size: cover;
+    
+    height: 250px;
+    width: 100%;
+}
+.picture2{
+    background-image: url("../assets/amg.jpg");
+    background-size: cover;
+    
+    height: 250px;
+    width: 100%;
+}
+
+.picture4{
+    background-image: url("../assets/aston1.jpg");
+    background-size: cover;
+    
+    height: 250px;
+    width: 100%;
+}
+
+.picture5{
+    background-image: url("../assets/SUPRA.jpg");
+    background-size: cover;
+    
+    height: 250px;
+    width: 100%;
+}
+.picture6{
+    background-image: url("../assets/masareti.jpg");
+    background-size: cover;
+    
+    height: 250px;
+    width: 100%;
+}
+
+.mmb{
+    margin-bottom: 100px;
+}
+
+.bg{
+    background-image: linear-gradient(to bottom right, white, #4253d0);
+   
+}
