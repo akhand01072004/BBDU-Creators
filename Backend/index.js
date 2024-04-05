@@ -5,6 +5,9 @@ const cors = require('cors')
 
 const UserRouter = require('./Routers/User');
 const ProjRouter = require('./Routers/Projects');
+const UtilRouter = require('./Routers/util');
+
+
 
 
 
@@ -15,8 +18,12 @@ app.use(cors({
 // middleware
 app.use(express.json());
 
+
+app.use('/util', UtilRouter);
 app.use('/user', UserRouter);
 app.use('/user', ProjRouter);
+
+app.use(express.static('./static/uploads'))
 
 
 app.listen(port, () => {

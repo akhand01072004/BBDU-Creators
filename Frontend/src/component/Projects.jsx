@@ -12,10 +12,10 @@ function Projects() {
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
                 setProjects(data);
-                if(response.status === 201){
-                    enqueueSnackbar('User Added Successfully', {variant: 'success'})
+                if(response.status === 200){
+                    enqueueSnackbar('Project Fetch Successfully', {variant: 'success'})
                 }else{
-                    enqueueSnackbar('User not added', {variant: 'error'})
+                    enqueueSnackbar('Not Uploaded', {variant: 'error'})
                 }
             } catch (error) {
                 console.error("Error fetching projects:", error);

@@ -27,9 +27,10 @@ function App() {
   );
 
   return (
-    <SnackbarProvider>
+   
       
     <BrowserRouter>
+     <SnackbarProvider>
       <Routes>
         <Route path="/" element={<MainLayout />} /> {/* Define other routes as needed here */}
         <Route path="/sign" element={<SignUp />} />
@@ -41,8 +42,9 @@ function App() {
         <Route path="/UploadProjects" element={<UploadProjects/>}/>
         <Route path="/Projects" element={<Projects/>}/>
       </Routes>
+      </SnackbarProvider>
     </BrowserRouter>
-    </SnackbarProvider>
+    
   );
 
 }

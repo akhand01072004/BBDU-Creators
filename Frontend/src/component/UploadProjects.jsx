@@ -8,7 +8,7 @@ const UploadProjects = () => {
     const [department, setDepartment] = useState('');
     const [githubRepo, setGithubRepo] = useState('');
     const [projectVideo, setProjectVideo] = useState(null);
-    const [projectImage, setProjectImage] = useState(null);
+    const [projectImage, setProjectImage] = useState('');
     const [showGitHub, setShowGitHub] = useState(false);
 
     const handleDepartmentChange = (event) => {
@@ -16,6 +16,21 @@ const UploadProjects = () => {
         setDepartment(selectedDepartment);
         setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering');
     };
+
+   const uploadFile = async(e) => {
+        const file = e.target.files[0];
+        if(!file) return;
+        setProjectImage(file.name);
+        await fetch('http://localhost:3000/util/uploadfile', {
+            method: "POST",
+            body: projectImage
+           
+        }).then((res) => {
+            if(res.status === 200){
+                console.log("file uploaded successfully");
+            }
+        })
+   }
 
    const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,10 +50,12 @@ const UploadProjects = () => {
         email : email,
         projectName : projectName,
         department : department,
-        githubRepo : githubRepo
+        githubRepo : githubRepo,
+        projectImage: projectImage
     }
 
     try {
+     
       // Adjust the endpoint as necessary
       const response = await fetch('http://localhost:3000/user/api/uploadprojects', {
         method: 'POST',
@@ -111,7 +128,7 @@ const UploadProjects = () => {
                     {/* Project Image */}
                     <div className="mb-4">
                         <label className="block text-gray-700">Project Image</label>
-                        <input type="file" onChange={(e) => setProjectImage(e.target.value)} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                        <input type="file" name='projectImage' onChange={uploadFile} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                     </div>
 
                     {/* Submit Button */}
