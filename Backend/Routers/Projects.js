@@ -24,6 +24,17 @@ router.get('/api/projects', async (req, res) => {
   }
 });
 
+router.get('/api/projects/:id', async(req,res) => {
+  console.log(req.params.id);
+  try {
+    const data = await Project.findById(req.params.id)
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({message : "Error while fetching"});
+  }
+ 
+})
+
 module.exports = router;
 
 

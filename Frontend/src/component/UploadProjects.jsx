@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './Sign.css';
 
-const UploadProjects = () => {
+const UploadProjects = () => {` `
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [projectName, setProjectName] = useState('');
@@ -19,32 +19,23 @@ const UploadProjects = () => {
 
    const uploadFile = async(e) => {
         const file = e.target.files[0];
+        console.log(file);
         if(!file) return;
         setProjectImage(file.name);
-        await fetch('http://localhost:3000/util/uploadfile', {
+        const res = await fetch('http://localhost:3000/util/uploadfile', {
             method: "POST",
-            body: projectImage
-           
-        }).then((res) => {
-            if(res.status === 200){
-                console.log("file uploaded successfully");
-            }
+            body: projectImage,
+            headers: {
+                "Content-Type":"application/json"
+            },
         })
+        if(res.status == 200){
+            console.log("file uploaded successfully")
+        }
    }
 
    const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // const formData = new FormData();
-    // formData.append('name', name);
-    // formData.append('email', email);
-    // formData.append('projectName', projectName);
-    // formData.append('department', department);
-    // formData.append('githubRepo', githubRepo);
-    // // Assuming projectImage and projectVideo are files; adjust if they're handled differently
-    // if (projectImage) formData.append('projectImage', projectImage);
-    // if (projectVideo) formData.append('projectVideo', projectVideo);
-
     const  formData = {
         name : name,
         email : email,
@@ -55,7 +46,6 @@ const UploadProjects = () => {
     }
 
     try {
-     
       // Adjust the endpoint as necessary
       const response = await fetch('http://localhost:3000/user/api/uploadprojects', {
         method: 'POST',
@@ -77,7 +67,7 @@ const UploadProjects = () => {
         <div className="flex items-center justify-center min-h-screen bg-gray-100 upb">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg bg-opacity-30 bg-gray-700">
                 <h2 className="text-2xl font-semibold mb-4 text-center">Upload Project</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} encType='multipart/form-data'>
                     {/* Name */}
                     <div className="mb-4">
                         <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Name</label>

@@ -12,10 +12,11 @@ const NavBar = () => {
           CREATORS
         </span>
       </div>
-      <div className=" flex items-center justify-center gap-3">
+      <div className=" flex items-center justify-center gap-4">
         <Link to="/">Home</Link>
         <Link to="/contact">Contact</Link>
         <Link to="/about">About Us</Link>
+        <Link to='/Projects'>Projects</Link>
       </div>
       <div className=" flex items-center justify-center ">
         <button className="bg-green-400 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-green-800">

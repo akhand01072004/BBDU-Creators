@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
+import { Link } from 'react-router-dom';
 
 function Projects() {
     const [projects, setProjects] = useState([]);
+
+    
 
     // Fetch projects from the backend when the component mounts
     useEffect(() => {
@@ -34,12 +37,13 @@ function Projects() {
             <div className="p-4">
                 {projects.length > 0 ? projects.map((project, index) => (
                     <div key={index} className="border p-4 m-2 flex justify-between bg-white rounded-lg shadow">
-                        <div>
-                            <h2 className="font-bold">{project.projectName}</h2>
+                        <div className='flex flex-col'>
+                            {/* <h2 className="font-bold"></h2> */}
                             <p>Name: {project.name}</p>
                             <p>Department: {project.department}</p>
                             {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline">GitHub Repo</a>}
                             {project.projectVideo && <a href={project.projectVideo} className="text-blue-500 hover:underline block">Project Video</a>}
+                            <Link to={`/projectDetail/${project._id}`} className='hover:text-rose-500 font'>View More</Link>
                         </div>
                         {project.projectImage && (
                             <img src={project.projectImage} alt="Project" className="w-24 h-24 object-cover rounded-lg" />
