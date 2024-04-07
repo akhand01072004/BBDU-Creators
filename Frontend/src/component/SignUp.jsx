@@ -44,7 +44,7 @@ const SignUp = () => {
 
   return (
     <>
-    <div className="min-h-screen flex items-center justify-center  back">
+    <div className="min-h-screen flex items-center justify-center  back-bg">
   {/* Sign up form */}
   
     <div className="bg-white shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] rounded-3xl px-8  mb-4 flex flex-col md:flex-row   pad">

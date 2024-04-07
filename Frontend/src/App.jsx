@@ -13,6 +13,9 @@ import {SnackbarProvider} from 'notistack'
 import UploadProjects from './component/UploadProjects';
 import Projects from './component/Projects';
 import ProjectDetail from './component/ProjectDetail';
+import Profile from './component/Profile';
+import Footer from './component/Footer';
+
 import './App.css';
 
 function App() {
@@ -22,7 +25,10 @@ function App() {
       <div className="background">
         <NavBar />
         <Header />
+        <Footer></Footer>
       </div>
+      
+      
       
     </>
   );
@@ -43,6 +49,9 @@ function App() {
         <Route path="/UploadProjects" element={<UploadProjects/>}/>
         <Route path="/Projects" element={<Projects/>}/>
         <Route path="/projectDetail/:id" element={<ProjectDetail />} />
+        <Route path="/Profile" element={<Profile/>} />
+        
+
       </Routes>
       </SnackbarProvider>
     </BrowserRouter>
