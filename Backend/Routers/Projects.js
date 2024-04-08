@@ -25,7 +25,7 @@ router.get('/api/projects', async (req, res) => {
 });
 
 router.get('/api/projects/:id', async(req,res) => {
-  console.log(req.params.id);
+  // console.log(req.params.id);
   try {
     const data = await Project.findById(req.params.id)
     res.json(data);

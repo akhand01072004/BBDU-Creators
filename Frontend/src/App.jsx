@@ -13,6 +13,8 @@ import {SnackbarProvider} from 'notistack'
 import UploadProjects from './component/UploadProjects';
 import Projects from './component/Projects';
 import ProjectDetail from './component/ProjectDetail';
+import ManagebyAdmin from './component/admin/ManageUser';
+import ManageProject from './component/admin/ManageProject';
 import './App.css';
 
 function App() {
@@ -43,6 +45,8 @@ function App() {
         <Route path="/UploadProjects" element={<UploadProjects/>}/>
         <Route path="/Projects" element={<Projects/>}/>
         <Route path="/projectDetail/:id" element={<ProjectDetail />} />
+        <Route path="/ManageUserAdmin" element={<ManagebyAdmin />} />
+        <Route path="/ManageProjectAdmin" element={<ManageProject />} />
       </Routes>
       </SnackbarProvider>
     </BrowserRouter>

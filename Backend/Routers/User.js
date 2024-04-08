@@ -32,6 +32,15 @@ router.get('/getall',(req,res) => {
     
 });
 
+router.delete('/delete/:id', async(req,res) => {
+    try {
+        const response = await Model.findByIdAndDelete(req.params.id);
+        res.json(response);
+    } catch (error) {
+        res.status(500).json({message: "error while deleting user"})
+    }
+})
+
 router.post('/authenticate', (req,res) => {
     Model.findOne(req.body)
     .then((result) => {

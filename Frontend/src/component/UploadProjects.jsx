@@ -25,9 +25,6 @@ const UploadProjects = () => {` `
         const res = await fetch('http://localhost:3000/util/uploadfile', {
             method: "POST",
             body: projectImage,
-            headers: {
-                "Content-Type":"application/json"
-            },
         })
         if(res.status == 200){
             console.log("file uploaded successfully")
