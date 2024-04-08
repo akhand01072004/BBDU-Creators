@@ -1,4 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=New+Tegomin&family=Pacifico&display=swap');
+
+.fo{
+    font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .upb{
     background-image: url('../assets/U2.jpg');
     background-size: cover;
+}
+
+.nav-icon{
+  height: 65px;
+  
 }
