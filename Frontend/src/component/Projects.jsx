@@ -11,7 +11,7 @@ function Projects() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch('http://localhost:3000/user/api/projects'); // Ensure the URL matches your server's endpoint
+                const response = await fetch('http://localhost:3000/project/api/Approvedprojects'); // Ensure the URL matches your server's endpoint
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
                 setProjects(data);

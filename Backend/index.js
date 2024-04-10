@@ -21,7 +21,7 @@ app.use(express.json());
 
 app.use('/util', UtilRouter);
 app.use('/user', UserRouter);
-app.use('/user', ProjRouter);
+app.use('/project', ProjRouter);
 
 app.use(express.static('./static/uploads'))
 

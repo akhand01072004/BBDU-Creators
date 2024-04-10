@@ -8,7 +8,7 @@ export default function ProjectDetail() {
 
   const fetchdata = async() => {
     try {
-        const response = await fetch(`http://localhost:3000/user/api/projects/${id}`);
+        const response = await fetch(`http://localhost:3000/project/api/Approvedproject/${id}`);
         const data = await response.json();
         setProjects(data);
         if(response.status === 200){
@@ -28,12 +28,15 @@ export default function ProjectDetail() {
   console.log(project)
 
   return (
-    <div className='border 2px bg-blue-500 text-white'>
-      <h1>Project Detail</h1>
-      <h1>Name : {project.name}</h1>
-      <h2>Email : {project.email}</h2>
-      <h2>Department : {project.department}</h2>
-      <p>ProjectName : {project.projectName}</p>
+    <div className=' flex border 2px bg-blue-500 text-white'>
+      <div className='m-5'>
+        <h1>Project Detail</h1>
+        <h1>Name : {project.name}</h1>
+        <h2>Email : {project.email}</h2>
+        <h2>Department : {project.department}</h2>
+        <p>ProjectName : {project.projectName}</p>
+      </div>
+      <img src={project.projectImage} alt='imge' className='ml-[35%] w-[35%]'/>
     </div>
   )
 }

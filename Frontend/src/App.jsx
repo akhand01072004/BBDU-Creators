@@ -8,11 +8,15 @@ import LogIn from './component/LogIn';
 import Header from './component/Header';
 import About from './component/About';
 import Contact from './component/Contact'
-import ManageUser from './component/ManageUser';
+// import ManageUser from './component/ManageUser';
 import {SnackbarProvider} from 'notistack'
 import UploadProjects from './component/UploadProjects';
 import Projects from './component/Projects';
 import ProjectDetail from './component/ProjectDetail';
+import Footer from './component/Footer';
+import ManageUserAdmin from './component/admin/ManageUser';
+import ManageProject from './component/admin/ManageProject';
+import Fileupload from './component/Fileupload';
 import './App.css';
 
 function App() {
@@ -22,7 +26,7 @@ function App() {
       <div className="background">
         <NavBar />
         <Header />
-        <Footer></Footer>
+        <Footer />
       </div>
       
       
@@ -42,10 +46,12 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path='/ManageUser' element={<ManageUser />} />
+        <Route path='/ManageUserAdmin' element={<ManageUserAdmin />} />
         <Route path="/UploadProjects" element={<UploadProjects/>}/>
         <Route path="/Projects" element={<Projects/>}/>
         <Route path="/projectDetail/:id" element={<ProjectDetail />} />
+        <Route path='/ManageProjectAdmin' element={<ManageProject />} />
+        <Route path="/fileupload" element={<Fileupload />} />
       </Routes>
       </SnackbarProvider>
     </BrowserRouter>

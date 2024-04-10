@@ -7,7 +7,7 @@ const UploadProjects = () => {` `
     const [projectName, setProjectName] = useState('');
     const [department, setDepartment] = useState('');
     const [githubRepo, setGithubRepo] = useState('');
-    const [projectVideo, setProjectVideo] = useState(null);
+    // const [projectVideo, setProjectVideo] = useState(null);
     const [projectImage, setProjectImage] = useState('');
     const [showGitHub, setShowGitHub] = useState(false);
 
@@ -17,19 +17,37 @@ const UploadProjects = () => {` `
         setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering');
     };
 
-   const uploadFile = async(e) => {
-        const file = e.target.files[0];
-        console.log(file);
-        if(!file) return;
-        setProjectImage(file.name);
-        const res = await fetch('http://localhost:3000/util/uploadfile', {
-            method: "POST",
-            body: projectImage,
-        })
-        if(res.status == 200){
-            console.log("file uploaded successfully")
-        }
-   }
+//    const uploadFile = async(e) => {
+//         const file = e.target.files[0];
+//         if(!file) return;
+//         const res = await fetch('http://localhost:3000/util/uploadfile', {
+//             method: "POST",
+//             body: projectImage,
+//         })
+//         if(res.status == 200){
+//             console.log("file uploaded successfully")
+//         }
+//    }
+    
+const UploadFile = async(event) => {
+    const file = event.target.files[0];
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "ml_default");
+    data.append("cloud_name", "dl81ig8l5")
+    try {
+        const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
+        method : "POST",
+        body: data
+        });
+        const resp = await response.json();
+        setProjectImage(resp.url);
+        console.log(resp.url);
+        console.log(projectImage);
+    } catch (error) {
+        console.log("failed to upload");
+    }
+}
 
    const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,8 +61,7 @@ const UploadProjects = () => {` `
     }
 
     try {
-      // Adjust the endpoint as necessary
-      const response = await fetch('http://localhost:3000/user/api/uploadprojects', {
+      const response = await fetch('http://localhost:3000/project/api/uploadprojects', {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
@@ -115,7 +132,7 @@ const UploadProjects = () => {` `
                     {/* Project Image */}
                     <div className="mb-4">
                         <label className="block text-gray-700">Project Image</label>
-                        <input type="file" name='projectImage' onChange={uploadFile} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                        <input type="file"  onChange={UploadFile} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                     </div>
 
                     {/* Submit Button */}

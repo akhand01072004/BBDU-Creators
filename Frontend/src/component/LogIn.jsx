@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import './Design.css'
 import image from '../assets/signin-image.jpg'
 import { useFormik } from 'formik'
+import { enqueueSnackbar } from 'notistack';
 import * as yup from 'yup'
 
 // Step5 : Validation Schema
@@ -18,9 +19,23 @@ const LogIn = () => {
             password: ''
         },
         // Step4 : what happens when form is submitted
-        onSubmit: (values, { resetForm }) => {
-            console.log(values)
-            resetForm()
+        onSubmit: async(values,action) => {
+            const res = await fetch('http://localhost:3000/user/login', {
+                method : "POST",
+                body : JSON.stringify(values),
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+            })
+            action.resetForm();
+            if(res.status === 200){
+                enqueueSnackbar('User LoggedIn Successfully', {variant: 'success'})
+            }else if(res.status === 400){
+                enqueueSnackbar('Invalid Credentials', {variant: 'error'})
+            }else{
+                enqueueSnackbar('Something went wrong', {variant : 'error'});
+            }
+            
         },
         // Step6 : Validation Schema
         validationSchema: LoginSchema
@@ -36,7 +51,7 @@ const LogIn = () => {
                     <div className="w-full mb-4 md:mb-0 md:w-auto flex flex-col justify-center items-center ml-10 mr-10">
                         <h2 className="text-3xl mr-6 md:text-5xl font-bold mb-12 text-center md:text-left work">Sign In</h2>
 
-                        <form method="POST" className="mt-8">
+                        <form method="POST" onSubmit={loginForm.handleSubmit} className="mt-8">
 
                             <div className="mb-8 flex">
                                 <label
@@ -95,7 +110,7 @@ const LogIn = () => {
                                     type="submit"
                                     name="signup"
                                     id="signup"
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    className="bg-blue-500 cursor-pointer hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                     defaultValue="Register"
                                 />
                             </div>
