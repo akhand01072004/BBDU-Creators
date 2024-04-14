@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Model=  require('../Models/User');
 const verifyToken = require('../Middleware/VerifyToken');
+const nodemailer = require('nodemailer');
 
 const secretKey = "abcdefgh567#"
 router.post('/add', async(req, res) => {
@@ -63,6 +64,36 @@ router.post('/login', async(req,res) => {
         res.status(500).json({message : "Something went wrong"});
     }
 });
+// router.use('/middlewarefunc' , async(req,res,next) => {
+//     console.log("inside middleware");
+//     next();
+// })
+router.post("/SendEmail",async(req,res) => {
+    var otp = Math.floor(100000 + Math.random() * 900000);
+    const sender = nodemailer.createTransport({
+        service: 'Gmail',
+        auth : {
+            user : "aktfang@gmail.com",
+            pass : "ttaf achp txbs pwwh"
+        }
+    });
+    try {
+        const response = sender.sendMail({
+            from : "aktfang@gmail.com",
+            to : req.body.emailto,
+            subject : "One-time verification code",
+            text : `You are receving this email because a request was made for email verifcation. Please enter the following code for verification : ${otp}`
+        });
+        res.status(201).json({message : "email sent successfully", Otp : otp});
+    } catch (error) {
+        res.status(501).json({message : "failed to sent email"});
+    }
+    
+})
+
+router.get('/validate-otp', async(req,res) => {
+
+})
 
 router.get("/validatetoken", verifyToken , async (req , res) => {
     res.status(200).send({userId : req.userId});

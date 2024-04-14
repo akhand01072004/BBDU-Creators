@@ -17,6 +17,7 @@ import Footer from './component/Footer';
 import ManageUserAdmin from './component/admin/ManageUser';
 import ManageProject from './component/admin/ManageProject';
 import Fileupload from './component/Fileupload';
+import EmailVerify from './component/EmailVerification';
 import './App.css';
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
         <Route path="/projectDetail/:id" element={<ProjectDetail />} />
         <Route path='/ManageProjectAdmin' element={<ManageProject />} />
         <Route path="/fileupload" element={<Fileupload />} />
+        <Route path="/email-verification" element={<EmailVerify />} />
       </Routes>
       </SnackbarProvider>
     </BrowserRouter>

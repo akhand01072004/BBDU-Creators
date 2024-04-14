@@ -6,7 +6,11 @@ const userSchema = new Schema({
         type: String,
         unique: true
     },
-    password: String
+    password: String,
+    verified : {
+        type : Boolean,
+        default : false
+    }
 });
 
 userSchema.pre("save",async function(next){

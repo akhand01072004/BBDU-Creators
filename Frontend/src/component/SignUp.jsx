@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './Design.css'
 import {useFormik} from 'formik'
 // import { register } from '../apiClient'
 import * as yup from 'yup'
 import { enqueueSnackbar } from 'notistack';
 import image from '../assets/signup-image.jpg'
+import { useState } from 'react';
+
 
 const signSchema = yup.object().shape({
   email: yup.string().email('Invalid Email').required('Required'),
@@ -12,7 +14,12 @@ const signSchema = yup.object().shape({
 })
 
 const SignUp = () => {
+
+  const navigate = useNavigate();
   
+  const verify = () => {
+    navigate('/email-verification');
+  }
   const loginForm = useFormik({
     initialValues: {
     name : '',
@@ -40,8 +47,6 @@ const SignUp = () => {
       }}
 
     })
-
-
   return (
     <>
     <div className="min-h-screen flex items-center justify-center  back-bg">
@@ -143,6 +148,7 @@ const SignUp = () => {
               type="submit"
               name="signup"
               id="signup"
+              onClick={verify}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md cursor-pointer focus:outline-none focus:shadow-outline"
               defaultValue="Register"
             />
@@ -159,7 +165,6 @@ const SignUp = () => {
       </div>
     </div>
 </div>
-
     </>
   )
 }
