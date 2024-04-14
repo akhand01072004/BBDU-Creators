@@ -17,6 +17,8 @@ import Footer from './component/Footer';
 import ManageUserAdmin from './component/admin/ManageUser';
 import ManageProject from './component/admin/ManageProject';
 import Fileupload from './component/Fileupload';
+import Section1 from './component/Section1';
+import Section2 from './component/Section2';
 import './App.css';
 
 function App() {
@@ -26,8 +28,13 @@ function App() {
       <div className="background">
         <NavBar />
         <Header />
-        <Footer />
+                
       </div>
+      <Section1/>
+      <Section2/>
+      <Footer />
+      
+      
       
       
       
