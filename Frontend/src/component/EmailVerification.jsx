@@ -5,7 +5,6 @@ import { enqueueSnackbar } from 'notistack';
 function EmailVerification() {
   const [email, SetEmail] = useState('');
   const [otp, SetOtp] = useState('');
-  const [otpres, SetOnetimePswd] = useState('');
   const navigate = useNavigate();
   //console.log(data);
   const data = {
@@ -20,8 +19,6 @@ function EmailVerification() {
                 "Content-Type":"application/json"
             },
         });
-        const output = await response.json();
-        SetOnetimePswd(output.Otp);
         if(response.status === 201){
             enqueueSnackbar('Otp sent on your email', {variant: 'success'})
         }else{
@@ -32,12 +29,27 @@ function EmailVerification() {
     }
   }
 
-  function verify() {
-    if(otp == otpres){
-      enqueueSnackbar('Email Verified Successfully', {variant: 'success'})
-      navigate('/');
+  async function verify() {
+    const otpdata = {
+      otp : otp
+    }
+    console.log(otpdata);
+    try {
+      const response = await fetch('http://localhost:3000/user/validate-otp' , {
+        method : "POST",
+        body : JSON.stringify(otpdata),
+        headers : {
+          'Content-Type' : "application/json"
+        }
+      })
+      if(response.status === 201){
+        enqueueSnackbar('Email verified Successfully', {variant: 'success'});
+        navigate('/');
     }else{
-      enqueueSnackbar('Please enter a valid otp', {variant: 'error'})
+        enqueueSnackbar('Please Enter correct One time password', {variant: 'error'})
+    }
+    } catch (error) {
+      console.log(error);
     }
   }
 
