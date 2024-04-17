@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 import './Sign.css';
+import { LoginContext } from '../Context/LoginContext';
 
-const UploadProjects = () => {` `
+
+const UploadProjects = () => {
+
+    const loginState = useContext(LoginContext);
+    console.log(import.meta.env.Preset_Key)
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [projectName, setProjectName] = useState('');
@@ -9,6 +15,7 @@ const UploadProjects = () => {` `
     const [githubRepo, setGithubRepo] = useState('');
     // const [projectVideo, setProjectVideo] = useState(null);
     const [projectImage, setProjectImage] = useState('');
+    const [projectVideo,  setProjectVideo] = useState('');
     const [showGitHub, setShowGitHub] = useState(false);
 
     const handleDepartmentChange = (event) => {
@@ -28,8 +35,9 @@ const UploadProjects = () => {` `
 //             console.log("file uploaded successfully")
 //         }
 //    }
-    
-const UploadFile = async(event) => {
+
+
+const UploadImage = async(event) => {
     const file = event.target.files[0];
     const data = new FormData();
     data.append("file", file);
@@ -49,6 +57,26 @@ const UploadFile = async(event) => {
     }
 }
 
+const UploadVideo = async(event) => {
+    const file = event.target.files[0];
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "ml_default");
+    data.append("cloud_name", "dl81ig8l5")
+    try {
+        const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/video/upload', {
+        method : "POST",
+        body: data
+        });
+        const resp = await response.json();
+        setProjectVideo(resp.url);
+        console.log(resp.url);
+        console.log(projectVideo);
+    } catch (error) {
+        console.log("failed to upload");
+    }
+}
+
    const handleSubmit = async (e) => {
     e.preventDefault();
     const  formData = {
@@ -57,7 +85,12 @@ const UploadFile = async(event) => {
         projectName : projectName,
         department : department,
         githubRepo : githubRepo,
-        projectImage: projectImage
+        projectImage: projectImage,
+        projectVideo : projectVideo
+    }
+
+    if(LoginContext.login == false){
+        enqueueSnackbar('Please Login', {variant : "error"});
     }
 
     try {
@@ -69,13 +102,17 @@ const UploadFile = async(event) => {
         },
       });
       const data = await response.json();
+      if(response.status === 201){
+        enqueueSnackbar("Project Submitted", {variant : "success"});
+      }else{
+        enqueueSnackbar("Project Not Submitted", {variant : "error"});
+      }
       console.log('Form submission successful',data);
       // Reset form and states if needed
     } catch (error) {
       console.error('Form submission error', error);
     }
 };
-
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 upb">
@@ -132,7 +169,12 @@ const UploadFile = async(event) => {
                     {/* Project Image */}
                     <div className="mb-4">
                         <label className="block text-gray-700">Project Image</label>
-                        <input type="file"  onChange={UploadFile} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                        <input type="file"  onChange={UploadImage} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Project Video</label>
+                        <input type="file"  onChange={UploadVideo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                     </div>
 
                     {/* Submit Button */}

@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const Model=  require('../Models/User');
-const verifyToken = require('../Middleware/VerifyToken');
+const UserModel =  require('../Models/User');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
-const secretKey = "abcdefgh567#"
+
 router.post('/add', async(req, res) => {
     console.log(req.body)
-    let user = await Model.findOne({
+    let user = await UserModel.findOne({
         email: req.body.email,
     });
     if(user){
@@ -26,7 +26,7 @@ router.post('/add', async(req, res) => {
 });
 router.get('/getall',(req,res) => {
     // empty brackets will give all the data from the database
-    Model.find({})
+    UserModel.find({})
     .then((result) => {
         res.json(result)
     }).catch((err) => {
@@ -38,7 +38,7 @@ router.get('/getall',(req,res) => {
 
 router.delete('/delete/:id', async(req,res) => {
     try {
-        const response = await Model.findByIdAndDelete(req.params.id);
+        const response = await UserModel.findByIdAndDelete(req.params.id);
         res.json(response);
     } catch (error) {
         res.status(500).json({message: "error while deleting user"})
@@ -48,7 +48,7 @@ router.delete('/delete/:id', async(req,res) => {
 router.post('/login', async(req,res) => {
     const {email,password} = req.body;
     try {
-        const user = await Model.findOne({email : email});
+        const user = await UserModel.findOne({email : email});
         if(!user){
             return res.status(400).json({message : "Invalid email"});
         }
@@ -57,28 +57,28 @@ router.post('/login', async(req,res) => {
         if(!match){
             return res.status(400).json({message : "Wrong Password"});
         }
-        const token = jwt.sign({userId: user._id}, secretKey, {expiresIn : '1d'});
-        res.cookie("auth_token", token, {httpOnly: false, secure : secretKey});
+        const token = jwt.sign({userId: user._id}, process.env.SECRETKEY , {expiresIn : '1d'});
+        res.cookie("auth_token", token, {httpOnly: true, secure : process.env.SECRETKEY});
         res.status(200).json({userId: user._id});
     } catch (error) {
         res.status(500).json({message : "Something went wrong"});
     }
 });
 
-var otp = 204378;
-router.use('/SendEmail' , async(req,res,next) => {
+var otp;
+router.post('/SendEmail' , async(req,res) => {
     otp = Math.floor(100000 + Math.random() * 900000)
     console.log("inside middleware");
     const sender = nodemailer.createTransport({
         service: 'Gmail',
         auth : {
-            user : "aktfang@gmail.com",
-            pass : "ttaf achp txbs pwwh"
+            user : process.env.USER,
+            pass : process.env.PASS
         }
     });
     try {
         const response = sender.sendMail({
-            from : "aktfang@gmail.com",
+            from : process.env.USER,
             to : req.body.emailto,
             subject : "One-time verification code",
             text : `You are receving this email because a request was made for email verifcation. Please enter the following code for verification : ${otp}`
@@ -87,29 +87,6 @@ router.use('/SendEmail' , async(req,res,next) => {
     } catch (error) {
         res.status(501).json({message : "failed to sent email"});
     }
-    next();
-})
-router.post("/SendEmail",async(req,res) => {
-    // var otp = Math.floor(100000 + Math.random() * 900000);
-    // const sender = nodemailer.createTransport({
-    //     service: 'Gmail',
-    //     auth : {
-    //         user : "aktfang@gmail.com",
-    //         pass : "ttaf achp txbs pwwh"
-    //     }
-    // });
-    // try {
-    //     const response = sender.sendMail({
-    //         from : "aktfang@gmail.com",
-    //         to : req.body.emailto,
-    //         subject : "One-time verification code",
-    //         text : `You are receving this email because a request was made for email verifcation. Please enter the following code for verification : ${otp}`
-    //     });
-    //     res.status(201).json({message : "email sent successfully", Otp : otp});
-    // } catch (error) {
-    //     res.status(501).json({message : "failed to sent email"});
-    // }
-    
 })
 
 router.post('/validate-otp', async(req,res) => {
@@ -121,9 +98,26 @@ router.post('/validate-otp', async(req,res) => {
     }
 })
 
-router.get("/validatetoken", verifyToken , async (req , res) => {
-    res.status(200).send({userId : req.userId});
+
+
+router.get("/validatetoken" , async(req , res) => {
+    var Token = req.headers.cookie;
+    const token = Token?.substring(11);
+    try {
+        const decode = jwt.verify(token, process.env.SECRETKEY);
+        const userdata = await UserModel.findById(decode.userId);
+        return res.status(201).send({UserName: userdata.name});
+    } catch (error) {
+        return res.status(401).send({message: "unauthorized"});
+    }
 })
+
+router.get("/logout", (req, res) => {
+    res.cookie("auth_token", "",{
+        expires: new Date(0),
+    });
+    res.status(201).send();
+});
 
 
 
