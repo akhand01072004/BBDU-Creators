@@ -63,8 +63,7 @@ const ManageProject = () => {
             console.log("Facing error while deleting")
         }
     }
-
-    return (
+    return ( 
         <div>
             <nav className="flex justify-between items-center py-4 px-6 bg-blue-500 text-white">
                 <h1 className="font-bold text-lg">Manage Projects</h1>
@@ -97,6 +96,7 @@ const ManageProject = () => {
                 )) : <p className="text-center">No projects found.</p>}
             </div>
         </div>
+            
     );
 }
 

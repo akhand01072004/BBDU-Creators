@@ -1,70 +1,90 @@
-import {useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from 'notistack';
+import NavBar from "./NavBar";
 
 function EmailVerification() {
-  const [email, SetEmail] = useState('');
-  const [otp, SetOtp] = useState('');
+  const [email, setEmail] = useState('');
+  const [otp, setOtp] = useState('');
   const navigate = useNavigate();
-  //console.log(data);
-  const data = {
-    emailto : email
-  }
-  async function sendVerificationMail(){
-    try {
-        const response = await fetch('http://localhost:3000/user/SendEmail', {
-            method : "POST",
-            body : JSON.stringify(data),
-            headers: {
-                "Content-Type":"application/json"
-            },
-        });
-        if(response.status === 201){
-            enqueueSnackbar('Otp sent on your email', {variant: 'success'})
-        }else{
-            enqueueSnackbar('failed to sent otp', {variant: 'error'})
-        }
-    } catch (error) {
-        console.log(error);
-    }
-  }
 
-  async function verify() {
-    const otpdata = {
-      otp : otp
-    }
-    console.log(otpdata);
+  const sendVerificationMail = async () => {
     try {
-      const response = await fetch('http://localhost:3000/user/validate-otp' , {
-        method : "POST",
-        body : JSON.stringify(otpdata),
-        headers : {
-          'Content-Type' : "application/json"
+      const response = await fetch('http://localhost:3000/user/SendEmail', {
+        method: "POST",
+        body: JSON.stringify({ emailto: email }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      });
+      if (response.status === 201) {
+        enqueueSnackbar('OTP sent to your email', { variant: 'success' });
+      } else {
+        enqueueSnackbar('Failed to send OTP', { variant: 'error' });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const verify = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/user/validate-otp', {
+        method: "POST",
+        body: JSON.stringify({ otp }),
+        headers: {
+          'Content-Type': "application/json"
         }
-      })
-      if(response.status === 201){
-        enqueueSnackbar('Email verified Successfully', {variant: 'success'});
+      });
+      if (response.status === 201) {
+        enqueueSnackbar('Email verified successfully', { variant: 'success' });
         navigate('/');
-    }else{
-        enqueueSnackbar('Please Enter correct One time password', {variant: 'error'})
-    }
+      } else {
+        enqueueSnackbar('Please enter the correct one-time password', { variant: 'error' });
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  }
+  };
 
- 
   return (
-    <div className="flex flex-col justify-center gap-2 w-[20%] mt-16 mx-[40%]">
-        <h1>Verify Your Email</h1>
+    <>
+    <NavBar></NavBar>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]">
+        <h1 className="text-xl font-semibold text-center">Verify Your Email</h1>
         <div className="flex gap-2">
-        <input type="email" onChange={(e) => SetEmail(e.target.value)} placeholder="Enter your email" className="border 2xp solid-black rounded-md p-2" />
-        <button onClick={sendVerificationMail} className="bg-blue-500 w-[30%] text-white rounded-md py-2">Send</button>
+          <input
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="flex-grow p-2 border rounded-md"
+          />
+          <button
+            onClick={sendVerificationMail}
+            className="px-4 py-2 text-white bg-blue-500 rounded-md"
+          >
+            Send
+          </button>
         </div>
-        <input type="text" onChange={(e) => {SetOtp(e.target.value)}} placeholder="Enter the otp" className="border 2xp solid-black rounded-md p-2"/>
-        <button onClick={verify} className="bg-blue-500 text-white rounded-md py-2">Verify</button>
+        <div>
+          <input
+            type="text"
+            onChange={(e) => setOtp(e.target.value)}
+            placeholder="Enter the OTP"
+            className="w-full p-2 border rounded-md"
+          />
+        </div>
+        <button
+          onClick={verify}
+          className="w-full py-2 text-white bg-blue-500 rounded-md"
+        >
+          Verify
+        </button>
+      </div>
     </div>
-  )
+    </>
+  );
 }
 
 export default EmailVerification;
