@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './Design.css'
 import image from '../assets/signin-image.jpg'
 import { useFormik } from 'formik'
@@ -13,6 +13,7 @@ const LoginSchema = yup.object().shape({
 })
 
 const LogIn = () => {
+    const navigate = useNavigate();
     const loginForm = useFormik({
         initialValues: {
             email: '',
@@ -29,6 +30,7 @@ const LogIn = () => {
                 },
             })
             action.resetForm();
+            navigate('/');
             if(res.status === 200){
                 enqueueSnackbar('User LoggedIn Successfully', {variant: 'success'})
             }else if(res.status === 400){

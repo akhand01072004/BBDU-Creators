@@ -17,7 +17,7 @@ router.post('/add', async(req, res) => {
             message: "User already exists"
         });
     }
-    await new Model(req.body).save()
+    await new UserModel(req.body).save()
     .then((result) => {
        res.json(result) 
     }).catch((err) => {

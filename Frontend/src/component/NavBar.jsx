@@ -9,7 +9,7 @@ function refreshPage(){
   window.location.reload(); 
 }
 
-const LogOut = async(e) => {
+const LogOut = async() => {
   const resp = await fetch('http://localhost:3000/user/logout',{
             credentials : "include",
             headers : {
@@ -25,6 +25,7 @@ const LogOut = async(e) => {
 const NavBar = () => {
 
   const loginState = useContext(LoginContext);
+
   return (
     <nav className="flex justify-between items-center bg-white-300 p-6 w-full h-14  ">
       <div className="flex justify-center ml-6 items-center flex-shrink-0 text-white ">

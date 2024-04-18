@@ -1,13 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext,useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import './Sign.css';
 import { LoginContext } from '../Context/LoginContext';
 
 
 const UploadProjects = () => {
-
-    const loginState = useContext(LoginContext);
-    console.log(import.meta.env.Preset_Key)
+    const LoginState = useContext(LoginContext);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [projectName, setProjectName] = useState('');
@@ -89,7 +87,7 @@ const UploadVideo = async(event) => {
         projectVideo : projectVideo
     }
 
-    if(LoginContext.login == false){
+    if(LoginState.login == false){
         enqueueSnackbar('Please Login', {variant : "error"});
     }
 
