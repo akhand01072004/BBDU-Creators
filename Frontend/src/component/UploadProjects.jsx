@@ -6,14 +6,15 @@ import { LoginContext } from '../Context/LoginContext';
 
 const UploadProjects = () => {
     const LoginState = useContext(LoginContext);
+    const loginState = useContext(LoginContext);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [projectName, setProjectName] = useState('');
     const [department, setDepartment] = useState('');
     const [githubRepo, setGithubRepo] = useState('');
-    // const [projectVideo, setProjectVideo] = useState(null);
+    const [projectDescription, setProjectDescription] = useState('');
     const [projectImage, setProjectImage] = useState('');
-    const [projectVideo,  setProjectVideo] = useState('');
+    const [projectVideo, setProjectVideo] = useState(null);
     const [showGitHub, setShowGitHub] = useState(false);
 
     const handleDepartmentChange = (event) => {

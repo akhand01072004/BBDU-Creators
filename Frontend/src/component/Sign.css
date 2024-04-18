@@ -1,17 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=New+Tegomin&family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=New+Tegomin&family=Pacifico&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 .fo{
-    font-family: "Pacifico", cursive;
+    font-family: "Merriweather", cursive;
   font-weight: 400;
   font-style: normal;
 }
 
 .upb{
-    background-image: url('../assets/U2.jpg');
+    background-image: url('../assets/Upload.png');
     background-size: cover;
 }
 
 .nav-icon{
   height: 65px;
   
+}
+
+/* Section  1 and 2 */
+
+.sec1{
+  background-image: url("../assets/sec13.png");
+  background-size: cover;
+}
+
+.img-sec1{
+  width: 600px;
+}
+
+.sec2{
+  background-image: url("../assets/sec2.png");
+
+}
+
+.m{
+  margin-right: 65px;
+}
+
+.m1{
+  background-image: url("../assets/m1.svg");
+  background-size:contain;
+}
+.m2{
+  background-image: url("../assets/m2.svg");
+  background-size:contain;
+}
+.m3{
+  background-image: url("../assets/m3.svg");
+  background-size:contain;
+}
+.m4{
+  background-image: url("../assets/m4.svg");
+  background-size:contain;
+}
+.m5{
+  background-image: url("../assets/m5.svg");
+  background-size:contain;
+}
+.m6{
+  background-image: url("../assets/m6.svg");
+  background-size:contain;
+}
+
+/* /Projectsss */
+.back{
+  background-image: url('../assets/Upload.png');
+  background-size: cover;
 }

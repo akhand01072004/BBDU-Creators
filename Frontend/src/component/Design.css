@@ -14,10 +14,10 @@
 }
 
 .image{
-    /* background-image: url("../assets/Illustration1.png"); */
+    /* background-image: url("../assets/Code.png"); */
     background-size: cover;
     
-    width: 500px;
+    width: 600px;
     height: 300px;   
 }
 
@@ -89,3 +89,8 @@
     background-size: cover;
 }
 
+/* .sec2{
+    background-image: url("../assets/sec2.png");
+    background-size: cover;
+    
+} */

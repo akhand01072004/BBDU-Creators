@@ -18,7 +18,11 @@ import ManageUserAdmin from './component/admin/ManageUser';
 import ManageProject from './component/admin/ManageProject';
 import Fileupload from './component/Fileupload';
 import EmailVerify from './component/EmailVerification';
+import Section1 from './component/Section1';
+import Section2 from './component/Section2';
+import AdminDashboard from './component/admin/AdminDashboard';
 import './App.css';
+
 
 function App() {
 
@@ -27,8 +31,13 @@ function App() {
       <div className="background">
         <NavBar />
         <Header />
-        <Footer />
+                
       </div>
+      <Section1/>
+      <Section2/>
+      <Footer />
+      
+      
       
       
       
@@ -54,6 +63,11 @@ function App() {
         <Route path='/ManageProjectAdmin' element={<ManageProject />} />
         <Route path="/fileupload" element={<Fileupload />} />
         <Route path="/email-verification" element={<EmailVerify />} />
+        <Route path="/Dashboard" element={<AdminDashboard/>}>
+            <Route path='ManageProjectAdmin' element={<ManageProject/>} />
+            <Route path='ManageUserAdmin' element={<ManageUserAdmin/>} />
+        </Route>
+
       </Routes>
       </SnackbarProvider>
     </BrowserRouter>
