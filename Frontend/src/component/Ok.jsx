@@ -1,56 +1,54 @@
-import { useState, useEffect } from 'react';
-import { enqueueSnackbar } from 'notistack';
-import { Link } from 'react-router-dom';
-import './Sign.css';
+import { useEffect, useState } from "react"
 
-function Projects() {
-    const [projects, setProjects] = useState([]);
+export default function ManageUser() {
+  
+  const [Data, setData] = useState([]);
 
-    // Fetch projects from the backend when the component mounts
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/project/api/Approvedprojects');
-                if (!response.ok) throw new Error('Failed to fetch');
-                const data = await response.json();
-                setProjects(data);
-                if (response.status === 200) {
-                    enqueueSnackbar('Project Fetch Successfully', { variant: 'success' });
-                } else {
-                    enqueueSnackbar('Not Uploaded', { variant: 'error' });
-                }
-            } catch (error) {
-                console.error("Error fetching projects:", error);
-            }
-        };
+  const fetchData = async() => {
+    const res = await fetch('http://localhost:3000/user/getall')
+    console.log(res)
+    if(res.status === 200){
+        const data = await res.json();
+        console.log(data);
+        setData(data);
+    }
+  }
 
-        fetchProjects();
-    }, []); // The empty dependency array ensures this effect runs once on mount
+  useEffect(() => {
+    fetchData();
+  },[])
 
-    return (
-        <div>
-            <nav className="flex justify-between items-center py-4 px-6 bg-blue-500 text-white">
-                <h1 className="font-bold text-lg">Projects</h1>
-                {/* Search functionality can be implemented here as needed */}
-            </nav>
-            <div className="p-4 ">
-                {projects.length > 0 ? projects.map((project, index) => (
-                    <div key={index} className="border p-4 m-2 flex justify-between bg-white rounded-lg shadow-md ">
-                        {project.projectImage && (
-                            <img src={project.projectImage} alt="Project" className=" w-80 object-cover rounded-lg" />
-                        )}
-                        <div className='flex flex-col w-2/3 justify-around '>
-                            <h3 className=" text-3xl ">Name: {project.name}</h3>
-                            <p className=" text-3xl ">Department: {project.department}</p>
-                            {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline text-3xl">GitHub Repo</a>}
-                            {project.projectVideo && <a href={project.projectVideo} className="text-blue-500 hover:underline">Project Video</a>}
-                            <button className='text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-32'><Link to={`/projectDetail/${project._id}`} >View More</Link></button>
-                        </div>
-                    </div>
-                )) : <p className="text-center">No projects found.</p>}
-            </div>
-        </div>
-    );
+  const displayData = () => {
+    return(
+        Data.map((user,idx) => {
+            <tr key={idx}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td><button className="bg-red">Delete</button></td>
+            </tr>
+        })
+    )
+  }
+
+  return (
+    <div>
+      <header className='bg-danger text-white'>
+      <div className='container py-5'>
+        <h1>Manage User</h1>
+      </div>
+      </header>
+      <div className='container mt-5'>
+      <table className='table table-dark'>
+      <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {displayData()}
+      </tbody>
+      </table></div>
+    </div>
+  )
 }
-
-export default Projects;

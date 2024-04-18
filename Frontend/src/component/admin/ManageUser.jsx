@@ -1,58 +1,64 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 
 const ManageUser = () => {
-  const [user, SetUser] = useState([]);
+    const [users, setUsers] = useState([]);
 
-  const fetchUser = async() => {
-    try {
-        const response = await fetch('http://localhost:3000/user/getAll');
-        const data = await response.json();
-        SetUser(data);
-    } catch (error) {
-        console.log("facing error while fetching")
-    }
-  }
+    const fetchUsers = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/user/getAll');
+            if (!response.ok) throw new Error('Failed to fetch');
+            const data = await response.json();
+            setUsers(data);
+        } catch (error) {
+            console.log("Facing error while fetching");
+            enqueueSnackbar('Error fetching users', { variant: 'error' });
+        }
+    };
 
-  const deleteUser = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:3000/user/delete/${id}`,{
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      })
-      // return response;
-      fetchUser();
-      if(response.status === 200){
-        enqueueSnackbar('User deleted Successfully', {variant: 'success'})
-      }else{
-        enqueueSnackbar('Facing error while deleting', {variant: 'error'})
-      }
-    } catch (error) {
-        console.log("facing error while deleting")
-    }
-  }
+    const deleteUser = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/user/delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            if (response.status === 200) {
+                fetchUsers(); // Reload the user list after deletion
+                enqueueSnackbar('User deleted successfully', { variant: 'success' });
+            } else {
+                enqueueSnackbar('Facing error while deleting', { variant: 'error' });
+            }
+        } catch (error) {
+            console.log("Facing error while deleting");
+            enqueueSnackbar('Error deleting user', { variant: 'error' });
+        }
+    };
 
-  useEffect(() => {
-    fetchUser();
-  }, [user])
-  return (
-    <div>
-      <h1 className='mx-8 font-bold text-2xl'>Manage User</h1>
-      {user.map((data) => {
-        return (
-          <div key={data._id} className='flex justify-between mx-8 my-5 bg-green-500 p-2 rounded-md '>
-            <li className='list-none'>{data.name}</li>
-            <li className='list-none'>{data.email}</li>
-            <button onClick={(e) => {
-              e.stopPropagation();
-              deleteUser(data._id)}} className='bg-rose-500 px-3 text-white rounded'>Delete</button>
-          </div>
-        )
-      })}
-    </div>
-  )
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    return (
+        <div className="mx-8 my-4">
+            <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
+            <div className="flex flex-col space-y-4">
+                {users.length > 0 ? users.map((user) => (
+                    <div key={user._id} className="flex items-center justify-between bg-white p-4 shadow-md rounded-md">
+                        <div className="text-gray-900 text-sm font-medium">{user.name}</div>
+                        <div className="text-gray-600 text-sm">{user.email}</div>
+                        <span
+                            onClick={() => deleteUser(user._id)}
+                            className="cursor-pointer text-red-500 hover:text-red-700"
+                        >
+                            <i className="fas fa-trash-alt"></i>
+                        </span>
+                    </div>
+                )) : <p className="text-gray-600">No users found.</p>}
+            </div>
+        </div>
+    );
 }
 
-export default ManageUser
+export default ManageUser;

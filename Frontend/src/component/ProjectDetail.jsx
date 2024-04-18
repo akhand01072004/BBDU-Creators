@@ -30,7 +30,7 @@ export default function ProjectDetail() {
 
   return (
     <>
-    <div className='bg-green-300'>
+    <div className='bg-blue-300'>
       <div className='m-4 p-4 bg-white rounded-lg shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset] flex-grow text-center'>
 
         <h2 className='text-4xl font-bold'>Project Details</h2>
