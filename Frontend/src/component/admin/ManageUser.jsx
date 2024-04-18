@@ -37,7 +37,6 @@ const ManageUser = () => {
   useEffect(() => {
     fetchUser();
   }, [user])
-  console.log(user);
   return (
     <div>
       <h1 className='mx-8 font-bold text-2xl'>Manage User</h1>

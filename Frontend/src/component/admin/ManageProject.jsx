@@ -29,17 +29,34 @@ const ManageProject = () => {
         try {
             const data = await fetch(`http://localhost:3000/project/api/project/${id}`);
             const proj = await data.json();
-            const resp = await fetch('http://localhost:3000/project/api/ApproveProject', {
-                method: 'POST',
-                body: JSON.stringify(proj),
-                headers: {
-                "Content-Type":"application/json"
-            },
-            });
-            RejectProject(id); // Consider modifying this flow to avoid approving and immediately rejecting.
-            if (!resp) {
-                enqueueSnackbar('Project Approved', {variant: 'success'})
+            const emailbody = {
+                emailto : proj.email,
+                name : proj.name
             }
+            const resp = await fetch('http://localhost:3000/project/api/ApproveProject', {
+            method: 'POST',
+            body: JSON.stringify(proj),
+            headers: {
+            "Content-Type":"application/json"
+            },
+        });
+         //send email to the student if his/her project get approved
+         const response = await fetch('http://localhost:3000/project/SendProjectStatusEmail',{
+            method: "POST",
+            body: JSON.stringify(emailbody),
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        if(response.status === 201){
+            enqueueSnackbar('Email Sent', {variant: 'success'})
+        }
+
+
+        RejectProject(id);
+        if(!resp){
+            enqueueSnackbar('Project Approved', {variant: 'success'})
+        }
         } catch (error) {
             console.log("facing error while uploading")
         }

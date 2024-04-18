@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Project = require('../Models/Projects'); // Import your model
 const ApprovedProject = require('../Models/ApprovedProject');
+const nodemailer = require('nodemailer');
 
 // POST route to submit a new project
 router.post('/api/uploadprojects', async (req, res) => {
@@ -45,14 +46,34 @@ router.get('/api/Approvedprojects', async (req, res) => {
 });
 
 router.get('/api/Approvedproject/:id', async(req,res) => {
-  // console.log(req.params.id);
   try {
     const data = await ApprovedProject.findById(req.params.id)
     res.json(data);
   } catch (error) {
     res.status(500).json({message : "Error while fetching"});
   }
- 
+})
+
+//send email to the user if his/her project get approved
+router.post('/SendProjectStatusEmail' , async(req,res) => {
+  const sender = nodemailer.createTransport({
+      service: 'Gmail',
+      auth : {
+          user : process.env.USER,
+          pass : process.env.PASS
+      }
+  });
+  try {
+      const response = sender.sendMail({
+          from : process.env.USER,
+          to : req.body.emailto,
+          subject : "Regarding Your Project Status",
+          text : `Hey ${req.body.name} Congratulation your project has been approved by the department. Now you can see it on the official site www.BbduCreator.in`
+      });
+      res.status(201).json({message : "email sent successfully"});
+  } catch (error) {
+      res.status(501).json({message : "failed to sent email"});
+  }
 })
 
 //ROUTE for deleting project

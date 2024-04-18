@@ -1,8 +1,15 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 import './Sign.css';
+import { LoginContext } from '../Context/LoginContext';
+
 
 const UploadProjects = () => {
-    ` `
+
+const UploadProjects = () => {
+    
+    const loginState = useContext(LoginContext);
+    console.log(import.meta.env.Preset_Key)
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [projectName, setProjectName] = useState('');
@@ -11,6 +18,7 @@ const UploadProjects = () => {
     const [projectDescription, setProjectDescription] = useState('');
     // const [projectVideo, setProjectVideo] = useState(null);
     const [projectImage, setProjectImage] = useState('');
+    const [projectVideo,  setProjectVideo] = useState('');
     const [showGitHub, setShowGitHub] = useState(false);
 
     const handleDepartmentChange = (event) => {
@@ -19,65 +27,64 @@ const UploadProjects = () => {
         setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering');
     };
 
-    //    const uploadFile = async(e) => {
-    //         const file = e.target.files[0];
-    //         if(!file) return;
-    //         const res = await fetch('http://localhost:3000/util/uploadfile', {
-    //             method: "POST",
-    //             body: projectImage,
-    //         })
-    //         if(res.status == 200){
-    //             console.log("file uploaded successfully")
-    //         }
-    //    }
+//    const uploadFile = async(e) => {
+//         const file = e.target.files[0];
+//         if(!file) return;
+//         const res = await fetch('http://localhost:3000/util/uploadfile', {
+//             method: "POST",
+//             body: projectImage,
+//         })
+//         if(res.status == 200){
+//             console.log("file uploaded successfully")
+//         }
+//    }
+    
+const UploadFile = async(event) => {
+    const file = event.target.files[0];
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "ml_default");
+    data.append("cloud_name", "dl81ig8l5")
+    try {
+        const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
+        method : "POST",
+        body: data
+        });
+        const resp = await response.json();
+        setProjectImage(resp.url);
+        console.log(resp.url);
+        console.log(projectImage);
+    } catch (error) {
+        console.log("failed to upload");
+    }
+}
 
-    const UploadFile = async (event) => {
-        const file = event.target.files[0];
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
-        try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
-                method: "POST",
-                body: data
-            });
-            const resp = await response.json();
-            setProjectImage(resp.url);
-            console.log(resp.url);
-            console.log(projectImage);
-        } catch (error) {
-            console.log("failed to upload");
-        }
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+    const  formData = {
+        name : name,
+        email : email,
+        projectName : projectName,
+        department : department,
+        githubRepo : githubRepo,
+        projectImage: projectImage
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = {
-            name: name,
-            email: email,
-            projectName: projectName,
-            projectDescription: projectDescription,
-            department: department,
-            githubRepo: githubRepo,
-            projectImage: projectImage
-        }
-
-        try {
-            const response = await fetch('http://localhost:3000/project/api/uploadprojects', {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
-            const data = await response.json();
-            console.log('Form submission successful', data);
-            // Reset form and states if needed
-        } catch (error) {
-            console.error('Form submission error', error);
-        }
-    };
+    try {
+      const response = await fetch('http://localhost:3000/project/api/uploadprojects', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type":"application/json"
+        },
+      });
+      const data = await response.json();
+      console.log('Form submission successful',data);
+      // Reset form and states if needed
+    } catch (error) {
+      console.error('Form submission error', error);
+    }
+};
 
 
     return (
@@ -136,13 +143,10 @@ const UploadProjects = () => {
                                 </div>
                             )}
 
-                            {/* Project Image */}
-                            <div className="mb-4">
-                                <label className="block text-gray-700">Project Image</label>
-                                <input type="file" onChange={UploadFile} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                        </div>
+                    {/* Project Image */}
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Project Image</label>
+                        <input type="file"  onChange={UploadFile} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                     </div>
 
                     <div className="w-full md:w-1/2 p-2">
