@@ -1,8 +1,32 @@
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { FaUser } from "react-icons/fa";
+import { GrLogout } from "react-icons/gr";
+import { enqueueSnackbar } from 'notistack';
+import { AdminLoginContext } from '../admin/AdminContext/AdminLoginContext';
+import { useContext} from 'react';
+
+
 
 const AdminDashboard = () => {
+  const LoginState = useContext(AdminLoginContext);
+  const navigate = useNavigate();
+
+  
+  const LogOut = async() => {
+    const resp = await fetch('http://localhost:3000/admin/logout',{
+              credentials : "include",
+              headers : {
+                  'Content-Type' : 'application/json'
+              }
+            });
+      if(resp.status === 201){
+        enqueueSnackbar('Admin Logout Successfully', {variant : 'success'});
+        navigate('/AdminLogin');
+      }
+  }
+
   return (
+    <>
     <div className="min-h-screen flex bg-gray-100">
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-md">
@@ -21,20 +45,38 @@ const AdminDashboard = () => {
           </li>
           <li>
             <Link className="text-blue-500 hover:text-blue-700 p-2 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-blue-50 transition duration-150" to="ManageUserAdmin">
-              <svg className="w-4 h-4 mr-3 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM2 18s3-4 6-4 6 4 6 4H2z" />
-              </svg>
+            <FaUser className='mr-4' />
               Manage Users
             </Link>
           </li>
+          <li>
+            <Link to="/AdminSignup" className="text-blue-500 hover:text-blue-700 p-2 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-blue-50 transition duration-150">
+              <FaUser className='mr-4' />
+              SignUp
+            </Link>
+          </li>
+          <li>
+          {
+            LoginState.Adminlogin ?
+            <button onClick={LogOut}>
+            <Link className="text-blue-500 hover:text-blue-700 p-2 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-blue-50 transition duration-150" to="/AdminLogin">
+              <GrLogout className='mr-4' />
+              LogOut
+            </Link></button> : 
+            <Link to="/AdminLogin">Login</Link>
+          }
+          </li>
         </ul>
       </div>
-
       {/* Main content area */}
+      {LoginState.Adminlogin ? 
       <div className="flex-1 ">
         <Outlet />
-      </div>
-    </div>
+      </div> : 
+      <Link to="/AdminLogin">Please Login</Link>
+    }
+    </div> 
+    </>
   );
 }
 

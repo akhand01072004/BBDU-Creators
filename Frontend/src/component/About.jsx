@@ -1,6 +1,5 @@
-import React from 'react'
 import "./Design.css"
-import NavBar from './NavBar'
+import NavBar from './NavBar';
 
 const About = () => {
   return (

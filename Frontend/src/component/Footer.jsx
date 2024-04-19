@@ -1,6 +1,7 @@
 import React from 'react';
 // Assume icons are from a library like react-icons
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -11,6 +12,7 @@ const Footer = () => {
           <p className="text-sm">
             BBD Creators is dedicated to building innovative solutions that make a difference. Join us on our journey to create impactful technology.
           </p>
+          <Link to="AdminLogin" className='mt-2 font-bold'>Admin Panel</Link>
         </div>
         <div>
           <h2 className="text-lg font-semibold mb-2">Contact Us</h2>

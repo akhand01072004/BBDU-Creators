@@ -6,7 +6,6 @@ import { LoginContext } from '../Context/LoginContext';
 
 const UploadProjects = () => {
     const LoginState = useContext(LoginContext);
-    const loginState = useContext(LoginContext);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [projectName, setProjectName] = useState('');
@@ -22,19 +21,6 @@ const UploadProjects = () => {
         setDepartment(selectedDepartment);
         setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering');
     };
-
-//    const uploadFile = async(e) => {
-//         const file = e.target.files[0];
-//         if(!file) return;
-//         const res = await fetch('http://localhost:3000/util/uploadfile', {
-//             method: "POST",
-//             body: projectImage,
-//         })
-//         if(res.status == 200){
-//             console.log("file uploaded successfully")
-//         }
-//    }
-
 
 const UploadImage = async(event) => {
     const file = event.target.files[0];
@@ -83,6 +69,7 @@ const UploadVideo = async(event) => {
         email : email,
         projectName : projectName,
         department : department,
+        projectDescription : projectDescription,
         githubRepo : githubRepo,
         projectImage: projectImage,
         projectVideo : projectVideo
@@ -150,6 +137,11 @@ const UploadVideo = async(event) => {
                             <option value="School of Education">School of Education</option>
                             <option value="School of Humanities and Social Science">School of Humanities and Social Science</option>
                         </select>
+                    </div>
+
+                    <div className="mb-4">
+                        <label htmlFor="projectDescription" className="block text-gray-700 text-sm font-bold mb-2">Project Description</label>
+                        <input type="text" value={projectDescription} onChange={(e) => setProjectDescription(e.target.value)} id="projectName" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                     </div>
 
                     {/* Conditional GitHub Repository or Project Video */}

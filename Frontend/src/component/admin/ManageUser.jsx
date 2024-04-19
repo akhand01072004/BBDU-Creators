@@ -45,9 +45,9 @@ const ManageUser = () => {
             <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
             <div className="flex flex-col space-y-4">
                 {users.length > 0 ? users.map((user) => (
-                    <div key={user._id} className="flex items-center justify-between bg-white p-4 shadow-md rounded-md">
-                        <div className="text-gray-900 text-sm font-medium">{user.name}</div>
-                        <div className="text-gray-600 text-sm">{user.email}</div>
+                    <div key={user._id} className="flex items-center justify-between bg-[#0e1630] p-4 shadow-md rounded-md">
+                        <div className="text-[#4DEEEA] text-sm font-medium">{user.name}</div>
+                        <div className="text-[#4DEEEA] text-sm">{user.email}</div>
                         <span
                             onClick={() => deleteUser(user._id)}
                             className="cursor-pointer text-red-500 hover:text-red-700"

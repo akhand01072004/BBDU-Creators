@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import "./Sign.css"
 import Img from '../assets/Logo.png'
 import { LoginContext } from '../Context/LoginContext';
-import { useContext, useEffect } from 'react';
+import { useContext} from 'react';
 import { enqueueSnackbar } from 'notistack';
 
 function refreshPage(){ 
@@ -21,7 +21,6 @@ const LogOut = async() => {
       refreshPage();
     }
 }
-
 const NavBar = () => {
 
   const loginState = useContext(LoginContext);

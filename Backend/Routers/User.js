@@ -12,17 +12,14 @@ router.post('/add', async(req, res) => {
     let user = await UserModel.findOne({
         email: req.body.email,
     });
-    if(user){
+    if(!user){
+        await new UserModel(req.body).save();
+        return res.status(200).json({message : "signup"})
+    }else{
         return res.status(400).json({
             message: "User already exists"
         });
     }
-    await new UserModel(req.body).save()
-    .then((result) => {
-       res.json(result) 
-    }).catch((err) => {
-        res.status(500).json(err)
-    });
 });
 router.get('/getall',(req,res) => {
     // empty brackets will give all the data from the database

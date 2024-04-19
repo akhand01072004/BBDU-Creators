@@ -6,6 +6,7 @@ const projectSchema = new mongoose.Schema({
   email: String,
   projectName: String,
   department: String,
+  projectDescription : String,
   githubRepo: String,
   projectVideo: String, // Assuming you're handling this as a URL or file reference
   projectImage: String, // Assuming you're handling this as a URL or file reference

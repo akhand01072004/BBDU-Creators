@@ -1,56 +1,44 @@
-import { Link, useNavigate } from 'react-router-dom'
-import './Design.css'
+import { Link} from 'react-router-dom'
 import {useFormik} from 'formik'
-// import { register } from '../apiClient'
-import * as yup from 'yup'
 import { enqueueSnackbar } from 'notistack';
-import image from '../assets/signup-image.jpg'
+import image from '../../assets/signup-image.jpg'
 
-
-const signSchema = yup.object().shape({
-  email: yup.string().email('Invalid Email').required('Required'),
-  password: yup.string().required('required').min(8)
-})
-
-const SignUp = () => {
-
-  const navigate = useNavigate();
+const AdminSignup = () => {
+    // const navigate = useNavigate();
   
-  const verify = () => {
-    navigate('/email-verification');
-  }
+//   const verify = () => {
+//     navigate('/email-verification');
+//   }
   const loginForm = useFormik({
     initialValues: {
     name : '',
+    code : '',
     email: '',
     password: ''
     },
     // Step4 : what happens when form is submitted
-    onSubmit : async(values, action) => {
-      const res = await fetch('http://localhost:3000/user/add',{
+    onSubmit : async(values) => {
+        console.log(values);
+        const res = await fetch('http://localhost:3000/admin/signup',{
         method:'POST',
         body: JSON.stringify(values),
         headers: {
           "Content-Type":"application/json"
         },
       })
-      action.resetForm();
-      console.log(res.status);
-      
-      if(res.status === 200){
-        enqueueSnackbar('User Added Successfully', {variant: 'success'})
-      }else if(res.status === 400){
-        enqueueSnackbar('User already exist', {variant: 'error'})
-      }else{
-        enqueueSnackbar('User not added', {variant: 'error'})
-      }}
 
+      if(res.status === 200){
+        enqueueSnackbar('Admin Added Successfully', {variant: 'success'})
+      }else if(res.status === 400){
+        enqueueSnackbar('Admin already exist', {variant: 'error'})
+      }else{
+        enqueueSnackbar('Admin not added', {variant: 'error'})
+      }}
     })
-  return (
-    <>
+    return (
+        <>
     <div className="min-h-screen flex items-center justify-center  back-bg">
-  {/* Sign up form */}
-  
+    {/* Sign up form */}
     <div className="bg-white shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] rounded-3xl px-8  mb-4 flex flex-col md:flex-row   pad">
       <div className="w-full mb-4 md:mb-0 md:w-auto">
         <h2 className="text-3xl md:text-5xl mt-12 font-bold mb-12 text-center md:text-left work">Sign up</h2>
@@ -117,12 +105,12 @@ const SignUp = () => {
               <i className="fa-solid fa-lock"></i>
             </label>
             <input
-              type="password"
-              name="re_pass"
-              id="re_pass"
-              placeholder="Confirm password"
+              type="text"
+              name="code"
+              id="code"
+              placeholder="Enter the Code"
               onChange={loginForm.handleChange}
-              value={loginForm.values.re_pass}
+              value={loginForm.values.code}
               className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-full"
             />
           </div>
@@ -147,7 +135,6 @@ const SignUp = () => {
               type="submit"
               name="signup"
               id="signup"
-              onClick={verify}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md cursor-pointer focus:outline-none focus:shadow-outline"
               defaultValue="Register"
             />
@@ -156,9 +143,9 @@ const SignUp = () => {
       </div>
       <div className="hidden md:flex ml-20 mr-15 flex-col items-center justify-center">
         <figure>
-          <img className="" src={image} alt="sing up image" />
+          <img className="" src={image} alt="sign up image" />
         </figure>
-        <Link to="/login" className="text-white p-2 mt-1 bg-blue-500 rounded-md hover:bg-blue-600">
+        <Link to="/AdminLogin" className="text-white p-2 mt-1 bg-blue-500 rounded-md hover:bg-blue-600">
           I am already member
         </Link>
       </div>
@@ -168,4 +155,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default AdminSignup;

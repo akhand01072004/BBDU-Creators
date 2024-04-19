@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import { Link } from 'react-router-dom';
+import { FaVideo } from "react-icons/fa";
 import './Sign.css';
 
 function Projects() {
@@ -43,7 +44,7 @@ function Projects() {
                 <div className="relative">
                     <input
                         type="text"
-                        className="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+                        className="bg-white text-black h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
                         value={searchTerm}
                         onChange={handleSearchChange}
                         placeholder="Search..."
@@ -68,7 +69,7 @@ function Projects() {
                                 <h3 className="text-2xl mb-3">Name: {project.name}</h3>
                                 <p className="text-2xl mb-3">Department: {project.department}</p>
                                 {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline text-2xl mb-10">GitHub Repo</a>}
-                                {project.projectVideo && <a href={project.projectVideo} className="text-blue-500 hover:underline">Project Video</a>}
+                                <Link to={project.projectVideo}><FaVideo className='w-16 h-11 mt-2 mr-2' /></Link>
 
                             </div>
                             <div className='flex justify-center '>

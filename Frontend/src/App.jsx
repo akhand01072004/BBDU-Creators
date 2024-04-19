@@ -21,6 +21,9 @@ import EmailVerify from './component/EmailVerification';
 import Section1 from './component/Section1';
 import Section2 from './component/Section2';
 import AdminDashboard from './component/admin/AdminDashboard';
+import AdminSignup from './component/admin/AdminSignup';
+import AdminLogin from './component/admin/AdminLogin';
+
 import './App.css';
 
 
@@ -63,9 +66,11 @@ function App() {
         <Route path='/ManageProjectAdmin' element={<ManageProject />} />
         <Route path="/fileupload" element={<Fileupload />} />
         <Route path="/email-verification" element={<EmailVerify />} />
-        <Route path="/Dashboard" element={<AdminDashboard/>}>
-            <Route path='ManageProjectAdmin' element={<ManageProject/>} />
-            <Route path='ManageUserAdmin' element={<ManageUserAdmin/>} />
+        <Route path='/AdminLogin' element={<AdminLogin />}/>
+        <Route path='/AdminSignup' element={<AdminSignup />} />
+        <Route path='/Dashboard' element={<AdminDashboard />}>
+              <Route path='ManageProjectAdmin' element={<ManageProject/>} />
+              <Route path='ManageUserAdmin' element={<ManageUserAdmin/>} />
         </Route>
 
       </Routes>

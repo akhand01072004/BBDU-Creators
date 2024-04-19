@@ -1,22 +1,17 @@
-import { Link, useNavigate } from 'react-router-dom'
-import './Design.css'
-import image from '../assets/signin-image.jpg'
+import { Link, useNavigate} from 'react-router-dom'
+import image from '../../assets/signin-image.jpg'
 import { useFormik } from 'formik'
 import { enqueueSnackbar } from 'notistack';
-import * as yup from 'yup'
+import * as yup from 'yup';
 
-// Step5 : Validation Schema
+
 const LoginSchema = yup.object().shape({
     email: yup.string().email('Invalid Email').required('Required'),
     password: yup.string().required('required').min(8)
 
 })
 
-const LogIn = () => {
-
-    function refreshPage(){ 
-        window.location.reload(); 
-    }
+const AdminLogin = () => {
     const navigate = useNavigate();
     const loginForm = useFormik({
         initialValues: {
@@ -25,7 +20,7 @@ const LogIn = () => {
         },
         // Step4 : what happens when form is submitted
         onSubmit: async(values,action) => {
-            const res = await fetch('http://localhost:3000/user/login', {
+            const res = await fetch('http://localhost:3000/admin/login', {
                 method : "POST",
                 body : JSON.stringify(values),
                 credentials : 'include',
@@ -34,10 +29,9 @@ const LogIn = () => {
                 },
             })
             action.resetForm();
-            navigate('/');
-            refreshPage();
+            navigate('/Dashboard');
             if(res.status === 200){
-                enqueueSnackbar('User LoggedIn Successfully', {variant: 'success'})
+                enqueueSnackbar('Admin LoggedIn Successfully', {variant: 'success'})
             }else if(res.status === 400){
                 enqueueSnackbar('Invalid Credentials', {variant: 'error'})
             }else{
@@ -129,7 +123,7 @@ const LogIn = () => {
                         <figure>
                             <img className="" src={image} alt="sing up image" />
                         </figure>
-                        <Link to="/sign" className="text-white p-2  my-1 rounded-md bg-blue-400 hover:bg-blue-500">
+                        <Link to="/AdminSignup" className="text-white p-2  my-1 rounded-md bg-blue-400 hover:bg-blue-500">
                             New! Create your Account
                         </Link>
                     </div>
@@ -140,7 +134,7 @@ const LogIn = () => {
             </div>
 
         </>
-    )
+    );
 }
 
-export default LogIn
+export default AdminLogin;
