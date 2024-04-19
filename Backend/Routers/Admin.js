@@ -37,8 +37,7 @@ router.post('/login', async(req,res) => {
 });
 
 router.get("/validatetoken" , async(req , res) => {
-    var Token = req.headers.cookie;
-    var admintoken = Token?.substring(12);
+    var admintoken = req.cookies.admin_token
     try {
         const decode = jwt.verify(admintoken, process.env.SECRETKEY);
         const userdata = await AdminModel.findById(decode.userId);

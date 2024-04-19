@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 3000;
 const cors = require('cors')
@@ -11,26 +12,12 @@ const AdminRouter = require('./Routers/Admin');
 
 
 
-
+app.use(cookieParser());
 app.use(cors({
     origin: ['http://localhost:5173'],
     credentials: true
 }))
-
-// middleware
 app.use(express.json());
-
-// app.use((req , res,next) => {
-//     var Token = req.headers.cookie;
-//     const token = Token.substring(11);
-//     try {
-//         const decode = jwt.verify(token, process.env.SECRETKEY);
-//         res.status(201).json({login: true, data: decode});
-//         next();
-//     } catch (error) {
-//         return res.status(401).send({message: "unauthorized"});
-//     }
-// })
 
 
 app.use('/util', UtilRouter);

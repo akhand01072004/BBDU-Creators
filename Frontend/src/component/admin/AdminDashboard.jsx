@@ -1,6 +1,7 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 import { GrLogout } from "react-icons/gr";
+import { SlLogin } from "react-icons/sl";
 import { enqueueSnackbar } from 'notistack';
 import { AdminLoginContext } from '../admin/AdminContext/AdminLoginContext';
 import { useContext} from 'react';
@@ -63,7 +64,12 @@ const AdminDashboard = () => {
               <GrLogout className='mr-4' />
               LogOut
             </Link></button> : 
-            <Link to="/AdminLogin">Login</Link>
+            <button>
+            <Link to="/AdminLogin" className="text-blue-500 hover:text-blue-700 p-2 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-blue-50 transition duration-150">
+                <SlLogin className='mr-4' />
+                Login
+            </Link>
+            </button>
           }
           </li>
         </ul>
@@ -73,7 +79,7 @@ const AdminDashboard = () => {
       <div className="flex-1 ">
         <Outlet />
       </div> : 
-      <Link to="/AdminLogin">Please Login</Link>
+      <Link to="/AdminLogin" className='text-xl m-2'>Please Login😒</Link>
     }
     </div> 
     </>

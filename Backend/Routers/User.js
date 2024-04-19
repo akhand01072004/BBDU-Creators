@@ -98,8 +98,7 @@ router.post('/validate-otp', async(req,res) => {
 
 
 router.get("/validatetoken" , async(req , res) => {
-    var Token = req.headers.cookie;
-    const token = Token?.substring(11);
+    var token = req.cookies.auth_token;
     try {
         const decode = jwt.verify(token, process.env.SECRETKEY);
         const userdata = await UserModel.findById(decode.userId);

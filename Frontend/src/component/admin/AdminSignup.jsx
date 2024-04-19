@@ -1,14 +1,12 @@
-import { Link} from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import {useFormik} from 'formik'
 import { enqueueSnackbar } from 'notistack';
 import image from '../../assets/signup-image.jpg'
 
 const AdminSignup = () => {
-    // const navigate = useNavigate();
   
-//   const verify = () => {
-//     navigate('/email-verification');
-//   }
+  const navigate = useNavigate();
+  
   const loginForm = useFormik({
     initialValues: {
     name : '',
@@ -28,7 +26,8 @@ const AdminSignup = () => {
       })
 
       if(res.status === 200){
-        enqueueSnackbar('Admin Added Successfully', {variant: 'success'})
+        enqueueSnackbar('Admin Added Successfully', {variant: 'success'});
+        navigate('/AdminLogin');
       }else if(res.status === 400){
         enqueueSnackbar('Admin already exist', {variant: 'error'})
       }else{
