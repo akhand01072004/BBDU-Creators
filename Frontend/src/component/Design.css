@@ -46,10 +46,12 @@
 /* ----------SignUP 2---------- */
 
 .back-bg{
-    background-image: url("../assets/Sign-bg.png");
-    background-size: cover;
+    background-image: url("../assets/Sign-bg.jpg");
+    background-size: contain;
     
 }
+
+
 
 
 
@@ -94,3 +96,11 @@
     background-size: cover;
     
 } */
+
+
+/* Adimm bg  */
+
+.admin-bg{
+    background-image: url('../assets/admin-form-bg.jpg');
+    background-size: cover;
+}

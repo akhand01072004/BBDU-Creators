@@ -13,8 +13,12 @@
 }
 
 .upb{
-    background-image: url('../assets/Upload.png');
+    background-image: url('../assets/Upload.jpg');
     background-size: cover;
+}
+
+.text-style{
+  font-family: "Pacifico", cursive;
 }
 
 .nav-icon{
