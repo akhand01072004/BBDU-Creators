@@ -5,6 +5,7 @@ const ApprovedProjectSchema = new mongoose.Schema({
   email: String,
   projectName: String,
   department: String,
+  projectDescription : String,
   githubRepo: String,
   projectVideo: String,
   projectImage: String, 

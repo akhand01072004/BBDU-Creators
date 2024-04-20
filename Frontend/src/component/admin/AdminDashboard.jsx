@@ -1,6 +1,7 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 import { GrLogout } from "react-icons/gr";
+import { IoExitOutline } from "react-icons/io5";
 import { SlLogin } from "react-icons/sl";
 import { enqueueSnackbar } from 'notistack';
 import { AdminLoginContext } from '../admin/AdminContext/AdminLoginContext';
@@ -51,12 +52,6 @@ const AdminDashboard = () => {
             </Link>
           </li>
           <li>
-            <Link to="/AdminSignup" className="text-blue-500 hover:text-blue-700 p-2 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-blue-50 transition duration-150">
-              <FaUser className='mr-4' />
-              SignUp
-            </Link>
-          </li>
-          <li>
           {
             LoginState.Adminlogin ?
             <button onClick={LogOut}>
@@ -71,6 +66,12 @@ const AdminDashboard = () => {
             </Link>
             </button>
           }
+          </li>
+          <li>
+            <Link className="text-blue-500 hover:text-blue-700 p-2 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-blue-50 transition duration-150" to="/">
+            <IoExitOutline className='mr-4 w-4 h-6' />
+              Exit
+            </Link>
           </li>
         </ul>
       </div>

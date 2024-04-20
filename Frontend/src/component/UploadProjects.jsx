@@ -1,11 +1,10 @@
-import { useContext, useState } from 'react';
+import {useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import './Sign.css';
-import { LoginContext } from '../Context/LoginContext';
 
 
 const UploadProjects = () => {
-    const LoginState = useContext(LoginContext);
+    
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [projectName, setProjectName] = useState('');
@@ -73,10 +72,6 @@ const UploadProjects = () => {
             githubRepo: githubRepo,
             projectImage: projectImage,
             projectVideo: projectVideo
-        }
-
-        if (LoginState.login == false) {
-            enqueueSnackbar('Please Login', { variant: "error" });
         }
 
         try {

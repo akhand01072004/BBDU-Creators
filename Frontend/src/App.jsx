@@ -23,6 +23,7 @@ import Section2 from './component/Section2';
 import AdminDashboard from './component/admin/AdminDashboard';
 import AdminSignup from './component/admin/AdminSignup';
 import AdminLogin from './component/admin/AdminLogin';
+import { AdminLoginProvider } from './component/admin/AdminContext/AdminLoginContext';
 
 import './App.css';
 
@@ -66,9 +67,9 @@ function App() {
         <Route path='/ManageProjectAdmin' element={<ManageProject />} />
         <Route path="/fileupload" element={<Fileupload />} />
         <Route path="/email-verification" element={<EmailVerify />} />
-        <Route path='/AdminLogin' element={<AdminLogin />}/>
-        <Route path='/AdminSignup' element={<AdminSignup />} />
-        <Route path='/Dashboard' element={<AdminDashboard />}>
+        <Route path='/AdminLogin' element={<AdminLoginProvider><AdminLogin /></AdminLoginProvider>}/>
+        <Route path='/AdminSignup' element={<AdminLoginProvider><AdminSignup /></AdminLoginProvider>} />
+        <Route path='/Dashboard' element={<AdminLoginProvider><AdminDashboard /></AdminLoginProvider>}>
               <Route path='ManageProjectAdmin' element={<ManageProject/>} />
               <Route path='ManageUserAdmin' element={<ManageUserAdmin/>} />
         </Route>

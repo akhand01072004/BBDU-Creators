@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { enqueueSnackbar } from 'notistack';
 import * as yup from 'yup';
 import image from '../../assets/signin-image.jpg';
-import '../../component/Design.css'
+import '../../component/Design.css';
+import { AdminLoginContext } from '../admin/AdminContext/AdminLoginContext';
 
 const LoginSchema = yup.object().shape({
     email: yup.string().email('Invalid Email').required('Required'),
@@ -12,10 +13,15 @@ const LoginSchema = yup.object().shape({
 });
 
 const AdminLogin = () => {
+    const LoginState = useContext(AdminLoginContext);
+
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
     const navigate = useNavigate();
+    if(LoginState.Adminlogin == true){
+        navigate('/Dashboard');
+    }
     const loginForm = useFormik({
         initialValues: {
             email: '',

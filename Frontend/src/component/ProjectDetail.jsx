@@ -4,7 +4,8 @@ import { enqueueSnackbar } from 'notistack';
 import './Sign.css';
 
 export default function ProjectDetail() {
-  const [project, setProject] = useState(null);  // Changed to `null` for initial state
+  const [project, setProject] = useState(null);
+  const [email, SetEmail] = useState('');
   const { id } = useParams();
 
   const fetchData = async () => {
@@ -13,12 +14,14 @@ export default function ProjectDetail() {
       if (!response.ok) throw new Error('Failed to fetch');
       const data = await response.json();
       setProject(data);
+      SetEmail(data.email);
       enqueueSnackbar('Project fetched successfully', { variant: 'success' });
     } catch (error) {
       console.error("Error fetching project:", error);
       enqueueSnackbar('Facing error while fetching', { variant: 'error' });
     }
   };
+
 
   useEffect(() => {
     fetchData();
@@ -55,7 +58,7 @@ export default function ProjectDetail() {
           <div>
             <div className="flex flex-col items-center p-4 ">
               <div className="w-40 h-40 rounded-full bg-blue-300 flex items-center justify-center text-white text-lg font-bold mb-8 border-2 border-black">
-                <p className='text-6xl'>S</p>
+                <p className='text-6xl'>{email[0].toUpperCase()}</p>
               </div>
               <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 View Profile
