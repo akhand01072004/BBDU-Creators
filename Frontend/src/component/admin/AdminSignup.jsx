@@ -88,7 +88,7 @@ const AdminSignup = () => {
             <input
               type="password"
               name="password"
-              id="pass"
+              id="password"
               placeholder="Password"
               onChange={loginForm.handleChange}
               value={loginForm.values.password}
