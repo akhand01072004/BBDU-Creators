@@ -1,139 +1,98 @@
-import { Link, useNavigate} from 'react-router-dom'
-import image from '../../assets/signin-image.jpg'
-import { useFormik } from 'formik'
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
 import { enqueueSnackbar } from 'notistack';
 import * as yup from 'yup';
-
+import image from '../../assets/signin-image.jpg';
+import '../../component/Design.css';
+import { AdminLoginContext } from '../admin/AdminContext/AdminLoginContext';
 
 const LoginSchema = yup.object().shape({
     email: yup.string().email('Invalid Email').required('Required'),
-    password: yup.string().required('required').min(8)
-
-})
+    password: yup.string().required('Required').min(8)
+});
 
 const AdminLogin = () => {
+    const LoginState = useContext(AdminLoginContext);
+
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
     const navigate = useNavigate();
+    if(LoginState.Adminlogin == true){
+        navigate('/Dashboard');
+    }
     const loginForm = useFormik({
         initialValues: {
             email: '',
             password: ''
         },
-        // Step4 : what happens when form is submitted
-        onSubmit: async(values,action) => {
+        validationSchema: LoginSchema,
+        onSubmit: async (values, action) => {
             const res = await fetch('http://localhost:3000/admin/login', {
-                method : "POST",
-                body : JSON.stringify(values),
-                credentials : 'include',
-                headers : {
-                    'Content-Type' : 'application/json'
+                method: "POST",
+                body: JSON.stringify(values),
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-            })
+            });
             action.resetForm();
-            navigate('/Dashboard');
-            if(res.status === 200){
-                enqueueSnackbar('Admin LoggedIn Successfully', {variant: 'success'})
-            }else if(res.status === 400){
-                enqueueSnackbar('Invalid Credentials', {variant: 'error'})
-            }else{
-                enqueueSnackbar('Something went wrong', {variant : 'error'});
+            if (res.status === 200) {
+                enqueueSnackbar('Admin Logged In Successfully', { variant: 'success' });
+                navigate('/Dashboard');
+            } else if (res.status === 400) {
+                enqueueSnackbar('Invalid Credentials', { variant: 'error' });
+            } else {
+                enqueueSnackbar('Something went wrong', { variant: 'error' });
             }
-            
-        },
-        // Step6 : Validation Schema
-        validationSchema: LoginSchema
-    })
+        }
+    });
+
     return (
-        <>
-
-            <div className="min-h-screen flex items-center justify-center  back">
-                {/* Sign up form */}
-
-                <div className="bg-white shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] rounded-3xl px-8  mb-4 flex flex-col md:flex-row   pad">
-
-                    <div className="w-full mb-4 md:mb-0 md:w-auto flex flex-col justify-center items-center ml-10 mr-10">
-                        <h2 className="text-3xl mr-6 md:text-5xl font-bold mb-12 text-center md:text-left work">Sign In</h2>
-
-                        <form method="POST" onSubmit={loginForm.handleSubmit} className="mt-8">
-
-                            <div className="mb-8 flex">
-                                <label
-                                    htmlFor="email"
-                                    className="flex items-center"
-                                >
-                                    <i className="fa-regular fa-envelope"></i>
-                                </label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    onChange={loginForm.handleChange}
-                                    value={loginForm.values.email}
-                                    placeholder="Your Email"
-                                    className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-full"
-                                />
-                                <span style={{ color: 'red', fontsize: '50px', marginLeft: '10px' }}>{loginForm.errors.email}</span>
-
-                            </div>
-                            <div className="mb-8 flex">
-                                <label
-                                    htmlFor="pass"
-                                    className="block text-gray-700 text-sm font-bold mb-2 flex items-center"
-                                >
-                                    <i className="fa-solid fa-lock"></i>
-                                </label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="Password"
-                                    onChange={loginForm.handleChange}
-                                    value={loginForm.values.password}
-                                    className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-full"
-                                />
-                                <span style={{color:'red', fontsize: '10'}}>{loginForm.touched.password && loginForm.errors.password}</span>
-                            </div>
-
-                            <div className="mb-8">
-                                <label className="inline-flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        name="agree-term"
-                                        id="agree-term"
-                                        className="form-checkbox text-indigo-600"
-                                    />
-                                    <span className="ml-2">
-                                        Remember me{" "}
-
-                                    </span>
-                                </label>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <input
-                                    type="submit"
-                                    name="signup"
-                                    id="signup"
-                                    className="bg-blue-500 cursor-pointer hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    defaultValue="Register"
-                                />
-                            </div>
-                        </form>
-                    </div>
-                    <div className="hidden md:flex ml-20 mr-15 flex-col items-center justify-center">
-
-                        <figure>
-                            <img className="" src={image} alt="sing up image" />
-                        </figure>
-                        <Link to="/AdminSignup" className="text-white p-2  my-1 rounded-md bg-blue-400 hover:bg-blue-500">
-                            New! Create your Account
-                        </Link>
-                    </div>
-
-
+        <div className="min-h-screen flex items-center justify-center admin-bg">
+            <div className="bg-white shadow-[0_10px_20px_rgba(240,_46,_170,_0.7)] rounded-3xl px-8 py-8 mb-4 flex flex-col md:flex-row ">
+                <div className="flex flex-col justify-center items-center ml-10 mr-10">
+                    <h2 className="text-4xl mr-6 font-bold mb-10 text-center md:text-left">Sign In</h2>
+                    <form onSubmit={loginForm.handleSubmit}>
+                        <div className="mb-8 flex items-center mt-10">
+                            <i className="fa-regular fa-envelope"></i>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                onChange={loginForm.handleChange}
+                                value={loginForm.values.email}
+                                placeholder="Your Email"
+                                className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-80"
+                            />
+                        </div>
+                        <div className="mb-8 flex items-center">
+                            <i className="fa-solid fa-lock"></i>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                id="password"
+                                placeholder="Password"
+                                onChange={loginForm.handleChange}
+                                value={loginForm.values.password}
+                                className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-80"
+                            />
+                            <i className={`ml-2 fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'} cursor-pointer`} onClick={togglePasswordVisibility}></i>
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Login
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
+                <div className="hidden md:flex ml-20 mr-15 flex-col items-center justify-center">
+                    <figure><img src={image} alt="sign in" /></figure>
+                    <Link to="/AdminSignup" className="text-blue-400 hover:text-blue-500 ">New! Create your Account</Link>
+                </div>
             </div>
-
-        </>
+        </div>
     );
 }
 

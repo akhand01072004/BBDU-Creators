@@ -2,11 +2,18 @@
 import "./Design.css"
 import {ReactTyped} from "react-typed";
 import { useNavigate } from "react-router-dom";
-
+import { useContext } from "react";
+import { LoginContext } from "../Context/LoginContext";
+import { enqueueSnackbar } from "notistack";
 
 const Header = () => {
   const navigate = useNavigate();
+  const LoginState = useContext(LoginContext);
   const handleclick = async () => {
+    if (LoginState.login === false) {
+      enqueueSnackbar('Please Login to upload project', { variant: "error" });
+      return;
+    }
     navigate("/UploadProjects")
   }
   return (

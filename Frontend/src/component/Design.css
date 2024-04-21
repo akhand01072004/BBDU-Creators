@@ -6,7 +6,7 @@
     
 }
 .fw{
-    color: aliceblue;
+    color: rgb(255, 255, 255);
 }
 .bg:hover{
     background-color: #166534;
@@ -46,10 +46,12 @@
 /* ----------SignUP 2---------- */
 
 .back-bg{
-    background-image: url("../assets/Sign-bg.png");
-    background-size: cover;
+    background-image: url("../assets/Sign-bg.jpg");
+    background-size: contain;
     
 }
+
+
 
 
 
@@ -60,7 +62,7 @@
 
 /*----------------------- About  ---------------- */
 .sec3{
-    background-image: url("../assets/About-bg.jpg");
+    background-image: url("../assets/About-bg.png");
     background-size: cover;
     /* background-attachment: fixed;  */
     background-repeat: no-repeat;
@@ -94,3 +96,11 @@
     background-size: cover;
     
 } */
+
+
+/* Adimm bg  */
+
+.admin-bg{
+    background-image: url('../assets/admin-form-bg.jpg');
+    background-size: cover;
+}

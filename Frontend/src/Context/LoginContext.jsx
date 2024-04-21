@@ -16,9 +16,6 @@ export const LoginProvider = (props) => {
         console.log(resp)
         if(resp.status === 201){
             SetLogin(true);
-            enqueueSnackbar('User LoggedIn', {variant: 'success'})
-        }else{
-            enqueueSnackbar('User Not LoggedIn', {variant: 'error'})
         }
     }
     check();

@@ -43,11 +43,9 @@ const NavBar = () => {
         <Link className='hover:text-blue-500' to="/about">About Us</Link>
         <Link className='hover:text-blue-500' to='/Projects'>Projects</Link>
       </div>
-      <div className=" flex items-center justify-center ml-20">
+      <div className="flex items-center justify-center ml-20">
         <button className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
-          
-          {loginState.login ? <button onClick={LogOut}>LogOut</button> : <Link to='/Sign'>Signup</Link>}
-          
+          {loginState.login ? <button onClick={LogOut}>LogOut</button> : <Link to='/Sign'>Signup</Link>}    
         </button>
       </div>
     </nav>

@@ -6,9 +6,9 @@ const Section2 = () => {
         <>
             <div className="container-md h-full sec2 flex flex-col items-center justify-center mt-20">
                 <div className='mb-20'>
-                    <h1 className='text-5xl fs text-center mb-5'>Our Services</h1>
-                    <p className='text-center'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. </p>
-                    <p className='text-center'> Doloremque vel dignissimos perferendis nisi aperiam.</p>
+                    <h1 className='text-5xl fs text-center mb-5'>Our Features</h1>
+                    <p className='text-center'>Place where you get Recognize. </p>
+                    <p className='text-center'> Create. Innovate. Showcase.</p>
                 </div>
                 <div>
                     <div className="flex items-center mb-20">
