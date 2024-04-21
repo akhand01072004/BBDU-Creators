@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { enqueueSnackbar } from 'notistack';
 import * as yup from 'yup';
 import './Design.css';
 import image from '../assets/signin-image.jpg';
+
+function refreshPage(){ 
+    window.location.reload(); 
+}
+
 
 const LogIn = () => {
     const navigate = useNavigate();
@@ -38,6 +43,7 @@ const LogIn = () => {
             if (response.ok) {
                 enqueueSnackbar('User Logged In Successfully', { variant: 'success' });
                 navigate('/');
+                refreshPage();
             } else if (response.status === 400) {
                 enqueueSnackbar('Invalid Credentials', { variant: 'error' });
             } else {

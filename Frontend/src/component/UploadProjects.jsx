@@ -1,11 +1,10 @@
-import { useContext, useState } from 'react';
+import {useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import './Sign.css';
-import { LoginContext } from '../Context/LoginContext';
 
 
 const UploadProjects = () => {
-    const LoginState = useContext(LoginContext);
+    
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [projectName, setProjectName] = useState('');
@@ -13,7 +12,7 @@ const UploadProjects = () => {
     const [githubRepo, setGithubRepo] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
     const [projectImage, setProjectImage] = useState('');
-    const [projectVideo, setProjectVideo] = useState(null);
+    const [projectVideo, setProjectVideo] = useState('');
     const [showGitHub, setShowGitHub] = useState(false);
 
     const handleDepartmentChange = (event) => {
@@ -35,8 +34,6 @@ const UploadProjects = () => {
             });
             const resp = await response.json();
             setProjectImage(resp.url);
-            console.log(resp.url);
-            console.log(projectImage);
         } catch (error) {
             console.log("failed to upload");
         }
@@ -75,8 +72,9 @@ const UploadProjects = () => {
             projectVideo: projectVideo
         }
 
-        if (LoginState.login == false) {
-            enqueueSnackbar('Please Login', { variant: "error" });
+        if(!projectVideo){
+            enqueueSnackbar('please wait video is uploading..', {variant : 'success'})
+            return;
         }
 
         try {
