@@ -1,13 +1,9 @@
-
-import { Link } from 'react-router-dom'
-import NavBar from './NavBar'
 import "./Design.css"
 
 export default function Contact() {
   
   return (
     <>
-    <NavBar></NavBar>
     <section className='flex flex-col justify-start items-center mt-10 contact'>
         <h1 className='text-4xl'>Contact Us ☎️</h1>
         <h3 className='text-gray-400 mt-4'>These are the ways you can get in touch with us.</h3>

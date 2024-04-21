@@ -6,7 +6,7 @@
     
 }
 .fw{
-    color: aliceblue;
+    color: rgb(255, 255, 255);
 }
 .bg:hover{
     background-color: #166534;
@@ -62,7 +62,7 @@
 
 /*----------------------- About  ---------------- */
 .sec3{
-    background-image: url("../assets/About-bg.jpg");
+    background-image: url("../assets/About-bg.png");
     background-size: cover;
     /* background-attachment: fixed;  */
     background-repeat: no-repeat;

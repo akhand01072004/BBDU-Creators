@@ -134,9 +134,9 @@ const AdminSignup = () => {
                   />
                   <span className="ml-2">
                     I agree all statements in{" "}
-                    <a href="#" className="text-indigo-600 hover:text-indigo-800">
+                    <p  className="text-indigo-600 hover:text-indigo-800">
                       Terms of service
-                    </a>
+                    </p>
                   </span>
                 </label>
               </div>

@@ -1,193 +1,90 @@
-import { useContext, useState } from 'react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from 'notistack';
-import './Sign.css';
-import { LoginContext } from '../Context/LoginContext';
+import NavBar from "./NavBar";
 
+function EmailVerification() {
+  const [email, setEmail] = useState('');
+  const [otp, setOtp] = useState('');
+  const navigate = useNavigate();
 
-const UploadProjects = () => {
-    const LoginState = useContext(LoginContext);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [projectName, setProjectName] = useState('');
-    const [department, setDepartment] = useState('');
-    const [githubRepo, setGithubRepo] = useState('');
-    const [projectDescription, setProjectDescription] = useState('');
-    const [projectImage, setProjectImage] = useState('');
-    const [projectVideo, setProjectVideo] = useState(null);
-    const [showGitHub, setShowGitHub] = useState(false);
-
-    const handleDepartmentChange = (event) => {
-        const selectedDepartment = event.target.value;
-        setDepartment(selectedDepartment);
-        setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering');
-    };
-
-    const UploadImage = async (event) => {
-        const file = event.target.files[0];
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
-        try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
-                method: "POST",
-                body: data
-            });
-            const resp = await response.json();
-            setProjectImage(resp.url);
-            console.log(resp.url);
-            console.log(projectImage);
-        } catch (error) {
-            console.log("failed to upload");
-        }
+  const sendVerificationMail = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/user/SendEmail', {
+        method: "POST",
+        body: JSON.stringify({ emailto: email }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      });
+      if (response.status === 201) {
+        enqueueSnackbar('OTP sent to your email', { variant: 'success' });
+      } else {
+        enqueueSnackbar('Failed to send OTP', { variant: 'error' });
+      }
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    const UploadVideo = async (event) => {
-        const file = event.target.files[0];
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
-        try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/video/upload', {
-                method: "POST",
-                body: data
-            });
-            const resp = await response.json();
-            setProjectVideo(resp.url);
-            console.log(resp.url);
-            console.log(projectVideo);
-        } catch (error) {
-            console.log("failed to upload");
+  const verify = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/user/validate-otp', {
+        method: "POST",
+        body: JSON.stringify({ otp }),
+        headers: {
+          'Content-Type': "application/json"
         }
+      });
+      if (response.status === 201) {
+        enqueueSnackbar('Email verified successfully', { variant: 'success' });
+        navigate('/');
+      } else {
+        enqueueSnackbar('Please enter the correct one-time password', { variant: 'error' });
+      }
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = {
-            name: name,
-            email: email,
-            projectName: projectName,
-            department: department,
-            projectDescription: projectDescription,
-            githubRepo: githubRepo,
-            projectImage: projectImage,
-            projectVideo: projectVideo
-        }
-
-        if (LoginState.login == false) {
-            enqueueSnackbar('Please Login', { variant: "error" });
-        }
-
-        try {
-            const response = await fetch('http://localhost:3000/project/api/uploadprojects', {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
-            const data = await response.json();
-            if (response.status === 201) {
-                enqueueSnackbar("Project Submitted", { variant: "success" });
-            } else {
-                enqueueSnackbar("Project Not Submitted", { variant: "error" });
-            }
-            console.log('Form submission successful', data);
-            // Reset form and states if needed
-        } catch (error) {
-            console.error('Form submission error', error);
-        }
-    };
-
-    return (
-        <div className="flex items-center justify-center min-h-screen upb">
-            <div className="bg-gray-100 p-8 rounded-lg shadow-md w-auto bg-opacity-20 ">
-                <h2 className="text-4xl  mb-5 text-center text-style">Upload Project</h2>
-                <form onSubmit={handleSubmit} encType='multipart/form-data'>
-                    {/* Name */}
-                    <div className="flex ">
-                        <div className='mr-5 '>
-                            <div className="mb-4">
-                                <label htmlFor="name" className="block text-black-700 text-lg font-bold mb-2">Name</label>
-                                <input type="text" value={name} onChange={(e) => setName(e.target.value)} id="name" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Email */}
-                            <div className="mb-4">
-                                <label htmlFor="email" className="block text-black-700 text-lg font-bold mb-2">Email</label>
-                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Project Name */}
-                            <div className="mb-4">
-                                <label htmlFor="projectName" className="block text-black-700 text-lg font-bold mb-2">Project Name</label>
-                                <input type="text" value={projectName} onChange={(e) => setProjectName(e.target.value)} id="projectName" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Department Name */}
-                            <div className="mb-4">
-                                <label htmlFor="department" className="block text-black-700 text-lg font-bold mb-2">Department Name</label>
-                                <select id="department" value={department} onChange={handleDepartmentChange} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="">Select a Department</option>
-                                    <option value="School of Computer Applications">School of Computer Applications</option>
-                                    <option value="School of Engineering">School of Engineering</option>
-                                    <option value="School of Management">School of Management</option>
-                                    <option value="School Of Pharmacy">School Of Pharmacy</option>
-                                    <option value="School of Legal Studies">School of Legal Studies</option>
-                                    <option value="School of Basic Science">School of Basic Science</option>
-                                    <option value="School of Education">School of Education</option>
-                                    <option value="School of Humanities and Social Science">School of Humanities and Social Science</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-
-                            {/* Conditional GitHub Repository or Project Video */}
-                            {showGitHub ? (
-                                <>
-                                    <div className="mb-4">
-                                        <label htmlFor="githubRepo" className="block text-black-700 text-lg font-bold mb-2">GitHub Repository</label>
-                                        <input type="url" value={githubRepo} onChange={(e) => setGithubRepo(e.target.value)} id="githubRepo" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                    </div>
-
-                                </>
-                            ) : (
-                                <>
-
-                                </>
-                            )}
-
-                            {/* Project Image */}
-                            <div className="mb-4">
-                                <label className="block text-black-700 text-lg font-bold">Project Image</label>
-                                <input type="file" onChange={UploadImage} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block text-black-700 text-lg font-bold">Project Video</label>
-                                <input type="file" onChange={UploadVideo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-
-                        </div>
-                    </div>
-                    <div>
-                        <div className="mb-4">
-                            <label htmlFor="projectDescription" className="block text-black-700 text-lg font-bold mb-2">Project Description</label>
-                            <input type="text" value={projectDescription} onChange={(e) => setProjectDescription(e.target.value)} id="projectName" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        </div>
-                    </div>
-                    <div>
-                        {/* Submit Button */}
-                        <div className="flex justify-center mt-6">
-                            <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+  return (
+    <>
+    <NavBar></NavBar>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]">
+        <h1 className="text-xl font-semibold text-center">Verify Your Email</h1>
+        <div className="flex gap-2">
+          <input
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="flex-grow p-2 border rounded-md"
+          />
+          <button
+            onClick={sendVerificationMail}
+            className="px-4 py-2 text-white bg-blue-500 rounded-md"
+          >
+            Send
+          </button>
         </div>
-    );
-};
+        <div>
+          <input
+            type="text"
+            onChange={(e) => setOtp(e.target.value)}
+            placeholder="Enter the OTP"
+            className="w-full p-2 border rounded-md"
+          />
+        </div>
+        <button
+          onClick={verify}
+          className="w-full py-2 text-white bg-blue-500 rounded-md"
+        >
+          Verify
+        </button>
+      </div>
+    </div>
+    </>
+  );
+}
 
-export default UploadProjects;
+export default EmailVerification;
