@@ -12,7 +12,7 @@ const UploadProjects = () => {
     const [githubRepo, setGithubRepo] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
     const [projectImage, setProjectImage] = useState('');
-    const [projectVideo, setProjectVideo] = useState(null);
+    const [projectVideo, setProjectVideo] = useState('');
     const [showGitHub, setShowGitHub] = useState(false);
 
     const handleDepartmentChange = (event) => {
@@ -34,8 +34,6 @@ const UploadProjects = () => {
             });
             const resp = await response.json();
             setProjectImage(resp.url);
-            console.log(resp.url);
-            console.log(projectImage);
         } catch (error) {
             console.log("failed to upload");
         }
@@ -72,6 +70,11 @@ const UploadProjects = () => {
             githubRepo: githubRepo,
             projectImage: projectImage,
             projectVideo: projectVideo
+        }
+
+        if(!projectVideo){
+            enqueueSnackbar('please wait video is uploading..', {variant : 'success'})
+            return;
         }
 
         try {
