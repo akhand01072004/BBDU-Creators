@@ -1,90 +1,91 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
-import NavBar from "./NavBar";
+import { Link } from 'react-router-dom';
+import { FaVideo } from "react-icons/fa";
+import './Sign.css';
 
-function EmailVerification() {
-  const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
-  const navigate = useNavigate();
+function Projects() {
+    const [projects, setProjects] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
-  const sendVerificationMail = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/user/SendEmail', {
-        method: "POST",
-        body: JSON.stringify({ emailto: email }),
-        headers: {
-          "Content-Type": "application/json"
-        },
-      });
-      if (response.status === 201) {
-        enqueueSnackbar('OTP sent to your email', { variant: 'success' });
-      } else {
-        enqueueSnackbar('Failed to send OTP', { variant: 'error' });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    // Fetch projects from the backend when the component mounts
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/project/api/Approvedprojects');
+                if (!response.ok) throw new Error('Failed to fetch');
+                const data = await response.json();
+                setProjects(data);
+                if (response.status === 200) {
+                    enqueueSnackbar('Project Fetch Successfully', { variant: 'success' });
+                } else {
+                    enqueueSnackbar('Not Uploaded', { variant: 'error' });
+                }
+            } catch (error) {
+                console.error("Error fetching projects:", error);
+            }
+        };
 
-  const verify = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/user/validate-otp', {
-        method: "POST",
-        body: JSON.stringify({ otp }),
-        headers: {
-          'Content-Type': "application/json"
-        }
-      });
-      if (response.status === 201) {
-        enqueueSnackbar('Email verified successfully', { variant: 'success' });
-        navigate('/');
-      } else {
-        enqueueSnackbar('Please enter the correct one-time password', { variant: 'error' });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        fetchProjects();
+    }, []); // The empty dependency array ensures this effect runs once on mount
 
-  return (
-    <>
-    <NavBar></NavBar>
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]">
-        <h1 className="text-xl font-semibold text-center">Verify Your Email</h1>
-        <div className="flex gap-2">
-          <input
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            className="flex-grow p-2 border rounded-md"
-          />
-          <button
-            onClick={sendVerificationMail}
-            className="px-4 py-2 text-white bg-blue-500 rounded-md"
-          >
-            Send
-          </button>
-        </div>
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredProjects = projects.filter(project =>
+        project.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return (
         <div>
-          <input
-            type="text"
-            onChange={(e) => setOtp(e.target.value)}
-            placeholder="Enter the OTP"
-            className="w-full p-2 border rounded-md"
-          />
+            <nav className="flex justify-between items-center py-4 px-6 bg-blue-500 text-white">
+                <h1 className="font-bold text-lg">Projects</h1>
+                <div className="relative">
+                    <input
+                        type="text"
+                        className="bg-white text-black h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder="Search..."
+                    />
+                    <button type="submit" className="absolute right-0 top-0 mt-2 mr-4">
+                        <i className="fa fa-search text-gray-600"></i>
+                    </button>
+                </div>
+            </nav>
+            <div className="p-4 grid grid-cols-2 gap-4">
+                {filteredProjects.length > 0 ? filteredProjects.map((project, index) => (
+                    <div key={index} className="border p-4 bg-white rounded-lg shadow-md flex">
+                        <div>
+                            {project.projectImage && (
+                                <img src={project.projectImage} alt="Project" className="w-80 object-cover rounded-lg mb-2 " />
+                            )}
+
+                        </div>
+
+                        <div className='flex flex-col ml-10 justify-between'>
+                            <div>
+                                <h3 className="text-2xl mb-3">Name: {project.name}</h3>
+                                <p className="text-2xl mb-3">Department: {project.department}</p>
+                                {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline text-2xl mb-10">GitHub Repo</a>}
+                                <Link to={project.projectVideo}><FaVideo className='w-16 h-11 mt-2 mr-2' /></Link>
+
+                            </div>
+                            <div className='flex justify-center '>
+                                <button className='text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-32'>
+                                    <Link to={`/projectDetail/${project._id}`}>View More</Link>
+                                </button>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                )) : <p className="text-center">No projects found.</p>}
+            </div>
         </div>
-        <button
-          onClick={verify}
-          className="w-full py-2 text-white bg-blue-500 rounded-md"
-        >
-          Verify
-        </button>
-      </div>
-    </div>
-    </>
-  );
+    );
 }
 
-export default EmailVerification;
+export default Projects;
