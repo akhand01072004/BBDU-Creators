@@ -159,9 +159,85 @@ const AdminSignup = () => {
               I am already member
             </Link>
           </div>
+<<<<<<< HEAD
+          <div className="mb-8 flex">
+            <label
+              htmlFor="pass"
+              className="block text-gray-700 text-sm font-bold mb-2 flex items-center"
+            >
+            <i className="fa-solid fa-lock"></i>
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              onChange={loginForm.handleChange}
+              value={loginForm.values.password}
+              className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-full"
+            />
+            <span style={{color:'red', fontsize: '10'}}>{loginForm.touched.password && loginForm.errors.password}</span>
+          </div>
+          <div className="mb-8 flex">
+            <label
+              htmlFor="re_pass"
+              className="block text-gray-700 text-sm font-bold mb-2 flex items-center"
+            >
+              <i className="fa-solid fa-lock"></i>
+            </label>
+            <input
+              type="text"
+              name="code"
+              id="code"
+              placeholder="Enter the Code"
+              onChange={loginForm.handleChange}
+              value={loginForm.values.code}
+              className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-full"
+            />
+          </div>
+          <div className="mb-8">
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="agree-term"
+                id="agree-term"
+                className="form-checkbox text-indigo-600"
+              />
+              <span className="ml-2">
+                I agree all statements in{" "}
+                <a href="#" className="text-indigo-600 hover:text-indigo-800">
+                  Terms of service
+                </a>
+              </span>
+            </label>
+          </div>
+          <div className="flex items-center justify-between mb-2 cursor-pointer">
+            <input
+              type="submit"
+              name="signup"
+              id="signup"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md cursor-pointer focus:outline-none focus:shadow-outline"
+              defaultValue="Register"
+            />
+          </div>
+        </form>
+      </div>
+      <div className="hidden md:flex ml-20 mr-15 flex-col items-center justify-center">
+        <figure>
+          <img className="" src={image} alt="sign up image" />
+        </figure>
+        <Link to="/AdminLogin" className="text-white p-2 mt-1 bg-blue-500 rounded-md hover:bg-blue-600">
+          I am already member
+        </Link>
+      </div>
+    </div>
+```</div>
+  </>
+=======
         </div>
         ```</div>
     </>
+>>>>>>> dd5cc181b4c028cf0b1b391a175c40e22cc2d686
   )
 }
 
