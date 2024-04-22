@@ -53,7 +53,7 @@ function Projects() {
             </nav>
             <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredProjects.length > 0 ? filteredProjects.map((project, index) => (
-                    <div key={index} className="border-2  p-4 bg-white rounded-lg shadow-md flex flex-col md:flex-row">
+                    <div key={index} className="border-2  p-4 bg-white rounded-lg shadow-lg flex flex-col md:flex-row">
                         <div className="flex flex-row md:flex-col md:w-3/4  rounded-lg">
                             <img src={project.projectImage || 'path/to/default-placeholder.png'} alt="Project" className="object-cover rounded-lg w-full md:w-auto md:h-48" />
                             {project.projectVideo ? (
@@ -81,7 +81,7 @@ function Projects() {
                             </Link>
                         </div>
                     </div>
-                )) : <p className="text-center">No projects found.</p>}
+                )) : <p className="h-screen text-center">No projects found.</p>}
             </div>
         </div>
     );
