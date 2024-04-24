@@ -6,7 +6,6 @@ import './Sign.css';
 
 export default function ProjectDetail() {
   const [project, setProject] = useState(null);
-  const [email, SetEmail] = useState('');
   const { id } = useParams();
 
   const fetchData = async () => {
@@ -15,7 +14,6 @@ export default function ProjectDetail() {
       if (!response.ok) throw new Error('Failed to fetch');
       const data = await response.json();
       setProject(data);
-      SetEmail(data.email);
     } catch (error) {
       console.error("Error fetching project:", error);
       enqueueSnackbar('Facing error while fetching', { variant: 'error' });
@@ -28,7 +26,7 @@ export default function ProjectDetail() {
   }, [id]);  // Include `id` to refetch if the ID changes
 
   if (!project) {
-    return <div>Loading...</div>;  // Loading state or placeholder
+    return <div className='text-4xl m-[20%] ml-[45%]'>Loading...</div>;  // Loading state or placeholder
   }
 
   return (
@@ -39,10 +37,10 @@ export default function ProjectDetail() {
           <img src={project.projectImage} alt='Project' className='w-[30%]  object-cover rounded-lg mb-2 ml-12' />
           <div className='text ml-[30%]'>
             <h1 className='text-3xl text-white font-bold mb-6 border-t-2 border-b-2 p-1 rounded-md border-[#4defeb]'>Project Owner Details </h1>
-            <h2 className='text-xl  mb-4'><span className='text-green-400 font-bold'>Name :</span> {project.name}</h2>
-            <h3 className='text-xl  mb-4'><span className='text-green-400 font-bold'>Email :</span> {project.email}</h3>
-            <p className='text-xl  mb-4'><span className='text-green-400 font-bold'>ProjectName :</span> {project.projectName}</p>
-            <p className='text-xl  mb-4'><span className='text-green-400 font-bold'>ProjectDepartment :</span> {project.department}</p>
+            <h2 className='text-xl  mb-4'><span className='text-[#4DEEEA] font-bold'>Name :</span> {project.name}</h2>
+            <h3 className='text-xl  mb-4'><span className='text-[#4DEEEA] font-bold'>Email :</span> {project.email}</h3>
+            <p className='text-xl  mb-4'><span className='text-[#4DEEEA] font-bold'>ProjectName :</span> {project.projectName}</p>
+            <p className='text-xl  mb-4'><span className='text-[#4DEEEA] font-bold'>ProjectDepartment :</span> {project.department}</p>
             {project.githubRepo && <a href={project.githubRepo} className=" text-xl font-bold mb-4 text-blue-500 hover:underline">GitHub Repo</a>}<br></br>
             <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 View Profile

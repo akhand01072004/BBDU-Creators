@@ -10,7 +10,11 @@ const userSchema = new Schema({
     verified : {
         type : Boolean,
         default : false
-    }
+    },
+    projects : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Project'
+    }]
 });
 
 userSchema.pre("save",async function(next){
