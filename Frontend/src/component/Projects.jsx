@@ -50,6 +50,7 @@ function Projects() {
                         <i className="fa fa-search text-gray-600"></i>
                     </button>
                 </div>
+
             </nav>
             <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredProjects.length > 0 ? filteredProjects.map((project, index) => (

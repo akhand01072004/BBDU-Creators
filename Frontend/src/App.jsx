@@ -25,6 +25,7 @@ import { AdminLoginProvider } from './component/admin/AdminContext/AdminLoginCon
 import './App.css';
 import UserProfile from './component/UserProfile';
 import Layout from './component/Layout';
+import ProfilePage from './component/ProfilePage';
 
 
 
@@ -65,6 +66,7 @@ function App() {
           <Route path="fileupload" element={<Fileupload />} />
           <Route path="email-verification" element={<EmailVerify />} />
           <Route path='UserProfile' element={<UserProfile />} />
+          <Route path='ProfilePage' element={<UserProfile />}/>
           <Route path='AdminLogin' element={<AdminLoginProvider><AdminLogin /></AdminLoginProvider>} />
           <Route path='AdminSignup' element={<AdminLoginProvider><AdminSignup /></AdminLoginProvider>} />
           <Route path='Dashboard' element={<AdminLoginProvider><AdminDashboard /></AdminLoginProvider>}>
