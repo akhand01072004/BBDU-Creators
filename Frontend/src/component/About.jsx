@@ -2,8 +2,7 @@
 const About = () => {
   return (
     <>
-    
-    <div className="flex justify-center items-center h-svh sec3 "> {/* Parent div covering full height and centering children */}
+    <div className="flex justify-center items-center h-svh sec3 mt-5"> {/* Parent div covering full height and centering children */}
       <div className="flex gap-4 items-center mt-20" style={{maxWidth: '1200px'}}> {/* Adjusted: Container for the two divs with spacing and vertical centering, with a maximum width */}
         <div className="same bg-transparent image1  "></div> {/* First child div */}
         <div className="same bg-transparent flex flex-col justify-start text-start p-4 " style={{flex: 1}}> 

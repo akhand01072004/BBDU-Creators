@@ -22,7 +22,7 @@ const UserProfile = () => {
         UserDetail();
     }, [])
     return (
-        <div className="w-[400px] h-max-content m-10 ml-10 mx-[15%] border-2 border-green-500 bg-white-200">
+        <div className="w-[400px] h-max-content m-10 mb-[19%] ml-10 mx-[15%] border-2 border-green-500 bg-white-200">
             <div>
                 <div className="relative left-2 top-3 w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                 <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
