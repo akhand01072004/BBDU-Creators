@@ -74,6 +74,26 @@ function App() {
             <Route path='ManageUserAdmin' element={<ManageUserAdmin />} />
           </Route>
           </Route>
+     <SnackbarProvider maxSnacl={1}>
+      <Routes>
+        <Route path="/" element={<MainLayout />} /> {/* Define other routes as needed here */}
+        <Route path="/sign" element={<SignUp />} />
+        <Route path="/home" element={<Header />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/UploadProjects" element={<UploadProjects/>}/>
+        <Route path="/Projects" element={<Projects/>}/>
+        <Route path="/projectDetail/:id" element={<ProjectDetail />} />
+        <Route path="/fileupload" element={<Fileupload />} />
+        <Route path="/email-verification" element={<EmailVerify />} />
+        <Route path='/UserProfile' element={<UserProfile />} />
+        <Route path='/AdminLogin' element={<AdminLoginProvider><AdminLogin /></AdminLoginProvider>}/>
+        <Route path='/AdminSignup' element={<AdminLoginProvider><AdminSignup /></AdminLoginProvider>} />
+        <Route path='/Dashboard' element={<AdminLoginProvider><AdminDashboard /></AdminLoginProvider>}>
+              <Route path='ManageProjectAdmin' element={<ManageProject/>} />
+              <Route path='ManageUserAdmin' element={<ManageUserAdmin/>} />
+        </Route>
 
         </Routes>
       </SnackbarProvider>

@@ -95,6 +95,17 @@ router.post('/validate-otp', async(req,res) => {
     }
 })
 
+// router.get('/getbyemail', async(req,res) => {
+//     const useremail = req.body.email;
+//     try {
+//         const user = await UserModel.findOne({
+//             email : useremail
+//         });
+//         return res.status(200).json(user);
+//     } catch (error) {
+//         return res.status(502).json({message : "User not found"})
+//     }
+// })
 
 
 router.get("/validatetoken" , async(req , res) => {
@@ -102,7 +113,7 @@ router.get("/validatetoken" , async(req , res) => {
     try {
         const decode = jwt.verify(token, process.env.SECRETKEY);
         const userdata = await UserModel.findById(decode.userId);
-        return res.status(201).send({UserName: userdata.name});
+        return res.status(201).send(userdata);
     } catch (error) {
         return res.status(401).send({message: "unauthorized"});
     }

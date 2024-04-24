@@ -6,7 +6,6 @@ import './Sign.css';
 
 export default function ProjectDetail() {
   const [project, setProject] = useState(null);
-  const [email, SetEmail] = useState('');
   const { id } = useParams();
 
   const fetchData = async () => {
@@ -15,7 +14,6 @@ export default function ProjectDetail() {
       if (!response.ok) throw new Error('Failed to fetch');
       const data = await response.json();
       setProject(data);
-      SetEmail(data.email);
     } catch (error) {
       console.error("Error fetching project:", error);
       enqueueSnackbar('Facing error while fetching', { variant: 'error' });
@@ -28,7 +26,7 @@ export default function ProjectDetail() {
   }, [id]);  // Include `id` to refetch if the ID changes
 
   if (!project) {
-    return <div>Loading...</div>;  // Loading state or placeholder
+    return <div className='text-4xl m-[20%] ml-[45%]'>Loading...</div>;  // Loading state or placeholder
   }
 
   return (

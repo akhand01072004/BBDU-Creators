@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Project = require('../Models/Projects'); // Import your model
+const UserModel = require('../Models/User');
 const ApprovedProject = require('../Models/ApprovedProject');
 const nodemailer = require('nodemailer');
+
+
 
 // POST route to submit a new project
 router.post('/api/uploadprojects', async (req, res) => {
@@ -17,8 +20,10 @@ router.post('/api/uploadprojects', async (req, res) => {
 
 //Approve Project
 router.post('/api/ApproveProject' , async(req,res) => {
+  const useremail = req.body.email;
   try {
     const projects = new ApprovedProject(req.body);
+    await UserModel.updateOne({email : useremail,},{$push : {projects : projects._id}});
     await projects.save();
     res.status(201).send(projects);
   } catch (error) {
@@ -36,6 +41,7 @@ router.get('/api/projects', async (req, res) => {
   }
 });
 
+//fetch all approved project
 router.get('/api/Approvedprojects', async (req, res) => {
   try {
     const proj = await ApprovedProject.find({});
@@ -45,6 +51,7 @@ router.get('/api/Approvedprojects', async (req, res) => {
   }
 });
 
+//fetch approvedproject by id
 router.get('/api/Approvedproject/:id', async(req,res) => {
   try {
     const data = await ApprovedProject.findById(req.params.id)

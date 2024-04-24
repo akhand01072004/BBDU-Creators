@@ -7,7 +7,9 @@ import { enqueueSnackbar } from 'notistack';
 import { AdminLoginContext } from '../admin/AdminContext/AdminLoginContext';
 import { useContext} from 'react';
 
-
+function refreshPage(){ 
+  window.location.reload(); 
+}
 
 const AdminDashboard = () => {
   const LoginState = useContext(AdminLoginContext);
@@ -23,6 +25,7 @@ const AdminDashboard = () => {
             });
       if(resp.status === 201){
         enqueueSnackbar('Admin Logout Successfully', {variant : 'success'});
+        refreshPage();
         navigate('/AdminLogin');
       }
   }
