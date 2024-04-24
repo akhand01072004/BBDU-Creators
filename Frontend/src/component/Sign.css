@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=New+Tegomin&family=Pacifico&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=New+Tegomin&family=Pacifico&display=swap');
 *{
   margin: 0;
   padding: 0;
@@ -7,10 +7,12 @@
 }
 
 .fo{
-    font-family: "Merriweather", cursive;
+  font-family: "Concert One", sans-serif;;
   font-weight: 400;
   font-style: normal;
 }
+
+
 
 .upb{
     background-image: url('../assets/Upload.jpg');
@@ -22,7 +24,8 @@
 }
 
 .nav-icon{
-  height: 65px;
+  height: 50px;
+  
   
 }
 
@@ -76,3 +79,5 @@
   background-image: url('../assets/Upload.png');
   background-size: cover;
 }
+
+/* Projects  ----------------------- */

@@ -1,193 +1,91 @@
-import { useContext, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
+import { Link } from 'react-router-dom';
+import { FaVideo } from "react-icons/fa";
 import './Sign.css';
-import { LoginContext } from '../Context/LoginContext';
 
+function Projects() {
+    const [projects, setProjects] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
-const UploadProjects = () => {
-    const LoginState = useContext(LoginContext);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [projectName, setProjectName] = useState('');
-    const [department, setDepartment] = useState('');
-    const [githubRepo, setGithubRepo] = useState('');
-    const [projectDescription, setProjectDescription] = useState('');
-    const [projectImage, setProjectImage] = useState('');
-    const [projectVideo, setProjectVideo] = useState(null);
-    const [showGitHub, setShowGitHub] = useState(false);
-
-    const handleDepartmentChange = (event) => {
-        const selectedDepartment = event.target.value;
-        setDepartment(selectedDepartment);
-        setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering');
-    };
-
-    const UploadImage = async (event) => {
-        const file = event.target.files[0];
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
-        try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
-                method: "POST",
-                body: data
-            });
-            const resp = await response.json();
-            setProjectImage(resp.url);
-            console.log(resp.url);
-            console.log(projectImage);
-        } catch (error) {
-            console.log("failed to upload");
-        }
-    }
-
-    const UploadVideo = async (event) => {
-        const file = event.target.files[0];
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
-        try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/video/upload', {
-                method: "POST",
-                body: data
-            });
-            const resp = await response.json();
-            setProjectVideo(resp.url);
-            console.log(resp.url);
-            console.log(projectVideo);
-        } catch (error) {
-            console.log("failed to upload");
-        }
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = {
-            name: name,
-            email: email,
-            projectName: projectName,
-            department: department,
-            projectDescription: projectDescription,
-            githubRepo: githubRepo,
-            projectImage: projectImage,
-            projectVideo: projectVideo
-        }
-
-        if (LoginState.login == false) {
-            enqueueSnackbar('Please Login', { variant: "error" });
-        }
-
-        try {
-            const response = await fetch('http://localhost:3000/project/api/uploadprojects', {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
-            const data = await response.json();
-            if (response.status === 201) {
-                enqueueSnackbar("Project Submitted", { variant: "success" });
-            } else {
-                enqueueSnackbar("Project Not Submitted", { variant: "error" });
+    // Fetch projects from the backend when the component mounts
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/project/api/Approvedprojects');
+                if (!response.ok) throw new Error('Failed to fetch');
+                const data = await response.json();
+                setProjects(data);
+                if (response.status === 200) {
+                    enqueueSnackbar('Project Fetch Successfully', { variant: 'success' });
+                } else {
+                    enqueueSnackbar('Not Uploaded', { variant: 'error' });
+                }
+            } catch (error) {
+                console.error("Error fetching projects:", error);
             }
-            console.log('Form submission successful', data);
-            // Reset form and states if needed
-        } catch (error) {
-            console.error('Form submission error', error);
-        }
+        };
+
+        fetchProjects();
+    }, []); // The empty dependency array ensures this effect runs once on mount
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
     };
+
+    const filteredProjects = projects.filter(project =>
+        project.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
-        <div className="flex items-center justify-center min-h-screen upb">
-            <div className="bg-gray-100 p-8 rounded-lg shadow-md w-auto bg-opacity-20 ">
-                <h2 className="text-4xl  mb-5 text-center text-style">Upload Project</h2>
-                <form onSubmit={handleSubmit} encType='multipart/form-data'>
-                    {/* Name */}
-                    <div className="flex ">
-                        <div className='mr-5 '>
-                            <div className="mb-4">
-                                <label htmlFor="name" className="block text-black-700 text-lg font-bold mb-2">Name</label>
-                                <input type="text" value={name} onChange={(e) => setName(e.target.value)} id="name" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Email */}
-                            <div className="mb-4">
-                                <label htmlFor="email" className="block text-black-700 text-lg font-bold mb-2">Email</label>
-                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Project Name */}
-                            <div className="mb-4">
-                                <label htmlFor="projectName" className="block text-black-700 text-lg font-bold mb-2">Project Name</label>
-                                <input type="text" value={projectName} onChange={(e) => setProjectName(e.target.value)} id="projectName" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Department Name */}
-                            <div className="mb-4">
-                                <label htmlFor="department" className="block text-black-700 text-lg font-bold mb-2">Department Name</label>
-                                <select id="department" value={department} onChange={handleDepartmentChange} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="">Select a Department</option>
-                                    <option value="School of Computer Applications">School of Computer Applications</option>
-                                    <option value="School of Engineering">School of Engineering</option>
-                                    <option value="School of Management">School of Management</option>
-                                    <option value="School Of Pharmacy">School Of Pharmacy</option>
-                                    <option value="School of Legal Studies">School of Legal Studies</option>
-                                    <option value="School of Basic Science">School of Basic Science</option>
-                                    <option value="School of Education">School of Education</option>
-                                    <option value="School of Humanities and Social Science">School of Humanities and Social Science</option>
-                                </select>
-                            </div>
-                        </div>
+        <div>
+            <nav className="flex justify-between items-center py-4 px-6 bg-blue-500 text-white">
+                <h1 className="font-bold text-lg">Projects</h1>
+                <div className="relative">
+                    <input
+                        type="text"
+                        className="bg-white text-black h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder="Search..."
+                    />
+                    <button type="submit" className="absolute right-0 top-0 mt-2 mr-4">
+                        <i className="fa fa-search text-gray-600"></i>
+                    </button>
+                </div>
+            </nav>
+            <div className="p-4 grid grid-cols-2 gap-4">
+                {filteredProjects.length > 0 ? filteredProjects.map((project, index) => (
+                    <div key={index} className="border p-4 bg-white rounded-lg shadow-md flex">
                         <div>
-
-                            {/* Conditional GitHub Repository or Project Video */}
-                            {showGitHub ? (
-                                <>
-                                    <div className="mb-4">
-                                        <label htmlFor="githubRepo" className="block text-black-700 text-lg font-bold mb-2">GitHub Repository</label>
-                                        <input type="url" value={githubRepo} onChange={(e) => setGithubRepo(e.target.value)} id="githubRepo" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                    </div>
-
-                                </>
-                            ) : (
-                                <>
-
-                                </>
+                            {project.projectImage && (
+                                <img src={project.projectImage} alt="Project" className="w-80 object-cover rounded-lg mb-2 " />
                             )}
 
-                            {/* Project Image */}
-                            <div className="mb-4">
-                                <label className="block text-black-700 text-lg font-bold">Project Image</label>
-                                <input type="file" onChange={UploadImage} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                        </div>
+
+                        <div className='flex flex-col ml-10 justify-between'>
+                            <div>
+                                <h3 className="text-2xl mb-3">Name: {project.name}</h3>
+                                <p className="text-2xl mb-3">Department: {project.department}</p>
+                                {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline text-2xl mb-10">GitHub Repo</a>}
+                                <Link to={project.projectVideo}><FaVideo className='w-16 h-11 mt-2 mr-2' /></Link>
+
+                            </div>
+                            <div className='flex justify-center '>
+                                <button className='text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-32'>
+                                    <Link to={`/projectDetail/${project._id}`}>View More</Link>
+                                </button>
+
                             </div>
 
-                            <div className="mb-4">
-                                <label className="block text-black-700 text-lg font-bold">Project Video</label>
-                                <input type="file" onChange={UploadVideo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
 
                         </div>
                     </div>
-                    <div>
-                        <div className="mb-4">
-                            <label htmlFor="projectDescription" className="block text-black-700 text-lg font-bold mb-2">Project Description</label>
-                            <input type="text" value={projectDescription} onChange={(e) => setProjectDescription(e.target.value)} id="projectName" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        </div>
-                    </div>
-                    <div>
-                        {/* Submit Button */}
-                        <div className="flex justify-center mt-6">
-                            <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
-                        </div>
-                    </div>
-                </form>
+                )) : <p className="text-center">No projects found.</p>}
             </div>
         </div>
     );
-};
+}
 
-export default UploadProjects;
+export default Projects;

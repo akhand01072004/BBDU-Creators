@@ -100,7 +100,7 @@ const UploadProjects = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen upb">
-            <div className="bg-gray-100 p-8 rounded-lg shadow-md w-auto bg-opacity-20 ">
+            <div className="bg-gray-400 p-8 rounded-lg shadow-md w-auto  bg-opacity-30">
                 <h2 className="text-4xl  mb-5 text-center text-style">Upload Project</h2>
                 <form onSubmit={handleSubmit} encType='multipart/form-data'>
                     {/* Name */}
