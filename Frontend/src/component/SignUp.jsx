@@ -61,7 +61,9 @@ const SignUp = () => {
     <div className="min-h-screen flex items-center justify-center back-bg">
       <div className="bg-white bg-opacity-3 shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] rounded-3xl px-12 py-4  flex flex-col md:flex-row pad">
         <div className="w-full mb-4 md:mb-0 md:w-auto">
-          <h2 className="text-3xl md:text-5xl mt-12 font-bold mb-12 text-center md:text-left work">Sign up</h2>
+          <div>
+             <h2 className="text-3xl md:text-5xl mt-12 font-bold mb-12 text-center md:text-left work">Sign up</h2>
+          </div>
           <form onSubmit={formik.handleSubmit}>
             {/* Name Field */}
             <div className="mb-8 flex">

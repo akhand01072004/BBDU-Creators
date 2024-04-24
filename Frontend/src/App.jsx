@@ -25,6 +25,7 @@ import { AdminLoginProvider } from './component/admin/AdminContext/AdminLoginCon
 import './App.css';
 import UserProfile from './component/UserProfile';
 import Layout from './component/Layout';
+import ProfilePage from './component/ProfilePage';
 
 
 
