@@ -22,6 +22,9 @@ const UserProfile = () => {
         UserDetail();
     }, [])
     return (
+        <div className="w-h-screen">
+
+        
         <div className="w-[400px] h-max-content m-10 ml-10 mx-[15%] border-2 border-green-500 bg-white-200">
             <div>
                 <div className="relative left-2 top-3 w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
@@ -42,6 +45,7 @@ const UserProfile = () => {
                 })}
                 
             </div>
+        </div>
         </div>
     );
 }
