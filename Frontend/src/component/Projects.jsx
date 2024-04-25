@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import { Link } from 'react-router-dom';
-import { FaVideo } from "react-icons/fa";
-import './Sign.css';
+import { FaVideo, FaGithub } from "react-icons/fa";
 
 function Projects() {
     const [projects, setProjects] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Fetch projects from the backend when the component mounts
     useEffect(() => {
         const fetchProjects = async () => {
             try {
@@ -25,9 +23,8 @@ function Projects() {
                 console.error("Error fetching projects:", error);
             }
         };
-
         fetchProjects();
-    }, []); // The empty dependency array ensures this effect runs once on mount
+    }, []);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -41,10 +38,10 @@ function Projects() {
         <div>
             <nav className="flex justify-between items-center py-4 px-6 bg-blue-500 text-white">
                 <h1 className="font-bold text-lg">Projects</h1>
-                <div className="relative">
+                <div className="relative w-full max-w-xs">
                     <input
                         type="text"
-                        className="bg-white text-black h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+                        className="w-full bg-white text-black h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
                         value={searchTerm}
                         onChange={handleSearchChange}
                         placeholder="Search..."
@@ -53,36 +50,39 @@ function Projects() {
                         <i className="fa fa-search text-gray-600"></i>
                     </button>
                 </div>
+
             </nav>
-            <div className="p-4 grid grid-cols-2 gap-4">
+            <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredProjects.length > 0 ? filteredProjects.map((project, index) => (
-                    <div key={index} className="border p-4 bg-white rounded-lg shadow-md flex">
-                        <div>
-                            {project.projectImage && (
-                                <img src={project.projectImage} alt="Project" className="w-80 object-cover rounded-lg mb-2 " />
+                    <div key={index} className="border-2  p-4 bg-white rounded-lg shadow-lg flex flex-col md:flex-row">
+                        <div className="flex flex-row md:flex-col md:w-3/4  rounded-lg">
+                            <img src={project.projectImage || 'path/to/default-placeholder.png'} alt="Project" className="object-cover rounded-lg w-full md:w-auto md:h-48" />
+                            {project.projectVideo ? (
+                                <Link to={project.projectVideo} className="w-1/4 md:w-full border-l-2 md:border-l-0 md:border-t-2 flex justify-center items-center">
+                                    <FaVideo className='w-8 h-8' />
+                                </Link>
+                            ) : (
+                                <div className="w-1/4 md:w-full border-l-2 md:border-l-0 md:border-t-2 flex justify-center items-center text-gray-500">
+                                    Video Not Added
+                                </div>
                             )}
-
                         </div>
-
-                        <div className='flex flex-col ml-10 justify-between'>
+                        <div className='flex flex-col ml-4 justify-between flex-grow'>
                             <div>
-                                <h3 className="text-2xl mb-3">Name: {project.name}</h3>
-                                <p className="text-2xl mb-3">Department: {project.department}</p>
-                                {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline text-2xl mb-10">GitHub Repo</a>}
-                                <Link to={project.projectVideo}><FaVideo className='w-16 h-11 mt-2 mr-2' /></Link>
-
+                                <h3 className="text-xl md:text-lg mb-1">Name: {project.name}</h3>
+                                <p className="text-md md:text-lg mb-1">Department: {project.department}</p>
+                                {project.githubRepo && (
+                                    <div className="flex items-center">
+                                        <p className='mr-2 text-lg'>GitHub: </p><FaGithub className='w-5 h-5 text-blue-500 hover:text-blue-700' />
+                                    </div>
+                                )}
                             </div>
-                            <div className='flex justify-center '>
-                                <button className='text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-32'>
-                                    <Link to={`/projectDetail/${project._id}`}>View More</Link>
-                                </button>
-
-                            </div>
-
-
+                            <Link to={`/projectDetail/${project._id}`} className="self-center bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4 md:mt-auto w-full md:w-32">
+                                View More
+                            </Link>
                         </div>
                     </div>
-                )) : <p className="text-center">No projects found.</p>}
+                )) : <p className="h-screen text-center">No projects found.</p>}
             </div>
         </div>
     );

@@ -25,6 +25,7 @@ import { AdminLoginProvider } from './component/admin/AdminContext/AdminLoginCon
 import './App.css';
 import UserProfile from './component/UserProfile';
 import Layout from './component/Layout';
+import ProfilePage from './component/ProfilePage';
 
 
 
@@ -48,31 +49,26 @@ function App() {
 
 
     <BrowserRouter>
-      <SnackbarProvider maxSnacl={1}>
-        <Routes>
-          <Route path="/home" element={<Header />} />
-          <Route index element={<MainLayout />} /> 
-          <Route path="/" element={<Layout />} >
-          <Route path="sign" element={<SignUp />} />
-          <Route path="login" element={<LogIn />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path='ManageUserAdmin' element={<ManageUserAdmin />} />
-          <Route path="UploadProjects" element={<UploadProjects />} />
-          <Route path="Projects" element={<Projects />} />
-          <Route path="projectDetail/:id" element={<ProjectDetail />} />
-          <Route path='ManageProjectAdmin' element={<ManageProject />} />
-          <Route path="fileupload" element={<Fileupload />} />
-          <Route path="email-verification" element={<EmailVerify />} />
-          <Route path='UserProfile' element={<UserProfile />} />
-          <Route path='AdminLogin' element={<AdminLoginProvider><AdminLogin /></AdminLoginProvider>} />
-          <Route path='AdminSignup' element={<AdminLoginProvider><AdminSignup /></AdminLoginProvider>} />
-          <Route path='Dashboard' element={<AdminLoginProvider><AdminDashboard /></AdminLoginProvider>}>
-            <Route path='ManageProjectAdmin' element={<ManageProject />} />
-            <Route path='ManageUserAdmin' element={<ManageUserAdmin />} />
-          </Route>
-          </Route>
-
+     <SnackbarProvider maxSnacl={1}>
+      <Routes>
+        <Route path="/" element={<MainLayout />} /> {/* Define other routes as needed here */}
+        <Route path="/sign" element={<SignUp />} />
+        <Route path="/home" element={<Header />} />
+        <Route path="/login" element={<Layout><LogIn /></Layout>} />
+        <Route path="/about" element={<Layout><About /></Layout>} />
+        <Route path="/contact" element={<Layout><Contact /></Layout>} />
+        <Route path="/UploadProjects" element={<Layout><UploadProjects/></Layout>}/>
+        <Route path="/Projects" element={<Layout><Projects/></Layout>}/>
+        <Route path="/projectDetail/:id" element={<Layout><ProjectDetail /></Layout>} />
+        <Route path="/fileupload" element={<Fileupload />} />
+        <Route path="/email-verification" element={<Layout><EmailVerify /></Layout>} />
+        <Route path='/UserProfile' element={<Layout><UserProfile /></Layout>} />
+        <Route path='/AdminLogin' element={<AdminLoginProvider><AdminLogin /></AdminLoginProvider>}/>
+        <Route path='/AdminSignup' element={<AdminLoginProvider><AdminSignup /></AdminLoginProvider>} />
+        <Route path='/Dashboard' element={<AdminLoginProvider><AdminDashboard /></AdminLoginProvider>}>
+              <Route path='ManageProjectAdmin' element={<ManageProject/>} />
+              <Route path='ManageUserAdmin' element={<ManageUserAdmin/>} />
+        </Route>
         </Routes>
       </SnackbarProvider>
     </BrowserRouter>

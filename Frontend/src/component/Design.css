@@ -104,3 +104,10 @@
     background-image: url('../assets/admin-form-bg.jpg');
     background-size: cover;
 }
+
+/* background */
+
+.bg-contact{
+    background-image: url('../assets/Contact-bg.png');
+    background-size: cover;
+}
