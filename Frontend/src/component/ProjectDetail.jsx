@@ -31,7 +31,7 @@ export default function ProjectDetail() {
 
   return (
     <>
-    <div className='bg-[#0f1730] w-full h-full'>
+    <div className='bg-[#0f1730] w-screen h-full'>
         <h2 className='text-white ml-[45%] text-4xl font-bold'><ReactTyped className="text-2xl border-t-2 border-b-2 p-1 rounded-md border-[#4defeb]" strings={['Project Details']} typeSpeed={120} cursorChar='' /></h2>
       <div className='flex flex-row mt-6  text-white'>
           <img src={project.projectImage} alt='Project' className='w-[30%]  object-cover rounded-lg mb-2 ml-12' />

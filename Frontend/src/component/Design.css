@@ -46,9 +46,14 @@
 /* ----------SignUP 2---------- */
 
 .back-bg{
-    background-image: url("../assets/Sign-bg.jpg");
-    background-size: contain;
+    background-image: url("../assets/Sign-bg.png");
+    background-size: cover;
     
+}
+
+.bg-sign{
+    background-image: url("../assets/Sign-bg-user.png");
+    background-size: cover;
 }
 
 
@@ -110,4 +115,21 @@
 .bg-contact{
     background-image: url('../assets/Contact-bg.png');
     background-size: cover;
+}
+
+/* User SignUp Page  */
+
+
+.bg-signin-logo{
+    background-image: url("../assets/bg-signin-logo.png");
+    background-size: cover;
+}
+
+/* Header  */
+.bg-head{
+    background-image: url("../assets/header-bg.png");
+    background-size: cover;
+}
+.img-header{
+    /* height: 600px; */
 }

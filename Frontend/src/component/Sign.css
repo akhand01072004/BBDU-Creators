@@ -24,7 +24,8 @@
 }
 
 .nav-icon{
-  height: 50px;
+  max-height: 50px;
+  min-height: 40px;
   
   
 }
@@ -80,4 +81,8 @@
   background-size: cover;
 }
 
-/* Projects  ----------------------- */
+/* User Profile  ----------------------- */
+.user-div-bg{
+  background-image: url('../assets/user-div1.png');
+  
+}

@@ -3,13 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useSnackbar } from 'notistack';
 import { FaEye, FaEyeSlash, FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
-import image from '../../assets/signup-image.jpg';
+import image from '../../assets/admin-signup-logo.jpg';
 import * as Yup from 'yup';
+import "../Design.css";
 
 const AdminSignup = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -19,7 +21,8 @@ const AdminSignup = () => {
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
     password: Yup.string().min(8, 'Password must be at least 8 characters long').required('Password is required'),
-    code: Yup.string().required('Code is required')
+    code: Yup.string().required('Code is required'),
+    department: Yup.string().required('Department selection is required')
   });
 
   const formik = useFormik({
@@ -27,7 +30,8 @@ const AdminSignup = () => {
       name: '',
       code: '',
       email: '',
-      password: ''
+      password: '',
+      department: ''
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -52,13 +56,14 @@ const AdminSignup = () => {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center admin-bg">
-      <div className="bg-white shadow-lg rounded-3xl px-12 py-8 mb-4 flex flex-col md:flex-row">
-        <div className="w-full mb-4 md:mb-0 md:w-auto">
-          <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center md:text-left">Sign up</h2>
-          <form onSubmit={formik.handleSubmit}>
-            <div className="mb-4 flex items-center">
-              <FaUser className="text-lg" />
+    <div className="min-h-screen flex items-center justify-center bg-contact">
+      <div className="flex w-full md:max-w-5xl  p-8 space-y-6 bg-white rounded-2xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] mb-20 mt-20">
+        <div className="md:mr-20">
+          <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center md:text-center">Sign up</h2>
+          <form className="space-y-4" onSubmit={formik.handleSubmit}>
+            {/* Existing form fields */}
+            <div className="mb-4 ">
+              <label htmlFor="" className='block text-lg font-medium text-black-700'>Name</label>
               <input
                 type="text"
                 name="name"
@@ -66,16 +71,16 @@ const AdminSignup = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
-                placeholder="Your Name"
-                className="border-0 border-b-2 border-gray-300 focus:outline-none focus:border-blue-500 ml-2 flex-grow"
+                placeholder="XYZ"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 "
               />
             </div>
             {formik.touched.name && formik.errors.name && (
               <p className="text-red-500 text-xs italic">{formik.errors.name}</p>
             )}
 
-            <div className="mb-4 flex items-center">
-              <FaEnvelope className="text-lg" />
+            <div className="mb-4 ">
+              <label htmlFor=""className='block text-lg font-medium text-black-700'>Email</label>
               <input
                 type="email"
                 name="email"
@@ -84,15 +89,16 @@ const AdminSignup = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
                 placeholder="Your Email"
-                className="border-0 border-b-2 border-gray-300 focus:outline-none focus:border-blue-500 ml-2 flex-grow"
+                className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500  "
               />
             </div>
             {formik.touched.email && formik.errors.email && (
               <p className="text-red-500 text-xs italic">{formik.errors.email}</p>
             )}
 
-            <div className="mb-4 flex items-center">
-              <FaLock className="text-lg" />
+            <div className="mb-4 ">
+              <label htmlFor="" className='block text-lg font-medium text-black-700'>Password</label>
+              <div className='relative'>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -101,18 +107,19 @@ const AdminSignup = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
                 placeholder="Password"
-                className="border-0 border-b-2 border-gray-300 focus:outline-none focus:border-blue-500 ml-2 flex-grow"
+                className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500  "
               />
-              <div onClick={togglePasswordVisibility} className="cursor-pointer ml-2">
+              <span onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
               </div>
             </div>
             {formik.touched.password && formik.errors.password && (
               <p className="text-red-500 text-xs italic">{formik.errors.password}</p>
             )}
 
-            <div className="mb-4 flex items-center">
-              <FaLock className="text-lg" />
+            <div className="mb-4">
+              <label htmlFor="" className='block text-lg font-medium text-black-700'>Special Code</label>
               <input
                 type="text"
                 name="code"
@@ -121,43 +128,60 @@ const AdminSignup = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.code}
                 placeholder="Enter the Code"
-                className="border-0 border-b-2 border-gray-300 focus:outline-none focus:border-blue-500 ml-2 flex-grow"
+                className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 "
               />
             </div>
             {formik.touched.code && formik.errors.code && (
               <p className="text-red-500 text-xs italic">{formik.errors.code}</p>
             )}
 
-            <div className="mb-4">
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  name="agree-term"
-                  id="agree-term"
-                  className="form-checkbox text-indigo-600"
-                />
-                <span className="ml-2">
-                  I agree all statements in{" "}
-                  <Link to="/terms-of-service" className="text-blue-500 hover:text-blue-800">
-                    Terms of service
-                  </Link>
-                </span>
-              </label>
+           
+            {/* New department dropdown */}
+            <div className="mb-6">
+              <label htmlFor="department" className="block text-black-700 text-lg  mb-2">Department</label>
+              <select
+                name="department"
+                id="department"
+                value={formik.values.department}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="border border-gray-300 rounded-md w-full py-2 px-3 shadow-sm focus:outline-none focus:border-blue-500"
+              >
+                <option value="">Select Department</option>
+                <option value="SCHOOL OF ENGINEERING">SCHOOL OF ENGINEERING</option>
+                <option value="SCHOOL OF MANAGEMENT">SCHOOL OF MANAGEMENT</option>
+                <option value="BABU BANARASI DAS COLLEGE OF DENTAL SCIENCES">BABU BANARASI DAS COLLEGE OF DENTAL SCIENCES</option>
+                <option value="SCHOOL OF PHARMACY">SCHOOL OF PHARMACY</option>
+                <option value="SCHOOL OF ARCHITECTURE AND PLANNING">SCHOOL OF ARCHITECTURE AND PLANNING</option>
+                <option value="SCHOOL OF COMPUTER APPLICATIONS">SCHOOL OF COMPUTER APPLICATIONS</option>
+                <option value="SCHOOL OF LEGAL STUDIES">SCHOOL OF LEGAL STUDIES</option>
+                <option value="SCHOOL OF HOTEL MANAGEMENT">SCHOOL OF HOTEL MANAGEMENT</option>
+                <option value="SCHOOL OF BASIC SCIENCES">SCHOOL OF BASIC SCIENCES</option>
+                <option value="SCHOOL OF HUMANITIES & SOCIAL SCIENCES">SCHOOL OF HUMANITIES & SOCIAL SCIENCES</option>
+                <option value="SCHOOL OF EDUCATION">SCHOOL OF EDUCATION</option>
+              </select>
             </div>
-
-            <div className="flex items-center justify-center mb-2">
+            
+            {/* Continue existing fields */}
+            <div className="flex items-center justify-center ">
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
-              >
+                className="bg-blue-500 hover:bg-blue-700 w-full text-white font-bold py-2 px-4 rounded-md">
                 Register
               </button>
             </div>
           </form>
+          <div className='lg:hidden flex justify-center mt-4'>
+          <Link to="/AdminLogin" className="text-blue-500 font-bold mt-3 hover:text-red-900">I am already a member</Link>
+
+          </div>
         </div>
-        <div className="hidden md:flex ml-20 flex-col items-center justify-center">
+        <div className="hidden md:flex w-3/5  flex-col items-center justify-center">
           <img src={image} alt="Sign up" />
-          <Link to="/AdminLogin" className="text-blue-800 mt-3 hover:text-red-600">I am already a member</Link>
+          <div className='flex justify-center'>
+          <Link to="/AdminLogin" className="text-blue-500 font-bold mt-3 hover:text-red-900">I am already a member</Link>
+
+          </div>
         </div>
       </div>
     </div>

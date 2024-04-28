@@ -1,178 +1,48 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
-import image from '../assets/signup-image.jpg';
-import './Design.css'
 
-const SignUp = () => {
+import "./Design.css"
+import {ReactTyped} from "react-typed";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { LoginContext } from "../Context/LoginContext";
+import { enqueueSnackbar } from "notistack";
+
+const Header = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const signSchema = yup.object({
-    email: yup.string().email('Invalid Email').required('Required'),
-    password: yup.string().required('Required').min(8),
-    confirm_password: yup.string()
-      .oneOf([yup.ref('password'), null], 'Passwords must match')
-      .required('Confirm password is required')
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirm_password: ''
-    },
-    validationSchema: signSchema,
-    onSubmit: async (values, actions) => {
-      try {
-        const response = await fetch('http://localhost:3000/user/add', {
-          method: 'POST',
-          body: JSON.stringify(values),
-          headers: { "Content-Type": "application/json" },
-        });
-        if (response.ok) {
-          enqueueSnackbar('User Added Successfully', { variant: 'success' });
-          navigate('/email-verification');
-          actions.resetForm();
-        } else {
-          enqueueSnackbar('User not added', { variant: 'error' });
-        }
-      } catch (error) {
-        enqueueSnackbar('Error submitting form', { variant: 'error' });
-        console.error('Form submission error', error);
-      }
-      actions.setSubmitting(false);
+  const LoginState = useContext(LoginContext);
+  const handleclick = async () => {
+    if (LoginState.login === false) {
+      enqueueSnackbar('Please Login to upload project', { variant: "error" });
+      return;
     }
-  });
-
+    navigate("/UploadProjects")
+  }
   return (
-    <div className="min-h-screen flex items-center justify-center back-bg">
-      <div className="bg-white bg-opacity-3 shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] rounded-3xl px-12 py-4  flex flex-col md:flex-row pad">
-        <div className="w-full mb-4 md:mb-0 md:w-auto">
-          <h2 className="text-3xl md:text-5xl mt-12 font-bold mb-12 text-center md:text-left work">Sign up</h2>
-          <form onSubmit={formik.handleSubmit}>
-            {/* Name Field */}
-            <div className="mb-8 flex">
-              <label htmlFor="name" className="flex items-center">
-                <i className="fa-solid fa-user" />
-              </label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                onChange={formik.handleChange}
-                value={formik.values.name}
-                placeholder="Your Name"
-                className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-96"
-              />
-            </div>
-
-            {/* Email Field */}
-            <div className="mb-8 flex">
-              <label htmlFor="email" className="flex items-center">
-                <i className="fa-regular fa-envelope"></i>
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                placeholder="Your Email"
-                className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-96"
-              />
-              {formik.touched.email && formik.errors.email && (
-                <span className="text-red-500 text-sm">{formik.errors.email}</span>
-              )}
-            </div>
-
-            {/* Password Field */}
-            <div className="mb-8 flex">
-              <label htmlFor="pass" className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
-                <i className="fa-solid fa-lock"></i>
-              </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                id="pass"
-                placeholder="Password"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-96"
-              />
-              <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} onClick={togglePasswordVisibility}></i>
-              {formik.touched.password && formik.errors.password && (
-                <span className="text-red-500 text-sm">{formik.errors.password}</span>
-              )}
-            </div>
-
-            {/* Confirm Password Field */}
-            <div className="mb-8 flex">
-              <label htmlFor="re_pass" className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
-                <i className="fa-solid fa-lock"></i>
-              </label>
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                name="confirm_password"
-                id="re_pass"
-                placeholder="Confirm password"
-                onChange={formik.handleChange}
-                value={formik.values.confirm_password}
-                className="border-0 border-b-2 border-black focus:outline-none focus:border-blue-500 ml-2 w-96"
-              />
-              <i className={showConfirmPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} onClick={toggleConfirmPasswordVisibility}></i>
+    <>
+      <header className="container-md h-screen bg-[url(./assets/ii.png)] bg-cover bg-center ok">
+        <div className="container mx-auto py-4 flex justify-center ">
+          <div className=" flex justify-center t1">
+            <div className="bg-transparent b2  mr-10">
+              <div className="b3 mr-[20%]">
+                <h1 className="text-5xl    fs">  BABU <span className="text-blue-800">BANARASI</span>  </h1>
+                <h1 className='text-5xl  fs'> DAS UNIVERSITY </h1>
+                <h5 className="mt-12"><ReactTyped className="text-2xl " strings={["Innovate. Create. Showcase"]} typeSpeed={100} loop /></h5>
+                <button onClick={handleclick} className=" mt-12 text-white text-lg cursur-pointer bg-blue-500 p-1 rounded-md px-4 py-3 hover:bg-blue-700">Upload Project</button>
+              </div>
 
             </div>
-            {formik.touched.confirm_password && formik.errors.confirm_password && (
-              <span className="text-red-500 text-sm mb-5">{formik.errors.confirm_password}</span>
-            )}
+            <div className=" flex justify-center bg-transparent image ml-5">
 
-            <div className="mb-8">
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  name="agree-term"
-                  id="agree-term"
-                  className="form-checkbox text-indigo-600"
-                />
-                <span className="ml-2">
-                  I agree all statements in
-                  <a href="#" className="text-indigo-600 hover:text-indigo-800"> Terms of service</a>
-                </span>
-              </label>
             </div>
 
-            <div className="flex items-center justify-center mb-2">
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-32"
-              >
-                Register
-              </button>
-            </div>
-          </form>
+          </div>
+
+
         </div>
-        <div className="hidden md:flex ml-20 mr-15 flex-col items-center justify-center ">
-          <figure><img src={image} alt="sign up" /></figure>
-          <Link to="/login" className=" text-lg text-blue-400 p-2 mt-1  rounded-md hover:text-blue-800">
-            I am already a member
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+      </header>
+      
+      
+    </>
+  )
 }
 
-export default SignUp;
+export default Header
