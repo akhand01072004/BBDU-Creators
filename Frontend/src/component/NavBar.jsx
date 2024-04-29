@@ -1,23 +1,24 @@
-import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import "./Sign.css";  // Ensure this file exists and properly styles your components
-import Img from '../assets/Nav-logo.png'; // Ensure this image path is correct in your project
+import { useState, useContext } from 'react';
+import "./Sign.css";
+import Img from '../assets/Nav-logo.png';
 import { LoginContext } from '../Context/LoginContext';
 import { useSnackbar } from 'notistack';
 
-function NavBar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const loginState = useContext(LoginContext);
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleLogout = async () => {
-    const resp = await fetch('http://localhost:3000/user/logout', {
+  const LogOut = async () => {
+    const response = await fetch('http://localhost:3000/user/logout', {
+      method: 'POST',
       credentials: "include",
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    if (resp.status === 201) {
+    if (response.ok) {
       enqueueSnackbar('User Logout Successfully', { variant: 'success' });
       window.location.reload();
     } else {
@@ -25,62 +26,60 @@ function NavBar() {
     }
   };
 
-  return (
-    <nav className="bg-white-200 border-black-200  px-2 py-2 md:px-3 shadow-lg">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <div className="flex items-center">
-          <span className="text-3xl text-black-500  fo">BBDU</span>
-          <img className="h-12 mr-1" src={Img} alt="Logo" />
-          <span className="text-3xl text-blue-500  fo">CREATORS</span>
-        </div>
-        <div className="hidden md:flex items-center space-x-4">
-          <Link to="/" className="text-lg text-black-600 hover:text-blue-500">Home</Link>
-          <Link to="/about" className="text-lg text-black-600 hover:text-blue-500">About Us</Link>
-          <Link to="/contact" className="text-lg text-black-600 hover:text-blue-500">Contact Us</Link>
-          <Link to="/projects" className="text-lg text-black-600 hover:text-blue-500">Projects</Link>
-        </div>
-        <button className="md:hidden flex items-center bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full  hover:bg-blue-800" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          <svg className="w-8 h-8 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
-        </button>
-        <div className="hidden md:flex">
-          {loginState.login ? (
-            <button onClick={handleLogout} className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
-              LogOut
-            </button>
-          ) : (
-            <Link to="/sign" className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
-              Sign In
-            </Link>
-          )}
-        </div>
-      </div>
-      {isMenuOpen && (
-        <>
-          <div className="flex flex-col items-center md:hidden bg-white shadow-lg">
-            <Link to="/" className="py-2 text-black-600 hover:text-blue-500">Home</Link>
-            <Link to="/about" className="py-2 text-black-600 hover:text-blue-500">About Us</Link>
-            <Link to="/contact" className="py-2 text-black-600 hover:text-blue-500">Contact Us</Link>
-            <Link to="/projects" className="py-2 text-black-600 hover:text-blue-500">Projects</Link>
-          </div>
-          <div>
-            <div className=" flex flex-col items-center md:hidden bg-white shadow-lg">
-              {loginState.login ? (
-                <button onClick={handleLogout} className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
-                  LogOut
-                </button>
-              ) : (
-                <Link to="/sign" className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
-                  Sign In
-                </Link>
-              )}
-            </div>
-          </div>
-        </>
-      )}
-    </nav>
-  );
-}
 
-export default NavBar;
+  return (
+    <div>
+    <nav className="relative bg-white shadow-lg  flex items-center h-14  ">
+      <div className="max-w-7xl mx-auto px-4   flex justify-between  items-center w-full">
+        {/* <div className="flex w-full justify-between border-2 border-black items-center "> */}
+          {/* <div className="flex space-x-4 justify-between"> */}
+            {/* Logo */}
+            <div className=' flex items-center justify-center '>
+              <Link to="/" className="flex items-center  text-gray-700 hover:text-gray-900 ">
+                <span  className="text-3xl  text-stone-950 fo flex items-center">BBDU</span>
+                <img src={Img} alt="Logo" className="h-11 w-11 mr-1" />
+                <span className="text-3xl text-blue-500  fo">CREATORS</span>
+              </Link>
+            </div>
+
+            {/* Primary Nav Menu */}
+            <div className="hidden md:flex items-center flex  gap-11 text-lg ">
+              <Link to="/" className=" text-black-700 hover:text-blue-600">Home</Link>
+              <Link to="/about" className="text-black-700 hover:text-blue-600">About Us</Link>
+              <Link to="/contact" className=" text-black-700 hover:text-blue-600">Contact Us</Link>
+              <Link to="/projects" className=" text-black-700 hover:text-blue-600">Projects</Link>
+            </div>
+          {/* </div> */}
+
+          {/* Secondary Nav Menu */}
+          <div className="hidden md:flex items-center space-x-1">
+            <button className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
+              {loginState.login ? <button onClick={LogOut}>LogOut</button> : <Link to='/Sign'>Signup</Link>}
+            </button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center">
+            <button onClick={() => setIsOpen(!isOpen)} className='bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full'>
+              <svg className="h-6 w-6 " fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            </button>
+          </div>
+        {/* </div> */}
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`${isOpen ? 'block' : 'hidden'} md:hidden absolute top-14 flex flex-col gap-2 justify-center items-center bg-white w-full`}>
+        <Link to="/" className=" py-2 px-4 text-lg text-black-700 hover:bg-blue-200">Home</Link>
+        <Link to="/about" className=" py-2 px-4 text-lg text-black-700 hover:bg-blue-200">About Us</Link>
+        <Link to="/contact" className=" py-2 px-4 text-lg text-black-700 hover:bg-blue-200">Contact Us</Link>
+        <Link to="/projects" className="py-2 px-4 text-lg text-black-700 hover:bg-blue-200">Projects</Link>
+        <Link to="/signup" className=" bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full hover:bg-blue-700 mb-2">Sign Up</Link>
+      </div>
+    </nav>
+    </div>
+  );
+};
+
+export default Navbar;

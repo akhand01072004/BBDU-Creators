@@ -56,13 +56,12 @@ const AdminSignup = () => {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-contact">
-      <div className="flex w-full md:max-w-5xl  p-8 space-y-6 bg-white rounded-2xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] mb-20 mt-20">
-        <div className="md:mr-20">
-          <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center md:text-center">Sign up</h2>
-          <form className="space-y-4" onSubmit={formik.handleSubmit}>
-            {/* Existing form fields */}
-            <div className="mb-4 ">
+    <div className="min-h-screen flex items-center justify-center admin-bg">
+      <div className="bg-white md:max-w-5xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] rounded-3xl px-12 py-8 mb-20 mt-20 flex flex-col md:flex-row ">
+        <div className="w-full mb-4 md:mb-0 md:w-auto">
+          <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center md:text-left">Sign up</h2>
+          <form onSubmit={formik.handleSubmit}>
+            <div className="mb-4  items-center">
               <label htmlFor="" className='block text-lg font-medium text-black-700'>Name</label>
               <input
                 type="text"
@@ -80,7 +79,7 @@ const AdminSignup = () => {
             )}
 
             <div className="mb-4 ">
-              <label htmlFor=""className='block text-lg font-medium text-black-700'>Email</label>
+              <label htmlFor="" className='block text-lg font-medium text-black-700'>Email</label>
               <input
                 type="email"
                 name="email"
@@ -187,5 +186,6 @@ const AdminSignup = () => {
     </div>
   );
 };
+
 
 export default AdminSignup;
