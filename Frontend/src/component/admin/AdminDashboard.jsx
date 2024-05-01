@@ -3,6 +3,7 @@ import { FaUser } from "react-icons/fa";
 import { GrLogout } from "react-icons/gr";
 import { IoExitOutline } from "react-icons/io5";
 import { SlLogin } from "react-icons/sl";
+import { CgProfile } from "react-icons/cg";
 import { enqueueSnackbar } from 'notistack';
 import { AdminLoginContext } from '../admin/AdminContext/AdminLoginContext';
 import { useContext} from 'react';
@@ -39,6 +40,12 @@ const AdminDashboard = () => {
           <h1 className="text-lg font-semibold text-gray-700">Admin Dashboard</h1>
         </div>
         <ul className="flex flex-col p-2">
+        <li>
+            <Link className="text-blue-500 hover:text-blue-700 p-2 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-blue-50 transition duration-150" to="UserProfile">
+            <CgProfile className='mr-4' />
+              Admin Profile
+            </Link>
+          </li>
           <li>
             <Link className="text-blue-500 hover:text-blue-700 p-2 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-blue-50 transition duration-150" to="ManageProjectAdmin">
               <svg className="w-4 h-4 mr-3 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

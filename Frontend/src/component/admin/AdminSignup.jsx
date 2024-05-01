@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useSnackbar } from 'notistack';
-import { FaEye, FaEyeSlash, FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import image from '../../assets/admin-signup-logo.jpg';
 import * as Yup from 'yup';
 import "../Design.css";
@@ -35,11 +35,21 @@ const AdminSignup = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      const formdata = {
+        name : values?.name,
+        email : values?.email,
+        password : values?.password,
+        code : values?.code,
+        department : values?.department
+      }
+      console.log(formdata);
       try {
         const res = await fetch('http://localhost:3000/admin/signup', {
           method: 'POST',
-          body: JSON.stringify(values),
-          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formdata),
+          headers: { 
+            "Content-Type": "application/json" 
+          },
         });
 
         if (res.ok) {

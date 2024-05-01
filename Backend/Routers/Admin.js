@@ -6,7 +6,7 @@ const AdminModel =  require('../Models/Admin');
 require('dotenv').config();
 
 
-router.post('/signup',async(req, res) => {
+router.post('/signup', async(req, res) => {
     var code = req.body.code;
     if(code == process.env.CODE){
         await new AdminModel(req.body).save();
@@ -37,11 +37,11 @@ router.post('/login', async(req,res) => {
 });
 
 router.get("/validatetoken" , async(req , res) => {
-    var admintoken = req.cookies.admin_token
+    var admintoken = req.cookies.admin_token;
     try {
         const decode = jwt.verify(admintoken, process.env.SECRETKEY);
         const userdata = await AdminModel.findById(decode.userId);
-        return res.status(201).send({UserName: userdata.name});
+        return res.status(201).send(userdata);
     } catch (error) {
         return res.status(401).send({message: "unauthorized"});
     }

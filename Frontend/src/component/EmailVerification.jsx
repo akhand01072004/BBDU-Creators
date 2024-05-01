@@ -10,7 +10,7 @@ function EmailVerification() {
 
   const sendVerificationMail = async () => {
     try {
-      const response = await fetch('http://localhost:3000/user/SendEmail', {
+      const response = await fetch('http://localhost:3000/users/SendEmail', {
         method: "POST",
         body: JSON.stringify({ emailto: email }),
         headers: {
@@ -29,7 +29,7 @@ function EmailVerification() {
 
   const verify = async () => {
     try {
-      const response = await fetch('http://localhost:3000/user/validate-otp', {
+      const response = await fetch('http://localhost:3000/users/validate-otp', {
         method: "POST",
         body: JSON.stringify({ otp }),
         headers: {

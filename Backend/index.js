@@ -21,7 +21,7 @@ app.use(express.json());
 
 
 app.use('/util', UtilRouter);
-app.use('/user', UserRouter);
+app.use('/users', UserRouter);
 app.use('/project', ProjRouter);
 app.use('/admin', AdminRouter);
 

@@ -7,7 +7,7 @@ const ManageUser = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:3000/user/getAll');
+            const response = await fetch('http://localhost:3000/users/getAll');
             if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
             setUsers(data);

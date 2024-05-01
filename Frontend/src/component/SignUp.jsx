@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Img from '../assets/signin-image.jpg';
+import { enqueueSnackbar } from 'notistack';
 import './Design.css';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selectedSchool, setSelectedSchool] = useState('');
+
+  const navigate = useNavigate();
 
   const schools = {
     "SCHOOL OF ENGINEERING": ["B.TECH (CSE)", "B.TECH (CSE-AI)", "B.TECH (CSE-CCML)", "B.TECH (CSE-IOTBC)", "M.TECH (COMPUTER NETWORK)", "M.TECH (SOFTWARE ENGINEERING)", "PH.D (CSE)"],
@@ -45,8 +49,29 @@ const SignUp = () => {
       course: Yup.string().required('Required'),
       duration: Yup.string().required('Required')
     }),
-    onSubmit: values => {
+    onSubmit: async(values) => {
       console.log(values);
+      const formdata = {
+        name : values?.name,
+        email : values?.email,
+        password : values?.password,
+        school : values?.school,
+        course : values?.course,
+        duration : values?.duration
+      }
+      const res = await fetch('http://localhost:3000/users/register', {
+        method : "POST",
+        body : JSON.stringify(formdata),
+        headers: {
+          'Content-Type': 'application/json'
+      },
+      });
+      if (res.ok) {
+        enqueueSnackbar('User Sign up Successfully', { variant: 'success' });
+        navigate('/email-verification');
+      }else{
+        enqueueSnackbar('User Sign up failed', { variant: 'error' });
+      }
     },
   });
 

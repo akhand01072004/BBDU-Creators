@@ -12,7 +12,8 @@ const AdminSchema = new mongoose.Schema({
     },
     password : {
         type : String
-    }
+    },
+    department : String
 })
 
 AdminSchema.pre("save",async function(next){

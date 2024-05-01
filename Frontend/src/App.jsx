@@ -23,9 +23,9 @@ import AdminSignup from './component/admin/AdminSignup';
 import AdminLogin from './component/admin/AdminLogin';
 import { AdminLoginProvider } from './component/admin/AdminContext/AdminLoginContext';
 import './App.css';
-import UserProfile from './component/UserProfile';
+import AdminProfile from './component/admin/AdminProfile';
 import Layout from './component/Layout';
-import Profile from './component/ProfilePage';
+import UserProfile from './component/ProfilePage';
 
 
 
@@ -53,6 +53,7 @@ function App() {
           <Route path="/sign" element={<Layout><SignUp /></Layout>} />
           <Route path="/home" element={<Header />} />
           <Route path="/login" element={<Layout><LogIn /></Layout>} />
+          <Route path="/UserProfile" element={<Layout><UserProfile /></Layout>}/>
           <Route path="/about" element={<Layout><About /></Layout>} />
           <Route path="/contact" element={<Layout><Contact /></Layout>} />
           <Route path="/UploadProjects" element={<Layout><UploadProjects /></Layout>} />
@@ -60,14 +61,13 @@ function App() {
           <Route path="/projectDetail/:id" element={<Layout><ProjectDetail /></Layout>} />
           <Route path="/fileupload" element={<Fileupload />} />
           <Route path="/email-verification" element={<Layout><EmailVerify /></Layout>} />
-          <Route path='/UserProfile' element={<Layout><UserProfile /></Layout>} />
           <Route path='/AdminLogin' element={<Layout><AdminLoginProvider><AdminLogin /></AdminLoginProvider></Layout>} />
           <Route path='/AdminSignup' element={<Layout><AdminLoginProvider><AdminSignup /></AdminLoginProvider></Layout>} />
           <Route path='/Dashboard' element={<Layout><AdminLoginProvider><AdminDashboard /></AdminLoginProvider></Layout>}>
-            <Route path='ManageProjectAdmin' element={<Layout><ManageProject /></Layout>} />
-            <Route path='ManageUserAdmin' element={<Layout><ManageUserAdmin /></Layout>} />
+            <Route path='UserProfile' element={<AdminProfile />}/>
+            <Route path='ManageProjectAdmin' element={<ManageProject />} />
+            <Route path='ManageUserAdmin' element={<ManageUserAdmin />}/>
           </Route>
-          <Route path="/Profile" element={<Layout><Profile /></Layout>}/>
         </Routes>
       </SnackbarProvider>
     </BrowserRouter>

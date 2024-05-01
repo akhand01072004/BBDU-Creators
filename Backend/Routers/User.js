@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 
-router.post('/add', async(req, res) => {
+router.post('/register', async(req, res) => {
     console.log(req.body)
     let user = await UserModel.findOne({
         email: req.body.email,
@@ -22,7 +22,6 @@ router.post('/add', async(req, res) => {
     }
 });
 router.get('/getall',(req,res) => {
-    // empty brackets will give all the data from the database
     UserModel.find({})
     .then((result) => {
         res.json(result)

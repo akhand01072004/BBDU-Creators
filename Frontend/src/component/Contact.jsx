@@ -13,7 +13,6 @@ export default function Contact() {
           </div>
           <div className="flex-1">
             <h1 className='text-5xl font-bold text-center text-Black-800'>Contact Us ☎️</h1>
-            <h3 className='text-black mt-4 text-center'>These are the ways you can get in touch with us.</h3>
             <p className='text-center text-black mt-2 max-w-md mx-auto'>
               Feel free to contact us if you are facing any problem. We are here to help with any issues or concerns.
             </p>

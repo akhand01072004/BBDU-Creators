@@ -14,7 +14,7 @@ export const AdminLoginProvider = (props) => {
                 'Content-Type' : 'application/json'
             }
         });
-        console.log(resp)
+        console.log(resp.body)
         if(resp.status === 201){
             SetAdminLogin(true);
             enqueueSnackbar('Admin LoggedIn', {variant: 'success'})

@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useContext} from 'react';
 import "./Sign.css";
 import Img from '../assets/Nav-logo.png';
 import { LoginContext } from '../Context/LoginContext';
@@ -9,10 +9,13 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const loginState = useContext(LoginContext);
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
+  const OpenProfile = () => {
+    navigate('/UserProfile')
+  } 
   const LogOut = async () => {
-    const response = await fetch('http://localhost:3000/user/logout', {
-      method: 'POST',
+    const response = await fetch('http://localhost:3000/users/logout', {
       credentials: "include",
       headers: {
         'Content-Type': 'application/json'
@@ -25,6 +28,8 @@ const Navbar = () => {
       enqueueSnackbar('Logout Failed', { variant: 'error' });
     }
   };
+
+
 
 
   return (
@@ -53,6 +58,10 @@ const Navbar = () => {
 
           {/* Secondary Nav Menu */}
           <div className="hidden md:flex items-center space-x-1">
+            {loginState.login ?
+            <button className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
+              <button onClick={OpenProfile}>Profile</button>
+            </button> : null}
             <button className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
               {loginState.login ? <button onClick={LogOut}>LogOut</button> : <Link to='/Sign'>Signup</Link>}
             </button>
