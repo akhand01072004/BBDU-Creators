@@ -18,18 +18,19 @@ const schoolsAndCourses = {
 };
 
 const UploadProjects = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        projectName: '',
-        school: '',
-        course: '',
-        yearOfSubmission: '',
-        githubRepo: '',
-        projectDescription: '',
-        projectImage: '',
-        projectVideo: ''
-    });
+    
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [projectName, setProjectName] = useState('');
+    const [department, setDepartment] = useState('');
+    const [githubRepo, setGithubRepo] = useState('');
+    const [projectDescription, setProjectDescription] = useState('');
+    const [projectImage, setProjectImage] = useState('');
+    const [projectVideo, setProjectVideo] = useState('');
+    const [showGitHub, setShowGitHub] = useState(false);
+
+    //video status
+    const [uploadStatus, SetUploadStatus] = useState(false);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -52,12 +53,30 @@ const UploadProjects = () => {
                 method: "POST",
                 body: data
             });
-            const result = await response.json();
-            if (type === 'image') {
-                setFormData(prev => ({ ...prev, projectImage: result.url }));
-            } else {
-                setFormData(prev => ({ ...prev, projectVideo: result.url }));
-            }
+            const resp = await response.json();
+            setProjectImage(resp.url);
+        } catch (error) {
+            console.log("failed to upload");
+        }
+    }
+
+    const UploadVideo = async (event) => {
+        const file = event.target.files[0];
+        const data = new FormData();
+        data.append("file", file);
+        data.append("upload_preset", "ml_default");
+        data.append("cloud_name", "dl81ig8l5");
+        SetUploadStatus(true);
+        try {
+            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/video/upload', {
+                method: "POST",
+                body: data
+            });
+            const resp = await response.json();
+            setProjectVideo(resp.url);
+            SetUploadStatus(false);
+            console.log(resp.url);
+            console.log(projectVideo);
         } catch (error) {
             console.error("Failed to upload", error);
             enqueueSnackbar('Failed to upload file.', { variant: 'error' });
@@ -149,6 +168,11 @@ const UploadProjects = () => {
                             </div>
 
                             <div className="mb-4">
+                                <label className="block text-black-700 text-lg font-bold">Project Video</label>
+                                <input type="file" onChange={UploadVideo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                {!projectVideo && uploadStatus ? <h1 className='text-2xl text-red-500'>Please wait Video is Uploading...</h1> : null}
+                                {projectVideo ? <h1 className='text-2xl text-green-500'>Video Uploaded Successfully..</h1> : null}
+                                
                                 <label htmlFor="projectDescription" className="block text-sm font-bold mb-2">Project Description</label>
                                 <textarea id="projectDescription" name="projectDescription" value={formData.projectDescription} onChange={handleInputChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required />
                             </div>

@@ -23,7 +23,7 @@ router.post('/api/ApproveProject' , async(req,res) => {
   const useremail = req.body.email;
   try {
     const projects = new ApprovedProject(req.body);
-    await UserModel.updateOne({email : useremail,},{$push : {projects : projects._id}});
+    await UserModel.updateOne({email : useremail,},{$push : {projects : projects._id}}).populate('');
     await projects.save();
     res.status(201).send(projects);
   } catch (error) {

@@ -41,6 +41,17 @@ router.delete('/delete/:id', async(req,res) => {
     }
 })
 
+router.post('/userbyemail', async(req,res) => {
+    try {
+        const response = await UserModel.findOne({
+            email : req.body.email
+        });
+        res.json(response);
+    } catch (error) {
+        res.status(500).json({message: "error while fetching user.."})
+    }
+})
+
 router.post('/login', async(req,res) => {
     const {email,password} = req.body;
     try {

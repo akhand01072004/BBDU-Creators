@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { enqueueSnackbar } from 'notistack';
 import { FaVideo, FaGithub } from "react-icons/fa";
 
 const schoolsAndCourses = {

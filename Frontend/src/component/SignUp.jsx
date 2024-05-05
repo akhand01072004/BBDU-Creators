@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Img from '../assets/signin-image.jpg';
+import { Link } from 'react-router-dom';
 import { enqueueSnackbar } from 'notistack';
 import './Design.css';
 import { useNavigate } from 'react-router-dom';
@@ -242,9 +243,9 @@ const SignUp = () => {
         <div className='hidden md:flex flex-col w-3/5 flex-col items-center justify-center  '>
           <figure><img src={Img} alt="" className="" /></figure>
           <div className=' flex justify-center '>
-              <a href="/login" className="font-bold  text-sm text-red-500 hover:text-blue-800">
+              <Link to="/login" className="font-bold  text-sm text-red-500 hover:text-blue-800">
                 I am already a member
-              </a>
+              </Link>
             </div>
         </div>
       </div>

@@ -46,8 +46,8 @@ const ManageUser = () => {
             <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
             <div className="flex flex-col space-y-4">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-lg text-left rtl:text-right text-white-500 ">
-              <thead className="text-lg text-black-700 uppercase bg-white ">
+            <table className="w-full text-sm text-left rtl:text-right text-white">
+              <thead className="text-xs text-white uppercase  bg-blue-500 ">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                    UserName
@@ -62,13 +62,13 @@ const ManageUser = () => {
               </thead>
                 {users.length > 0 ? users.map((user) => (
                       <tbody key={user._id}>
-                        <tr className="bg-white border-b cursor-pointer ">
+                        <tr className="bg-white border-b cursor-pointer dark:border-gray-500 hover:bg-gray-50 dark:hover:bg-blue-200">
                           <th
                             scope="row"
-                            className=" text-lg px-6 py-4 font-medium text-black-900 whitespace-nowrap ">
+                            className="px-6 py-4 font-medium  whitespace-nowrap dark:text-blue-500">
                             {user.name}
                           </th>
-                          <td className=" text-lg px-6 py-4 text-black-800">{user?.email}</td>
+                          <td className="px-6 py-4 text-blue-500">{user?.email}</td>
                           <button onClick={() => deleteUser(user._id)} className="px-6 py-4 text-right">
                           <MdDelete className="text-3xl text-red-500"/>
                           </button>
