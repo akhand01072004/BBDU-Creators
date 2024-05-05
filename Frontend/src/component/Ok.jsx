@@ -1,86 +1,123 @@
-import { useState, useEffect } from 'react';
-// import { MdOutlineEmail } from "react-icons/md";
+import React, { useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 
+const schoolsAndCourses = {
+  "SCHOOL OF ENGINEERING": ["B.TECH (CSE)", "B.TECH (CSE-AI)", "B.TECH (CSE-CCML)", "B.TECH (CSE-IOTBC)", "M. TECH (COMPUTER NETWORK)", "M. TECH (SOFTWARE ENGINEERING)", "PH.D (CSE)"],
+  "SCHOOL OF MANAGEMENT": ["B.COM. (HONS.)", "BBA", "BBA (LOGISTICS AND SUPPLY CHAIN MANAGEMENT)", "BBA - BUSINESS ANALYTICS (IN COLLABORATION WITH IBM)", "MBA", "PH.D", "IMBA"],
+  // Include other schools with their courses
+};
 
-const AdminProfile = () => {
-  const [admin, setAdmin] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+const UploadProjects = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        projectName: '',
+        school: '',
+        course: '',
+        yearOfSubmission: '',
+        githubRepo: '',
+        projectDescription: '',
+        projectImage: '',
+        projectVideo: ''
+    });
 
-  const fetchUserDetails = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/admin/validatetoken', {
-        credentials: "include",
-        headers: {
-          'Content-Type': 'application/json'
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        console.log(`Handling input for ${name} with value ${value}`); // Debugging log
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value,
+            ...(name === 'school' && { course: '', githubRepo: '' }) // Reset course and GitHub on school change
+        }));
+    };
+
+    const uploadFile = async (event, type) => {
+        const file = event.target.files[0];
+        const data = new FormData();
+        data.append("file", file);
+        data.append("upload_preset", "ml_default");
+        data.append("cloud_name", "dl81ig8l5");
+        try {
+            const response = await fetch(`https://api.cloudinary.com/v1_1/dl81ig8l5/${type}/upload`, {
+                method: "POST",
+                body: data
+            });
+            const result = await response.json();
+            setFormData(prev => ({
+                ...prev,
+                [type === 'image' ? 'projectImage' : 'projectVideo']: result.url
+            }));
+        } catch (error) {
+            console.error("Failed to upload", error);
+            enqueueSnackbar('Failed to upload file.', { variant: 'error' });
         }
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch admin details');
-      }
-      const adminData = await response.json();
-      setAdmin(adminData);
-    } catch (error) {
-      console.error(error);
-      setError('Failed to load admin data');
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!formData.projectVideo) {
+            enqueueSnackbar('Please wait, video is uploading...', { variant: 'warning' });
+            return;
+        }
+        console.log('Submitting form with data:', formData); // Debugging log
+        try {
+            const response = await fetch('http://localhost:3000/project/api/uploadprojects', {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+            if (response.ok) {
+                enqueueSnackbar("Project Submitted Successfully", { variant: "success" });
+            } else {
+                enqueueSnackbar("Project Submission Failed", { variant: "error" });
+            }
+        } catch (error) {
+            console.error('Form submission error', error);
+            enqueueSnackbar("Error submitting project", { variant: "error" });
+        }
+    };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-  if (!admin) return <div>No admin data available.</div>;
+    const showGitHubField = formData.school === "SCHOOL OF COMPUTER APPLICATIONS" || formData.school === "SCHOOL OF ENGINEERING";
 
-  const aboutText = admin.about || `As a part of the ${admin.department} department, our goal is to enhance user experiences by ensuring seamless integration and functionality across platforms. We strive to push the boundaries of what is possible, transforming challenges into solutions that drive our mission forward.`;
-  const experienceText = admin.experience || `With extensive experience in the ${admin.department} field, our focus remains on innovative approaches to tackle the evolving challenges of today's digital landscape, ensuring robust and efficient system performance.`;
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
+                <h2 className="text-3xl mb-5 text-center font-bold">Upload Project</h2>
+                <form onSubmit={handleSubmit}>
+                    {/* Name, Email, ProjectName input fields remain unchanged... */}
+                    
+                    <div className="mb-4">
+                        <label htmlFor="school" className="block text-sm font-bold mb-2">School</label>
+                        <select id="school" name="school" value={formData.school} onChange={handleInputChange} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <option value="">Select School</option>
+                            {Object.keys(schoolsAndCourses).map(school => (
+                                <option key={school} value={school}>{school}</option>
+                            ))}
+                        </select>
+                    </div>
 
-  return (
-    <div className="min-h-screen w bg-white flex justify-center items-start p-4">
-      <div className="flex flex-col  gap-4 w-full md:max-w-8xl rounded-4xl shadow-[0px_20px_20px_10px_#00000024] ">
-        {/* First Column */}
-        <div className="flex flex-col w-full  md:flex-row items-center justify-center bg-white  p-4 md:p-8 ">
-          <div className="w-full md:w-1/3 flex justify-center">
-            <span className='text-6xl w-64 h-64 md:w-72 md:h-72 rounded-full bg-gray-300 flex items-center justify-center mb-4 object-cover border-4 border-blue-500 shadow-xl'>{admin.name?.[0]}</span>
+                    <div className="mb-4">
+                        <label htmlFor="course" className="block text-sm font-bold mb-2">Course</label>
+                        <select id="course" name="course" value={formData.course} onChange={handleInputChange} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required disabled={!formData.school}>
+                            <option value="">Select Course</option>
+                            {schoolsAndCourses[formData.school]?.map(course => (
+                                <option key={course} value={course}>{course}</option>
+                            ))}
+                        </select>
+                    </div>
 
-            
-          </div>
+                    {showGitHubField && (
+                        <div className="mb-4">
+                            <label htmlFor="githubRepo" className="block text-sm font-bold mb-2">GitHub Repository</label>
+                            <input type="url" id="githubRepo" name="githubRepo" value={formData.githubRepo} onChange={handleInputChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                        </div>
+                    )}
 
-          <div className="w-full md:w-2/3 text-center md:text-left">
-            <h2 className="text-2xl md:text-5xl font-bold">Hi there, My name is <span className='text-blue-600'>{admin.name}</span></h2>
-            <p className="mt-4 text-lg md:text-base">
-              I am Teacher at Babu Banarsi Das University from the department of {admin.department}.
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-col items-center justify-center bg-white">
-
-          <h1 className="text-3xl md:text-5xl font-bold my-2">About Me</h1>
-          <div className='md:flex md:flex-row flex flex-col justify-center'>
-            <div className="flex flex-col justify-center text-start gap-2 m-8 ">
-            <p>{aboutText}</p>
+                    {/* Remaining form fields like Year of Submission, Project Description, Image and Video uploads, Submit button */}
+                </form>
             </div>
-            <div>
-              <img src={male} alt="" className='h-96' />
-            </div>
-
-          </div>
         </div>
-        <div className="flex flex-col items-center  rounded-2xl bg-white-100 ">
-          <h1 className="text-4xl md:text-5xl font-bold my-2">Experiance</h1>
-          
-            <div  className="bg-white p-4 rounded-lg flex justify-between shadow-md w-full md:w-3/5 mb-4">
-              <p>{experienceText}</p>
-            </div>
-          
-        </div>
-      </div>
-    </div>
-  );
-}
+    );
+};
 
-export default AdminProfile;
+export default UploadProjects;

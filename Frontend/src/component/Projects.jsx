@@ -1,12 +1,27 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaVideo, FaGithub } from "react-icons/fa";
+
+const schoolsAndCourses = {
+    "SCHOOL OF ENGINEERING": ["B.TECH (CSE)", "B.TECH (CSE-AI)", "B.TECH (CSE-CCML)", "B.TECH (CSE-IOTBC)", "M. TECH (COMPUTER NETWORK)", "M. TECH (SOFTWARE ENGINEERING)", "PH.D (CSE)"],
+    "SCHOOL OF MANAGEMENT": ["B.COM. (HONS.)", "BBA", "BBA (LOGISTICS AND SUPPLY CHAIN MANAGEMENT)", "BBA - BUSINESS ANALYTICS (IN COLLABORATION WITH IBM)", "MBA", "PH.D", "IMBA"],
+    "SCHOOL OF COMPUTER APPLICATIONS": ["BCA", "MCA", "PH.D", "BCA IN DATA SCIENCE & ARTIFICIAL INTELLIGENCE", "BCA IN CYBER SECURITY & FORENSICS", "MCA IN DATA SCIENCE & ARTIFICIAL INTELLIGENCE"],
+    "SCHOOL OF PHARMACY": ["Bachelor of Pharmacy", "Ph.D. Pharmacy"],
+    "SCHOOL OF ARCHITECTURE AND PLANNING": ["BACHELOR OF ARCHITECTURE", "MASTERS OF PLANNING (URBAN PLANNING)", "Bachelor of Interior Design"],
+    "SCHOOL OF HOTEL MANAGEMENT": ["BACHELOR OF HMCT"],
+    "SCHOOL OF LEGAL STUDIES": ["BBA+LL.B (INTEGRATED)", "BA+LL.B (INTEGRATED)", "LLM", "PH.D"],
+    "SCHOOL OF BASIC SCIENCES": ["B.SC. (HONS.)", "M.SC.", "PH. D"],
+    "SCHOOL OF HUMANITIES & SOCIAL SCIENCES": ["PH. D"],
+    "SCHOOL OF EDUCATION": ["PH. D"],
+    "BABU BANARASI DAS COLLEGE OF DENTAL SCIENCES": ["DDS", "Ph.D. Dental Sciences"]
+};
 
 function Projects() {
     const [projects, setProjects] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [school, setSchool] = useState('');
     const [course, setCourse] = useState('');
+    const [coursesOptions, setCoursesOptions] = useState([]);
     const [year, setYear] = useState('');
 
     useEffect(() => {
@@ -16,21 +31,26 @@ function Projects() {
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
                 setProjects(data);
-                // if (response.status === 200) {
-                //     enqueueSnackbar('Project Fetch Successfully', { variant: 'success' });
-                // } else {
-                //     enqueueSnackbar('Not Uploaded', { variant: 'error' });
-                // }
             } catch (error) {
                 console.error("Error fetching projects:", error);
-                enqueueSnackbar('Failed to fetch projects', { variant: 'error' });
             }
         };
         fetchProjects();
     }, []);
 
+    useEffect(() => {
+        if (school) {
+            setCoursesOptions(schoolsAndCourses[school] || []);
+        } else {
+            setCoursesOptions([]);
+        }
+    }, [school]);
+
     const handleSearchChange = (e) => setSearchTerm(e.target.value);
-    const handleSchoolChange = (e) => setSchool(e.target.value);
+    const handleSchoolChange = (e) => {
+        setSchool(e.target.value);
+        setCourse(''); // Reset course when school changes
+    };
     const handleCourseChange = (e) => setCourse(e.target.value);
     const handleYearChange = (e) => setYear(e.target.value);
 
@@ -45,38 +65,34 @@ function Projects() {
         <div>
             <nav className="flex justify-between items-center py-4 px-6 bg-blue-500 text-white">
                 <h1 className="font-bold text-lg">Projects</h1>
-                <div className="relative w-full max-w-xs">
-                    <input
-                        type="text"
-                        className="w-full bg-white text-black h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        placeholder="Search..."
-                    />
-                    <button type="submit" className="absolute right-0 top-0 mt-2 mr-4">
-                        <i className="fa fa-search text-gray-600"></i>
-                    </button>
-                </div>
+                <input
+                    type="text"
+                    className="w-full max-w-xs bg-white text-black h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    placeholder="Search projects"
+                />
             </nav>
             <div className="p-4">
-                <div className="flex gap-4 mb-4 justify-center">
-                    <select value={school} onChange={handleSchoolChange} className="p-2 rounded">
+                <div className="flex flex-wrap gap-4 mb-4 justify-center">
+                    <select value={school} onChange={handleSchoolChange} className="p-2 rounded bg-white">
                         <option value="">All Schools</option>
-                        <option value="Engineering">Engineering</option>
-                        <option value="Business">Business</option>
-                        <option value="Arts">Arts</option>
+                        {Object.keys(schoolsAndCourses).map(key => (
+                            <option key={key} value={key}>{key}</option>
+                        ))}
                     </select>
-                    <select value={course} onChange={handleCourseChange} className="p-2 rounded">
-                        <option value="">All Courses</option>
-                        <option value="Software Development">Software Development</option>
-                        <option value="Machine Learning">Machine Learning</option>
-                        <option value="Project Management">Project Management</option>
+                    <select value={course} onChange={handleCourseChange} className="p-2 rounded bg-white" disabled={!school}>
+                        <option value="">Select Course</option>
+                        {coursesOptions.map(course => (
+                            <option key={course} value={course}>{course}</option>
+                        ))}
                     </select>
-                    <select value={year} onChange={handleYearChange} className="p-2 rounded">
+                    <select value={year} onChange={handleYearChange} className="p-2 rounded bg-white">
                         <option value="">All Years</option>
                         <option value="2021">2021</option>
                         <option value="2022">2022</option>
                         <option value="2023">2023</option>
+                        <option value="2024">2024</option>
                     </select>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -107,6 +123,7 @@ function Projects() {
                                 <Link to={`/projectDetail/${project._id}`} className="self-center bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4 md:mt-auto w-full md:w-32">
                                     View More
                                 </Link>
+
                             </div>
                         </div>
                     )) : <p className="h-screen text-center">No projects found.</p>}
