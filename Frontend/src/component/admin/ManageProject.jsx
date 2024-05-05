@@ -90,7 +90,7 @@ const ManageProject = () => {
                     <div key={index} className="border p-4 bg-white rounded-lg shadow">
                         <div className='flex flex-col'>
                             <p><strong>Name:</strong> {project.name}</p>
-                            <p><strong>Department:</strong> {project.department}</p>
+                            <p><strong>Department:</strong> {project.school}</p>
                             {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline">GitHub Repo</a>}
                             {project.projectVideo && <a href={project.projectVideo} className="text-blue-500 hover:underline">Project Video</a>}
                             <Link to={`/projectDetail/${project._id}`} className='text-rose-500 hover:text-rose-700'>View More</Link>
