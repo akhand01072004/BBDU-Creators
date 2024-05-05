@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { enqueueSnackbar } from 'notistack';
 import {ReactTyped} from "react-typed";
 import './Sign.css';

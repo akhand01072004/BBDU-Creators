@@ -70,7 +70,7 @@ const ManageUser = () => {
                           </th>
                           <td className="px-6 py-4 text-blue-500">{user?.email}</td>
                           <button onClick={() => deleteUser(user._id)} className="px-6 py-4 text-right">
-                          <MdDelete className="text-lg text-red-500"/>
+                          <MdDelete className="text-3xl text-red-500"/>
                           </button>
                         </tr>
                       </tbody>

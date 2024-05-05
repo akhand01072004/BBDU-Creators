@@ -105,7 +105,7 @@ const UploadProjects = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen upb">
-            <div className="bg-gray-400 p-8 rounded-lg shadow-md w-auto  bg-opacity-30">
+            <div className="bg-white-400 p-8 rounded-lg shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] w-auto  ">
                 <h2 className="text-4xl  mb-5 text-center text-style">Upload Project</h2>
                 <form onSubmit={handleSubmit} encType='multipart/form-data'>
                     {/* Name */}
@@ -113,7 +113,7 @@ const UploadProjects = () => {
                         <div className='mr-5 '>
                             <div className="mb-4">
                                 <label htmlFor="name" className="block text-black-700 text-lg font-bold mb-2">Name</label>
-                                <input type="text" value={name} onChange={(e) => setName(e.target.value)} id="name" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                <input type="text" value={name} onChange={(e) => setName(e.target.value)} id="name" className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                             </div>
 
                             {/* Email */}
