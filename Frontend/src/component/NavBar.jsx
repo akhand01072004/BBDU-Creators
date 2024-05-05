@@ -63,7 +63,7 @@ const Navbar = () => {
               <button onClick={OpenProfile}>Profile</button>
             </button> : null}
             <button className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
-              {loginState.login ? <button onClick={LogOut}>LogOut</button> : <Link to='/Sign'>Signup</Link>}
+              {loginState.login ? <button  onClick={LogOut}>LogOut</button> : <Link to='/Sign'>Signup</Link>}
             </button>
           </div>
 
