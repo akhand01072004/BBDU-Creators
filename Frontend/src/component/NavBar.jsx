@@ -62,10 +62,16 @@ const Navbar = () => {
             <button className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
               <button onClick={OpenProfile}>Profile</button>
             </button> : null}
+            
+            {loginState.login ? <button className="bg-red-400 text-white py-2 px-4 rounded-md mr-100 rouned-br-full mr-64 hover:bg-red-500" onClick={LogOut}>LogOut</button> :
             <button className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
-              {loginState.login ? <button onClick={LogOut}>LogOut</button> : <Link to='/Sign'>Signup</Link>}
-            </button>
-          </div>
+              <Link to='/Sign'>Signup</Link>
+            </button>}
+
+            {/* <button className="bg-blue-500 text-white py-2 px-4 rounded-l-full rounded-br-full mr-100 hover:bg-blue-800">
+            //   {loginState.login ? <button className="bg-red-400 rouned-br-full mr-100 hover:bg-red-500" onClick={LogOut}>LogOut</button> : <Link to='/Sign'>Signup</Link>}
+            // </button>*/}
+            </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">

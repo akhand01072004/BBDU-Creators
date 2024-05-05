@@ -65,7 +65,7 @@ const AdminDashboard = () => {
           {
             LoginState.Adminlogin ?
             <button onClick={LogOut}>
-            <Link className="text-blue-500 hover:text-blue-700 p-2 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-blue-50 transition duration-150" to="/AdminLogin">
+            <Link className="text-blue-500 hover:text-white p-2 pr-4 flex items-center text-sm uppercase font-medium rounded-lg hover:bg-red-400 transition duration-150" to="/AdminLogin">
               <GrLogout className='mr-4' />
               LogOut
             </Link></button> : 
@@ -89,8 +89,8 @@ const AdminDashboard = () => {
       {LoginState.Adminlogin ? 
       <div className="flex-1 ">
         <Outlet />
-      </div> : 
-      <Link to="/AdminLogin" className='text-xl m-2'>Please Login😒</Link>
+      </div> :
+      null
     }
     </div> 
     </>

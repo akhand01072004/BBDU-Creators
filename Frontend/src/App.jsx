@@ -45,9 +45,8 @@ function App() {
 
   return (
 
-
+    <SnackbarProvider maxSnacl={1}>
     <BrowserRouter>
-      <SnackbarProvider maxSnacl={1}>
         <Routes>
           <Route path="/" element={<MainLayout />} /> {/* Define other routes as needed here */}
           <Route path="/sign" element={<Layout><SignUp /></Layout>} />
@@ -64,13 +63,14 @@ function App() {
           <Route path='/AdminLogin' element={<Layout><AdminLoginProvider><AdminLogin /></AdminLoginProvider></Layout>} />
           <Route path='/AdminSignup' element={<Layout><AdminLoginProvider><AdminSignup /></AdminLoginProvider></Layout>} />
           <Route path='/Dashboard' element={<Layout><AdminLoginProvider><AdminDashboard /></AdminLoginProvider></Layout>}>
+            <Route index element={<div><h1 className='text-6xl text-blue-500 m-52'>Welcome to Admin Panel</h1></div>} />
             <Route path='UserProfile' element={<AdminProfile />}/>
             <Route path='ManageProjectAdmin' element={<ManageProject />} />
             <Route path='ManageUserAdmin' element={<ManageUserAdmin />}/>
           </Route>
         </Routes>
-      </SnackbarProvider>
     </BrowserRouter>
+    </SnackbarProvider>
 
   );
 
