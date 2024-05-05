@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import './Sign.css';
 
@@ -18,45 +18,79 @@ const schoolsAndCourses = {
 };
 
 const UploadProjects = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        projectName: '',
-        school: '',
-        course: '',
-        githubRepo: '',
-        projectDescription: '',
-        projectImage: '',
-        projectVideo: ''
-    });
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [projectName, setProjectName] = useState('');
+    const [school, setSchool] = useState('');
+    const [course, setCourse] = useState('');
+    const [yearOfSubmission, setYear] = useState('');
+    const [githubRepo, setGithubRepo] = useState('');
+    const [projectDescription, setProjectDescription] = useState('');
+    const [projectImage, setProjectImage] = useState('');
+    const [projectVideo, setProjectVideo] = useState('');
+    // const [showGitHub, setShowGitHub] = useState(false);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
+    const [uploadStatus, setUploadStatus] = useState(false);
 
-    const handleFileChange = async (event, field) => {
+    // const handleChange = (event) => {
+    //     const { name, value } = event.target;
+    //     setFormData(prev => ({ ...prev, [name]: value }));
+    // };
+
+    const UploadImage = async (event) => {
         const file = event.target.files[0];
         const data = new FormData();
         data.append("file", file);
         data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5");
-
+        data.append("cloud_name", "dl81ig8l5")
         try {
-            const response = await fetch(`https://api.cloudinary.com/v1_1/dl81ig8l5/${field}/upload`, {
+            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
                 method: "POST",
                 body: data
             });
-            const result = await response.json();
-            setFormData(prev => ({ ...prev, [field]: result.url }));
+            const resp = await response.json();
+            setProjectImage(resp.url);
         } catch (error) {
-            console.error("Failed to upload file", error);
-            enqueueSnackbar('Failed to upload file.', { variant: 'error' });
+            console.log("failed to upload");
         }
-    };
+    }
+
+    const UploadVideo = async (event) => {
+        const file = event.target.files[0];
+        const data = new FormData();
+        data.append("file", file);
+        data.append("upload_preset", "ml_default");
+        data.append("cloud_name", "dl81ig8l5")
+        setUploadStatus(true);
+        try {
+            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/video/upload', {
+                method: "POST",
+                body: data
+            });
+            const resp = await response.json();
+            setProjectVideo(resp.url);
+            setUploadStatus(false);
+        } catch (error) {
+            console.log("failed to upload");
+        }
+    }
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        const formData = {
+            name: name,
+            email: email,
+            projectName: projectName,
+            school: school,
+            course: course,
+            projectDescription: projectDescription,
+            githubRepo: githubRepo,
+            projectImage: projectImage,
+            projectVideo: projectVideo,
+            yearOfSubmission: yearOfSubmission
+        }
 
         if (!formData.projectVideo) {
             enqueueSnackbar('Please wait, video is uploading...', { variant: 'warning' });
@@ -69,7 +103,7 @@ const UploadProjects = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
             });
-            if (response.ok) {
+            if (response.status === 201) {
                 enqueueSnackbar("Project Submitted Successfully", { variant: "success" });
             } else {
                 enqueueSnackbar("Project Submission Failed", { variant: "error" });
@@ -91,22 +125,22 @@ const UploadProjects = () => {
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
                                 <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="name" type="text" name="name" value={formData.name} onChange={handleChange} required />
+                                    id="name" type="text" name="name" onChange={(e) => {setName(e.target.value)}} required />
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
                                 <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="email" type="email" name="email" value={formData.email} onChange={handleChange} required />
+                                    id="email" type="email" name="email" onChange={(e) => {setEmail(e.target.value)}} required />
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projectName">Project Name</label>
                                 <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="projectName" type="text" name="projectName" value={formData.projectName} onChange={handleChange} required />
+                                    id="projectName" type="text" name="projectName" onChange={(e) => {setProjectName(e.target.value)}} required />
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="school">School</label>
                                 <select className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="school" name="school" value={formData.school} onChange={handleChange} required>
+                                    id="school" name="school" onChange={(e) => {setSchool(e.target.value)}} required>
                                     <option value="">Select School</option>
                                     {Object.keys(schoolsAndCourses).map(school => (
                                         <option key={school} value={school}>{school}</option>
@@ -116,9 +150,9 @@ const UploadProjects = () => {
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="course">Course</label>
                                 <select className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="course" name="course" value={formData.course} onChange={handleChange} disabled={!formData.school}>
+                                    id="course" name="course" onChange={(e) => {setCourse(e.target.value)}} disabled={!school}>
                                     <option value="">Select Course</option>
-                                    {schoolsAndCourses[formData.school]?.map(course => (
+                                    {schoolsAndCourses[school]?.map(course => (
                                         <option key={course} value={course}>{course}</option>
                                     ))}
                                 </select>
@@ -126,38 +160,38 @@ const UploadProjects = () => {
                         </div>
                         <div>
                             {/* GitHub Repo Input shown based on the selected school */}
-                            {(formData.school === "SCHOOL OF ENGINEERING" || formData.school === "SCHOOL OF COMPUTER APPLICATIONS") && (
+                            {(school === "SCHOOL OF ENGINEERING" || school === "SCHOOL OF COMPUTER APPLICATIONS") && (
                                 <div className="mb-4">
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="githubRepo">GitHub Repository</label>
                                     <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        id="githubRepo" type="url" name="githubRepo" value={formData.githubRepo} onChange={handleChange} />
+                                        id="githubRepo" type="url" name="githubRepo" onChange={(e) => {setGithubRepo(e.target.value)}} />
                                 </div>
                             )}
                             {/* Project Description input */}
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projectDescription">Project Description</label>
                                 <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="projectDescription" name="projectDescription" value={formData.projectDescription} onChange={handleChange} required rows="4"></textarea>
+                                    id="projectDescription" name="projectDescription" onChange={(e) => {setProjectDescription(e.target.value)}} required rows="4"></textarea>
                             </div>
 
                             {/* Year of Submission input */}
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="yearOfSubmission">Year of Submission</label>
                                 <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="yearOfSubmission" type="number" name="yearOfSubmission" value={formData.yearOfSubmission} onChange={handleChange} required />
+                                    id="yearOfSubmission" type="number" name="yearOfSubmission" onChange={(e) => {setYear(e.target.value)}} required />
                             </div>
 
                             {/* File inputs */}
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2">Project Image</label>
-                                <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'projectImage')}
+                                <input type="file" accept="image/*" onChange={UploadImage}
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2">Project Video</label>
-                                <input type="file" onChange={(e) => handleFileChange(e, 'projectVideo')}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                    
+                                <input type="file" onChange={UploadVideo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                {!projectVideo && uploadStatus ? <h2 className='text-2xl m-1 text-red-500'>Please wait Video is Uploading...</h2> : null}
+                                {projectVideo ? <h2 className='text-2xl m-1 text-green-500'>Video Uploaded Successfully..</h2> : null}
                             </div>
                         </div>
                     </div>

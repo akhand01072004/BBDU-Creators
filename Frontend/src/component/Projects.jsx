@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { enqueueSnackbar } from 'notistack';
 import { FaVideo, FaGithub } from "react-icons/fa";
 
 const schoolsAndCourses = {
@@ -59,7 +58,7 @@ function Projects() {
         project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (school ? project.school === school : true) &&
         (course ? project.course === course : true) &&
-        (year ? project.year === year : true)
+        (year ? project.yearOfSubmission === year : true)
     );
 
     return (

@@ -45,16 +45,19 @@ export default function ProjectDetail() {
             <h2 className='text-xl  mb-4'><span className='text-blue-500 font-bold'>Name :</span> {project.name}</h2>
             <h3 className='text-xl  mb-4'><span className='text-blue-500 font-bold'>Email :</span> {project.email}</h3>
             <p className='text-xl  mb-4'><span className='text-blue-500 font-bold'>ProjectName :</span> {project.projectName}</p>
-            <p className='text-xl  mb-4'><span className='text-blue-500 font-bold'>ProjectDepartment :</span> {project.department}</p>
+            <p className='text-xl  mb-4'><span className='text-blue-500 font-bold'>School :</span> {project?.school}</p>
+            <p className='text-xl  mb-4'><span className='text-blue-500 font-bold'>Course :</span> {project?.course}</p>
             {project.githubRepo && <a href={project.githubRepo} className=" text-xl font-bold mb-4 text-blue-500 hover:underline">GitHub Repo</a>}<br></br>
             <Link to={`/UserPublicProfile/${project.email}`} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 View Profile
             </Link>
+            
           <div>
           </div>
         </div>
 
       </div>
+      <video src={`${project?.projectVideo}`} controls className='w-[30%] mx-12'></video>
       <div className='m-12 p-4 rounded-lg  flex-grow'>
         <h2 className='text-4xl text-blue-500 font-bold text-center mb-12 '><span className=' rounded-md p-2 border-t-2 border-b-2 border-blue-500'>Project Description </span></h2>
         <p className='text-lg mb-6 text-blue-400 border-b-2 border-blue-500 p-2 rounded-md'>
