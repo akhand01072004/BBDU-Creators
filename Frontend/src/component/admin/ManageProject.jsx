@@ -12,11 +12,11 @@ const ManageProject = () => {
             if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
             setProjects(data);
-            if (response.status === 200) {
-                enqueueSnackbar('Project Fetch Successfully', {variant: 'success'})
-            } else {
-                enqueueSnackbar('Not Uploaded', {variant: 'error'})
-            }
+            // if (response.status === 200) {
+            //     enqueueSnackbar('Project Fetch Successfully', {variant: 'success'})
+            // } else {
+            //     enqueueSnackbar('Not Uploaded', {variant: 'error'})
+            // }
         } catch (error) {
             console.error("Error fetching projects:", error);
         }

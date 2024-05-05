@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { enqueueSnackbar } from 'notistack';
 import { Link } from 'react-router-dom';
 import { FaVideo, FaGithub } from "react-icons/fa";
 
@@ -17,7 +16,11 @@ function Projects() {
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
                 setProjects(data);
-                enqueueSnackbar('Projects fetched successfully', { variant: 'success' });
+                // if (response.status === 200) {
+                //     enqueueSnackbar('Project Fetch Successfully', { variant: 'success' });
+                // } else {
+                //     enqueueSnackbar('Not Uploaded', { variant: 'error' });
+                // }
             } catch (error) {
                 console.error("Error fetching projects:", error);
                 enqueueSnackbar('Failed to fetch projects', { variant: 'error' });
