@@ -26,6 +26,7 @@ import './App.css';
 import AdminProfile from './component/admin/AdminProfile';
 import Layout from './component/Layout';
 import UserProfile from './component/ProfilePage';
+import UserDetail from './component/UserPublicProfile';
 
 
 
@@ -53,6 +54,7 @@ function App() {
           <Route path="/home" element={<Header />} />
           <Route path="/login" element={<Layout><LogIn /></Layout>} />
           <Route path="/UserProfile" element={<Layout><UserProfile /></Layout>}/>
+          <Route path="/UserPublicProfile/:email" element={<Layout><UserDetail /></Layout>} />
           <Route path="/about" element={<Layout><About /></Layout>} />
           <Route path="/contact" element={<Layout><Contact /></Layout>} />
           <Route path="/UploadProjects" element={<Layout><UploadProjects /></Layout>} />

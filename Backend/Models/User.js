@@ -12,7 +12,7 @@ const userSchema = new Schema({
     duration: String, 
     projects : [{
         type : Schema.Types.ObjectId,
-        ref : 'Project'
+        ref : 'ApprovedProject'
     }]
 });
 

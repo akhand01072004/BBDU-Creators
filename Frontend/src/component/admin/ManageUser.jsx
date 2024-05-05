@@ -19,7 +19,7 @@ const ManageUser = () => {
 
     const deleteUser = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/user/delete/${id}`, {
+            const response = await fetch(`http://localhost:3000/users/delete/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -46,8 +46,8 @@ const ManageUser = () => {
             <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
             <div className="flex flex-col space-y-4">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className="w-full text-sm text-left rtl:text-right text-white">
+              <thead className="text-xs text-white uppercase  bg-blue-500 ">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                    UserName
@@ -62,13 +62,13 @@ const ManageUser = () => {
               </thead>
                 {users.length > 0 ? users.map((user) => (
                       <tbody key={user._id}>
-                        <tr className="bg-white border-b cursor-pointer dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <tr className="bg-white border-b cursor-pointer dark:border-gray-500 hover:bg-gray-50 dark:hover:bg-blue-200">
                           <th
                             scope="row"
-                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-[#4deeea]">
+                            className="px-6 py-4 font-medium  whitespace-nowrap dark:text-blue-500">
                             {user.name}
                           </th>
-                          <td className="px-6 py-4 text-[#4deeea]">{user?.email}</td>
+                          <td className="px-6 py-4 text-blue-500">{user?.email}</td>
                           <button onClick={() => deleteUser(user._id)} className="px-6 py-4 text-right">
                           <MdDelete className="text-lg text-red-500"/>
                           </button>

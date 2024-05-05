@@ -15,6 +15,9 @@ const UploadProjects = () => {
     const [projectVideo, setProjectVideo] = useState('');
     const [showGitHub, setShowGitHub] = useState(false);
 
+    //video status
+    const [uploadStatus, SetUploadStatus] = useState(false);
+
     const handleDepartmentChange = (event) => {
         const selectedDepartment = event.target.value;
         setDepartment(selectedDepartment);
@@ -44,7 +47,8 @@ const UploadProjects = () => {
         const data = new FormData();
         data.append("file", file);
         data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
+        data.append("cloud_name", "dl81ig8l5");
+        SetUploadStatus(true);
         try {
             const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/video/upload', {
                 method: "POST",
@@ -52,6 +56,7 @@ const UploadProjects = () => {
             });
             const resp = await response.json();
             setProjectVideo(resp.url);
+            SetUploadStatus(false);
             console.log(resp.url);
             console.log(projectVideo);
         } catch (error) {
@@ -165,6 +170,9 @@ const UploadProjects = () => {
                             <div className="mb-4">
                                 <label className="block text-black-700 text-lg font-bold">Project Video</label>
                                 <input type="file" onChange={UploadVideo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                {!projectVideo && uploadStatus ? <h1 className='text-2xl text-red-500'>Please wait Video is Uploading...</h1> : null}
+                                {projectVideo ? <h1 className='text-2xl text-green-500'>Video Uploaded Successfully..</h1> : null}
+                                
                             </div>
 
 

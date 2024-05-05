@@ -1,34 +1,39 @@
-import {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { useState , useEffect } from "react";
+import { useParams , Link } from "react-router-dom";
 import Img from "../assets/male.png"
 import male from "../assets/about-male-bg.jpg"
 import './Sign.css';
 
-const ProfilePage = () => {
+function UserPublicProfile() {
 
     const [user, SetUser] = useState('');
+    const {email} = useParams();
+    const data = {
+        email : email
+    }
     const UserDetail = async () => {
         try {
-            const resp = await fetch('http://localhost:3000/users/validatetoken',{
+            const resp = await fetch('http://localhost:3000/users/userbyemail',{
+            method : "POST",
             credentials : "include",
+            body : JSON.stringify(data),
             headers : {
                 'Content-Type' : 'application/json'
             }
         });
             const userdata = await resp.json();
             SetUser(userdata);
-            console.log(userdata);
         } catch (error) {
             console.log(error);
         }
     }
-    console.log(user)
     useEffect(() => {
         UserDetail();
     }, [])
 
     return (
         <div className="min-h-screen w bg-white flex justify-center items-start p-4">
+            {!user ? <h1>User Not Found</h1> : null}
             <div className="flex flex-col  gap-4 w-full md:max-w-8xl rounded-4xl shadow-[0px_20px_20px_10px_#00000024] ">
                 {/* First Column */}
                 <div className="flex flex-col w-full  md:flex-row items-center justify-center bg-white  p-4 md:p-8 ">
@@ -75,6 +80,6 @@ const ProfilePage = () => {
         </div>
 
     );
-};
+}
 
-export default ProfilePage;
+export default UserPublicProfile
