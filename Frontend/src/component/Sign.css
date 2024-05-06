@@ -86,3 +86,13 @@
   background-image: url('../assets/user-div1.png');
   
 }
+
+/* projects details */
+.bg-detail{
+  background-image:url('../assets/Sign-bg-1.png');
+}
+
+/* Edit user */
+.user-edit{
+  background-color: url('../assets/Edit.jpg');
+}

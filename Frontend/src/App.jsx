@@ -29,6 +29,8 @@ import UserProfile from './component/ProfilePage';
 import UserDetail from './component/UserPublicProfile';
 import DashboardContent from './component/admin/DashboardContent';
 import ManageProjectDetail from './component/admin/Projectdetails';
+import EditUser from './component/EditUser';
+import EditAdmin from './component/EditAdmin';
 
 
 
@@ -56,6 +58,8 @@ function App() {
           <Route path="/home" element={<Header />} />
           <Route path="/login" element={<Layout><LogIn /></Layout>} />
           <Route path="/UserProfile" element={<Layout><UserProfile /></Layout>}/>
+          <Route path='/EditUser' element={<Layout><EditUser/></Layout>}/>
+          <Route path='/EditAdmin' element={<Layout><EditAdmin/></Layout>}/>
           <Route path="/UserPublicProfile/:email" element={<Layout><UserDetail /></Layout>} />
           <Route path="/about" element={<Layout><About /></Layout>} />
           <Route path="/contact" element={<Layout><Contact /></Layout>} />

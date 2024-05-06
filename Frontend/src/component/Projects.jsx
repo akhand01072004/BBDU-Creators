@@ -62,8 +62,8 @@ function Projects() {
     );
 
     return (
-        <div>
-            <nav className="flex justify-between items-center py-4 px-6 bg-blue-500 text-white">
+        <div className='min-h-screen'>
+            <nav className="flex justify-between  items-center py-4 px-6 bg-blue-500 text-white">
                 <h1 className="font-bold text-lg">Projects</h1>
                 <input
                     type="text"
@@ -113,7 +113,7 @@ function Projects() {
                             <div className='flex flex-col ml-4 justify-between flex-grow'>
                                 <div>
                                     <h3 className="text-xl md:text-lg mb-1">Name: {project.name}</h3>
-                                    <p className="text-md md:text-lg mb-1">Department: {project.department}</p>
+                                    <p className="text-md md:text-lg mb-1">School: {project.school}</p>
                                     {project.githubRepo && (
                                         <div className="flex items-center">
                                             <Link to={`${project.githubRepo}`} className='mr-2 text-lg'>GitHub: <FaGithub className='w-5 h-5 text-blue-500 hover:text-blue-700' /></Link>

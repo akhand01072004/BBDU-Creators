@@ -13,16 +13,16 @@ const Section1 = () => {
         </div>
         <div className="flex flex-col justify-start items-start">
           <ul className="space-y-2">
-            <li> <span className="text-3xl font-bold text-blue-500">Foster Creativity:</span></li>
-            <li className="text-xl">Encourage and nurture creative expression across a wide range of disciplines.</li>
-            <li> <span className="text-3xl font-bold text-blue-500">Promote Collaboration:</span></li>
-            <li className="text-xl">Build a collaborative platform for sharing ideas and resources among creators.</li>
-            <li> <span className="text-3xl font-bold text-blue-500">Enhance Skills:</span></li>
-            <li className="text-xl">Provide educational opportunities and resources to help creators refine and advance their skills.</li>
-            <li> <span className="text-3xl font-bold text-blue-500">Support Innovation:</span></li>
-            <li className="text-xl">Support innovative projects and ideas that push the boundaries of traditional creativity.</li>
-            <li> <span className="text-3xl font-bold text-blue-500">Expand Networks:</span></li>
-            <li className="text-xl">Create networking opportunities that allow creators to connect, partner, and grow professionally.</li>
+            <li> <span className="text-2xl font-bold text-blue-500">Foster Creativity:</span></li>
+            <li className="text-lg">Encourage and nurture creative expression across a wide range of disciplines.</li>
+            <li> <span className="text-2xl font-bold text-blue-500">Promote Collaboration:</span></li>
+            <li className="text-lg">Build a collaborative platform for sharing ideas and resources among creators.</li>
+            <li> <span className="text-2xl font-bold text-blue-500">Enhance Skills:</span></li>
+            <li className="text-lg">Provide educational opportunities and resources to help creators refine and advance their skills.</li>
+            <li> <span className="text-2xl font-bold text-blue-500">Support Innovation:</span></li>
+            <li className="text-lg">Support innovative projects and ideas that push the boundaries of traditional creativity.</li>
+            <li> <span className="text-2xl font-bold text-blue-500">Expand Networks:</span></li>
+            <li className="text-lg">Create networking opportunities that allow creators to connect, partner, and grow professionally.</li>
           </ul>
         </div>
       </div>

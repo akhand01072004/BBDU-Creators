@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Img from "../assets/male.png"
 import male from "../assets/about-male-bg.jpg"
@@ -9,12 +9,12 @@ const ProfilePage = () => {
     const [user, SetUser] = useState('');
     const UserDetail = async () => {
         try {
-            const resp = await fetch('http://localhost:3000/users/validatetoken',{
-            credentials : "include",
-            headers : {
-                'Content-Type' : 'application/json'
-            }
-        });
+            const resp = await fetch('http://localhost:3000/users/validatetoken', {
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             const userdata = await resp.json();
             SetUser(userdata);
             console.log(userdata);
@@ -29,7 +29,13 @@ const ProfilePage = () => {
 
     return (
         <div className="min-h-screen w bg-white flex justify-center items-start p-4">
-            <div className="flex flex-col  gap-4 w-full md:max-w-8xl rounded-4xl shadow-[0px_20px_20px_10px_#00000024] ">
+
+            <div className="flex flex-col  gap-4 w-full md:max-w-8xl rounded-4xl shadow-[0px_20px_20px_10px_#00000024]  ">
+                <div className='w-full flex justify-end mt-4 mr-3'>
+                    <div>
+                        <Link to='/EditUser' className='self-center bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4 md:mt-auto w-full md:w-24'> Edit Profile</Link>
+                    </div>
+                </div>
                 {/* First Column */}
                 <div className="flex flex-col w-full  md:flex-row items-center justify-center bg-white  p-4 md:p-8 ">
                     <div className="w-full md:w-1/3 flex justify-center">
@@ -38,8 +44,8 @@ const ProfilePage = () => {
 
                     <div className="w-full md:w-2/3 text-center md:text-left">
                         <h2 className="text-2xl md:text-5xl font-bold">Hi there, My name is <span className='text-blue-600'>{user.name}</span></h2>
-                        <p className="mt-4 md:text-base">
-                            I am a final year student at Babu Banarsi Das University from the {user.school}.
+                        <p className="mt-4 md:text-xl">
+                            I am a  student at Babu Banarsi Das University from the {user.school}. .
                         </p>
                     </div>
                 </div>
@@ -47,13 +53,13 @@ const ProfilePage = () => {
 
                     <h1 className="text-3xl md:text-5xl font-bold my-2">About Me</h1>
                     <div className='md:flex md:flex-row flex flex-col justify-center'>
-                        <div className="flex flex-col justify-center text-start gap-2 m-8 ">
+                        <div className="flex flex-col justify-center text-start gap-2 m-8 md:w-2/4 ">
                             <p className=' text-xl md:text-2xl'><strong className='text-blue-600 text-xl md:text-2xl'>School:</strong> {user.school}</p>
                             <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Course:</strong> {user.course}</p>
                             <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Duration:</strong> {user.duration}</p>
                             <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Email:</strong> {user.email}</p>
                         </div>
-                        <div>
+                        <div className='md:w-2/4'>
                             <img src={male} alt="" className='h-96' />
                         </div>
 
@@ -63,7 +69,7 @@ const ProfilePage = () => {
                     <h1 className="text-4xl md:text-5xl font-bold my-2">Projects</h1>
 
                     {user?.projects?.map((project, index) => (
-                        <div key={index} className="bg-white p-4 rounded-lg flex justify-between shadow-md w-full md:w-3/5 mb-4">
+                        <div key={index} className="bg-white p-4 rounded-lg flex flex-col md:flex-row justify-between shadow-md w-full md:max-w-6xl mb-4">
                             <h3 className="font-bold mt-2 cursor-text">ProjectId : {project}</h3>
                             <Link to={`/projectDetail/${project}`} className="self-center bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4 md:mt-auto w-full md:w-32">
                                 View Project
