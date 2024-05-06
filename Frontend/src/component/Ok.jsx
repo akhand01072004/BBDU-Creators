@@ -1,199 +1,82 @@
-import {useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Img from "../assets/male.png"
+import male from "../assets/about-male-bg.jpg"
 import './Sign.css';
 
+const ProfilePage = () => {
 
-const UploadProjects = () => {
-    
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [projectName, setProjectName] = useState('');
-    const [department, setDepartment] = useState('');
-    const [githubRepo, setGithubRepo] = useState('');
-    const [projectDescription, setProjectDescription] = useState('');
-    const [projectImage, setProjectImage] = useState('');
-    const [projectVideo, setProjectVideo] = useState('');
-    const [showGitHub, setShowGitHub] = useState(false);
-
-    //video status
-    const [uploadStatus, SetUploadStatus] = useState(false);
-
-    const handleDepartmentChange = (event) => {
-        const selectedDepartment = event.target.value;
-        setDepartment(selectedDepartment);
-        setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering');
-    };
-
-    const UploadImage = async (event) => {
-        const file = event.target.files[0];
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
+    const [user, SetUser] = useState('');
+    const UserDetail = async () => {
         try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
-                method: "POST",
-                body: data
-            });
-            const resp = await response.json();
-            setProjectImage(resp.url);
-        } catch (error) {
-            console.log("failed to upload");
-        }
-    }
-
-    const UploadVideo = async (event) => {
-        const file = event.target.files[0];
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5");
-        SetUploadStatus(true);
-        try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/video/upload', {
-                method: "POST",
-                body: data
-            });
-            const resp = await response.json();
-            setProjectVideo(resp.url);
-            SetUploadStatus(false);
-            console.log(resp.url);
-            console.log(projectVideo);
-        } catch (error) {
-            console.log("failed to upload");
-        }
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = {
-            name: name,
-            email: email,
-            projectName: projectName,
-            department: department,
-            projectDescription: projectDescription,
-            githubRepo: githubRepo,
-            projectImage: projectImage,
-            projectVideo: projectVideo
-        }
-
-        if(!projectVideo){
-            enqueueSnackbar('please wait video is uploading..', {variant : 'success'})
-            return;
-        }
-
-        try {
-            const response = await fetch('http://localhost:3000/project/api/uploadprojects', {
-                method: 'POST',
-                body: JSON.stringify(formData),
+            const resp = await fetch('http://localhost:3000/users/validatetoken', {
+                credentials: "include",
                 headers: {
-                    "Content-Type": "application/json"
-                },
+                    'Content-Type': 'application/json'
+                }
             });
-            const data = await response.json();
-            if (response.status === 201) {
-                enqueueSnackbar("Project Submitted", { variant: "success" });
-            } else {
-                enqueueSnackbar("Project Not Submitted", { variant: "error" });
-            }
-            console.log('Form submission successful', data);
-            // Reset form and states if needed
+            const userdata = await resp.json();
+            SetUser(userdata);
+            console.log(userdata);
         } catch (error) {
-            console.error('Form submission error', error);
+            console.log(error);
         }
-    };
+    }
+    console.log(user)
+    useEffect(() => {
+        UserDetail();
+    }, [])
 
     return (
-        <div className="flex items-center justify-center min-h-screen upb">
-            <div className="bg-white-400 p-8 rounded-lg shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px] w-auto  ">
-                <h2 className="text-4xl  mb-5 text-center text-style">Upload Project</h2>
-                <form onSubmit={handleSubmit} encType='multipart/form-data'>
-                    {/* Name */}
-                    <div className="flex ">
-                        <div className='mr-5 '>
-                            <div className="mb-4">
-                                <label htmlFor="name" className="block text-black-700 text-lg font-bold mb-2">Name</label>
-                                <input type="text" value={name} onChange={(e) => setName(e.target.value)} id="name" className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
+        <div className="min-h-screen w bg-white flex justify-center items-start p-4">
 
-                            {/* Email */}
-                            <div className="mb-4">
-                                <label htmlFor="email" className="block text-black-700 text-lg font-bold mb-2">Email</label>
-                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Project Name */}
-                            <div className="mb-4">
-                                <label htmlFor="projectName" className="block text-black-700 text-lg font-bold mb-2">Project Name</label>
-                                <input type="text" value={projectName} onChange={(e) => setProjectName(e.target.value)} id="projectName" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Department Name */}
-                            <div className="mb-4">
-                                <label htmlFor="department" className="block text-black-700 text-lg font-bold mb-2">Department Name</label>
-                                <select id="department" value={department} onChange={handleDepartmentChange} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="">Select a Department</option>
-                                    <option value="School of Computer Applications">School of Computer Applications</option>
-                                    <option value="School of Engineering">School of Engineering</option>
-                                    <option value="School of Management">School of Management</option>
-                                    <option value="School Of Pharmacy">School Of Pharmacy</option>
-                                    <option value="School of Legal Studies">School of Legal Studies</option>
-                                    <option value="School of Basic Science">School of Basic Science</option>
-                                    <option value="School of Education">School of Education</option>
-                                    <option value="School of Humanities and Social Science">School of Humanities and Social Science</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-
-                            {/* Conditional GitHub Repository or Project Video */}
-                            {showGitHub ? (
-                                <>
-                                    <div className="mb-4">
-                                        <label htmlFor="githubRepo" className="block text-black-700 text-lg font-bold mb-2">GitHub Repository</label>
-                                        <input type="url" value={githubRepo} onChange={(e) => setGithubRepo(e.target.value)} id="githubRepo" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                    </div>
-
-                                </>
-                            ) : (
-                                <>
-
-                                </>
-                            )}
-
-                            {/* Project Image */}
-                            <div className="mb-4">
-                                <label className="block text-black-700 text-lg font-bold">Project Image</label>
-                                <input type="file" onChange={UploadImage} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block text-black-700 text-lg font-bold">Project Video</label>
-                                <input type="file" onChange={UploadVideo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                {!projectVideo && uploadStatus ? <h1 className='text-2xl text-red-500'>Please wait Video is Uploading...</h1> : null}
-                                {projectVideo ? <h1 className='text-2xl text-green-500'>Video Uploaded Successfully..</h1> : null}
-                                
-                            </div>
-
-
-                        </div>
+            <div className="flex flex-col  gap-4 w-full md:max-w-8xl rounded-4xl shadow-[0px_20px_20px_10px_#00000024]  ">
+                
+                {/* First Column */}
+                <div className="flex flex-col w-full  md:flex-row items-center justify-center bg-white  p-4 md:p-8 ">
+                    <div className="w-full md:w-1/3 flex justify-center">
+                        <img src={Img} alt="Profile" className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 border-blue-500 shadow-xl" />
                     </div>
-                    <div>
-                        <div className="mb-4">
-                            <label htmlFor="projectDescription" className="block text-black-700 text-lg font-bold mb-2">Project Description</label>
-                            <input type="text" value={projectDescription} onChange={(e) => setProjectDescription(e.target.value)} id="projectName" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        </div>
+
+                    <div className="w-full md:w-2/3 text-center md:text-left">
+                        <h2 className="text-2xl md:text-5xl font-bold">Hi there, My name is <span className='text-blue-600'>{user.name}</span></h2>
+                        <p className="mt-4 md:text-xl">
+                            I am a  student at Babu Banarsi Das University from the {user.school}. .
+                        </p>
                     </div>
-                    <div>
-                        {/* Submit Button */}
-                        <div className="flex justify-center mt-6">
-                            <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
+                </div>
+                <div className="flex flex-col items-center justify-center bg-white">
+
+                    <h1 className="text-3xl md:text-5xl font-bold my-2">About Me</h1>
+                    <div className='md:flex md:flex-row flex flex-col justify-center'>
+                        <div className="flex flex-col justify-center text-start gap-2 m-8 md:w-2/4 ">
+                            <p className=' text-xl md:text-2xl'><strong className='text-blue-600 text-xl md:text-2xl'>School:</strong> {user.school}</p>
+                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Course:</strong> {user.course}</p>
+                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Duration:</strong> {user.duration}</p>
+                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Email:</strong> {user.email}</p>
                         </div>
+                        <div className='md:w-2/4'>
+                            <img src={male} alt="" className='h-96' />
+                        </div>
+
                     </div>
-                </form>
+                </div>
+                <div className="flex flex-col items-center  rounded-2xl bg-white-100 ">
+                    <h1 className="text-4xl md:text-5xl font-bold my-2">Projects</h1>
+
+                    {user?.projects?.map((project, index) => (
+                        <div key={index} className="bg-white p-4 rounded-lg flex flex-col md:flex-row justify-between shadow-md w-full md:max-w-6xl mb-4">
+                            <h3 className="font-bold mt-2 cursor-text">ProjectId : {project}</h3>
+                            <Link to={`/projectDetail/${project}`} className="self-center bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4 md:mt-auto w-full md:w-32">
+                                View Project
+                            </Link>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
+
     );
 };
 
-export default UploadProjects;
+export default ProfilePage;
