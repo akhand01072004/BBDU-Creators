@@ -8,15 +8,11 @@ const ManageProject = () => {
     // Fetch projects from the backend when the component mounts
     const fetchProjects = async () => {
         try {
-            const response = await fetch('http://localhost:3000/project/api/projects'); // Ensure the URL matches your server's endpoint
+            const response = await fetch('http://localhost:3000/project/api/projects'); 
+
             if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
             setProjects(data);
-            // if (response.status === 200) {
-            //     enqueueSnackbar('Project Fetch Successfully', {variant: 'success'})
-            // } else {
-            //     enqueueSnackbar('Not Uploaded', {variant: 'error'})
-            // }
         } catch (error) {
             console.error("Error fetching projects:", error);
         }
@@ -93,7 +89,7 @@ const ManageProject = () => {
                             <p><strong>Department:</strong> {project.department}</p>
                             {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline">GitHub Repo</a>}
                             {project.projectVideo && <a href={project.projectVideo} className="text-blue-500 hover:underline">Project Video</a>}
-                            <Link to={`/projectDetail/${project._id}`} className='text-rose-500 hover:text-rose-700'>View More</Link>
+                            <Link to={`/Dashboard/Manageprojectdetail/${project._id}`} className='text-rose-500 hover:text-rose-700'>View More</Link>
                             <div className='flex gap-2 mt-2'>
                                 <button 
                                     onClick={(e) => {

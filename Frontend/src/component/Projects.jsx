@@ -116,7 +116,7 @@ function Projects() {
                                     <p className="text-md md:text-lg mb-1">Department: {project.department}</p>
                                     {project.githubRepo && (
                                         <div className="flex items-center">
-                                            <p className='mr-2 text-lg'>GitHub: </p><FaGithub className='w-5 h-5 text-blue-500 hover:text-blue-700' />
+                                            <Link to={`${project.githubRepo}`} className='mr-2 text-lg'>GitHub: <FaGithub className='w-5 h-5 text-blue-500 hover:text-blue-700' /></Link>
                                         </div>
                                     )}
                                 </div>

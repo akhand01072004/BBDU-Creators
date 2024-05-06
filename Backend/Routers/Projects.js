@@ -51,6 +51,12 @@ router.get('/api/Approvedprojects', async (req, res) => {
   }
 });
 
+//get all approved project
+router.get("/totalProjects", async(req,res) => {
+  const project = await ApprovedProject.find({});
+  return res.status(200).json({totalProject : project.length})
+})
+
 //fetch approvedproject by id
 router.get('/api/Approvedproject/:id', async(req,res) => {
   try {

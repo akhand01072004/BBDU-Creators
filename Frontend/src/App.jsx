@@ -27,6 +27,8 @@ import AdminProfile from './component/admin/AdminProfile';
 import Layout from './component/Layout';
 import UserProfile from './component/ProfilePage';
 import UserDetail from './component/UserPublicProfile';
+import DashboardContent from './component/admin/DashboardContent';
+import ManageProjectDetail from './component/admin/Projectdetails';
 
 
 
@@ -65,7 +67,9 @@ function App() {
           <Route path='/AdminLogin' element={<Layout><AdminLoginProvider><AdminLogin /></AdminLoginProvider></Layout>} />
           <Route path='/AdminSignup' element={<Layout><AdminLoginProvider><AdminSignup /></AdminLoginProvider></Layout>} />
           <Route path='/Dashboard' element={<Layout><AdminLoginProvider><AdminDashboard /></AdminLoginProvider></Layout>}>
-            <Route index element={<div><h1 className='text-6xl text-blue-500 m-52'>Welcome to Admin Panel</h1></div>} />
+
+            <Route index element={<DashboardContent />} />
+            <Route path='ManageProjectDetail/:id' element={<ManageProjectDetail />}/>
             <Route path='UserProfile' element={<AdminProfile />}/>
             <Route path='ManageProjectAdmin' element={<ManageProject />} />
             <Route path='ManageUserAdmin' element={<ManageUserAdmin />}/>

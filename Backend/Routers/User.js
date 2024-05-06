@@ -118,6 +118,11 @@ router.post('/validate-otp', async(req,res) => {
 // })
 
 
+router.get("/totalUser", async(req,res) => {
+    const user = await UserModel.find({});
+    return res.status(200).json({totalUser : user.length})
+})
+
 router.get("/validatetoken" , async(req , res) => {
     var token = req.cookies.auth_token;
     try {
