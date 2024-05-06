@@ -36,6 +36,25 @@ router.post('/login', async(req,res) => {
     }
 });
 
+router.put('/updateprofile', async(req,res) => {
+    const data = {...req.body};
+    const adminemail = data?.email;
+    const user = await AdminModel.findOne({email : adminemail});
+    const resp = await AdminModel.findByIdAndUpdate(user._id,
+                   {...data});
+    res.status(202).json({message : user});
+})
+
+router.put('/updateImage', async(req,res) => {
+    const data = {...req.body};
+    const useremail = data?.email;
+    console.log(useremail);
+    const user = await AdminModel.findOne({email : useremail});
+    const resp = await AdminModel.findByIdAndUpdate(user._id,
+                   {...data});
+    res.status(202).json({message : user});
+})
+
 router.get("/validatetoken" , async(req , res) => {
     var admintoken = req.cookies.admin_token;
     try {

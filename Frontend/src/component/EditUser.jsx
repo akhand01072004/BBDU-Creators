@@ -20,15 +20,15 @@ const schoolCoursesMap = {
 
 
 const EditUser = () => {
-
+    const [imageurl,setImageurl] = useState('');
+    const [useremail, setUserEmail] = useState('');
     const [formData, SetformData] = useState({
         name : '',
         about : '',
         email : '',
         school : '',
         course : '',
-        duration : '',
-        imageurl : ''
+        duration : ''
     })
     const UserDetail = async () => {
         try {
@@ -39,6 +39,7 @@ const EditUser = () => {
                 }
             });
             const userdata = await resp.json();
+            setUserEmail(userdata?.email);
             SetformData(userdata);
             console.log(userdata);
         } catch (error) {
@@ -49,28 +50,6 @@ const EditUser = () => {
         UserDetail();
     }, [])
 
-    
-    // const [name, SetName] = useState('Abhay');
-    // const [about, SetAbout] = useState('');
-    // const [email, SetEmail] = useState('');
-    // const [school, SetSchool] = useState('');
-    // const [course, SetCourse] = useState('');
-    // const [duration, SetDuration] = useState('');
-    // const [imageurl, SetImage] = useState('');
-
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setFormData(prevState => ({
-    //         ...prevState,
-    //         [name]: value
-    //     }));
-    //     if (name === 'school') {
-    //         setFormData(prevState => ({
-    //             ...prevState,
-    //             course: '',
-    //         }));
-    //     }
-    // };
 
     const handleChange = (e) => {
         SetformData({ ...formData,
@@ -79,12 +58,10 @@ const EditUser = () => {
             [e.target.email]: e.target.value,
             [e.target.school]: e.target.value,
             [e.target.course]: e.target.value,
-            [e.target.duration]: e.target.value,
-            [e.target.imageurl] : e.target.value
+            [e.target.duration]: e.target.value
         });
       };
 
-      const [imageurl , SetImageUrl] = useState('');
 
     // const handleFileChange = (e) => {
     //     setFormData(prevState => ({
@@ -93,19 +70,43 @@ const EditUser = () => {
     //     }));
     // };
 
+    const updateImage = async() => {
+        const formdata = {
+            email: useremail,
+            userimage: imageurl
+        }
+        console.log(formdata)
+        try {
+            console.log(formData)
+            const resp = await fetch('http://localhost:3000/users/updateImage', {
+                method : "PUT",
+                credentials: "include",
+                body : JSON.stringify(formdata),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if(resp.status === 204){
+                enqueueSnackbar('User Profile Image Updated', { variant: 'success' });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+   
     const UploadImage = async (event) => {
         const file = event.target.files[0];
         const data = new FormData();
         data.append("file", file);
         data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
+        data.append("cloud_name", "dl81ig8l5");
         try {
             const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
                 method: "POST",
                 body: data
             });
             const resp = await response.json();
-            SetImageUrl(resp.url);
+            setImageurl(resp.url);
             console.log(resp.url);
         } catch (error) {
             console.log("failed to upload");
@@ -114,15 +115,6 @@ const EditUser = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        // const formData = {
-        //     name: name,
-        //     about: about,
-        //     email: email,
-        //     school: school,
-        //     course: course,
-        //     duration: duration,
-        //     userimage: imageurl
-        // }
         try {
             console.log(formData)
             const resp = await fetch('http://localhost:3000/users/updateprofile', {
@@ -133,6 +125,7 @@ const EditUser = () => {
                     'Content-Type': 'application/json'
                 }
             });
+            updateImage();
             if(resp.status === 204){
                 enqueueSnackbar('User Profile Updated', { variant: 'success' });
             }

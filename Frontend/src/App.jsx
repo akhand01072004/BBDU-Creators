@@ -30,7 +30,7 @@ import UserDetail from './component/UserPublicProfile';
 import DashboardContent from './component/admin/DashboardContent';
 import ManageProjectDetail from './component/admin/Projectdetails';
 import EditUser from './component/EditUser';
-import EditAdmin from './component/EditAdmin';
+import EditAdmin from './component/admin/EditAdmin';
 
 
 
@@ -71,7 +71,6 @@ function App() {
           <Route path='/AdminLogin' element={<Layout><AdminLoginProvider><AdminLogin /></AdminLoginProvider></Layout>} />
           <Route path='/AdminSignup' element={<Layout><AdminLoginProvider><AdminSignup /></AdminLoginProvider></Layout>} />
           <Route path='/Dashboard' element={<Layout><AdminLoginProvider><AdminDashboard /></AdminLoginProvider></Layout>}>
-
             <Route index element={<DashboardContent />} />
             <Route path='ManageProjectDetail/:id' element={<ManageProjectDetail />}/>
             <Route path='UserProfile' element={<AdminProfile />}/>

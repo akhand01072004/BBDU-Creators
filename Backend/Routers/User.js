@@ -127,6 +127,15 @@ router.put('/updateprofile', async(req,res) => {
     res.status(202).json({message : user});
 })
 
+router.put('/updateImage', async(req,res) => {
+    const data = {...req.body};
+    const useremail = data?.email;
+    const user = await UserModel.findOne({email : useremail});
+    const resp = await UserModel.findByIdAndUpdate(user._id,
+                   {...data});
+    res.status(202).json({message : user});
+})
+
 
 router.get("/totalUser", async(req,res) => {
     const user = await UserModel.find({});

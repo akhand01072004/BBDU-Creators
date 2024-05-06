@@ -57,7 +57,7 @@ const AdminProfile = () => {
         {/* First Column */}
         <div className="flex flex-col w-full  md:flex-row items-center justify-center bg-white  p-4 md:p-8 ">
           <div className="w-full md:w-1/3 flex justify-center">
-            <img src={Img} alt="Profile" className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 border-blue-500 shadow-xl" />
+            <img src={admin?.imageurl} alt="Profile" className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 border-blue-500 shadow-xl" />
           </div>
 
           <div className="w-full md:w-2/3 text-center md:text-left">
@@ -87,7 +87,7 @@ const AdminProfile = () => {
               <img src={exp} alt="" className='h-96' />
             </div>
             <div className="flex flex-col justify-center text-start gap-2 m-8 md:w-2/4">
-              <p className='text-lg'>{experienceText}</p>
+              <p className='text-lg'>{admin?.experience}</p>
             </div>
           </div>
 
