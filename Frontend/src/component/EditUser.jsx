@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from '../assets/Edit.jpg'
+import { enqueueSnackbar } from 'notistack';
 
 // Mapping from schools to courses
 const schoolCoursesMap = {
@@ -16,48 +17,131 @@ const schoolCoursesMap = {
     "BABU BANARASI DAS COLLEGE OF DENTAL SCIENCES": ["DDS", "Ph.D. Dental Sciences"]
 };
 
+
+
 const EditUser = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        email: '',
-        school: '',
-        course: '',
-        duration: '',
-        image: null
-    });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-        if (name === 'school') {
-            setFormData(prevState => ({
-                ...prevState,
-                course: '',
-            }));
+    const [formData, SetformData] = useState({
+        name : '',
+        about : '',
+        email : '',
+        school : '',
+        course : '',
+        duration : '',
+        imageurl : ''
+    })
+    const UserDetail = async () => {
+        try {
+            const resp = await fetch('http://localhost:3000/users/validatetoken', {
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const userdata = await resp.json();
+            SetformData(userdata);
+            console.log(userdata);
+        } catch (error) {
+            console.log(error);
         }
-    };
+    }
+    useEffect(() => {
+        UserDetail();
+    }, [])
 
-    const handleFileChange = (e) => {
-        setFormData(prevState => ({
-            ...prevState,
-            image: e.target.files[0]
-        }));
-    };
+    
+    // const [name, SetName] = useState('Abhay');
+    // const [about, SetAbout] = useState('');
+    // const [email, SetEmail] = useState('');
+    // const [school, SetSchool] = useState('');
+    // const [course, SetCourse] = useState('');
+    // const [duration, SetDuration] = useState('');
+    // const [imageurl, SetImage] = useState('');
 
-    const handleSubmit = (e) => {
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFormData(prevState => ({
+    //         ...prevState,
+    //         [name]: value
+    //     }));
+    //     if (name === 'school') {
+    //         setFormData(prevState => ({
+    //             ...prevState,
+    //             course: '',
+    //         }));
+    //     }
+    // };
+
+    const handleChange = (e) => {
+        SetformData({ ...formData,
+            [e.target.name]: e.target.value,
+            [e.target.about]: e.target.value,
+            [e.target.email]: e.target.value,
+            [e.target.school]: e.target.value,
+            [e.target.course]: e.target.value,
+            [e.target.duration]: e.target.value,
+            [e.target.imageurl] : e.target.value
+        });
+      };
+
+      const [imageurl , SetImageUrl] = useState('');
+
+    // const handleFileChange = (e) => {
+    //     setFormData(prevState => ({
+    //         ...prevState,
+    //         image: e.target.files[0]
+    //     }));
+    // };
+
+    const UploadImage = async (event) => {
+        const file = event.target.files[0];
+        const data = new FormData();
+        data.append("file", file);
+        data.append("upload_preset", "ml_default");
+        data.append("cloud_name", "dl81ig8l5")
+        try {
+            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
+                method: "POST",
+                body: data
+            });
+            const resp = await response.json();
+            SetImageUrl(resp.url);
+            console.log(resp.url);
+        } catch (error) {
+            console.log("failed to upload");
+        }
+    }
+
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        // Validation to ensure all fields are filled
-        for (let key in formData) {
-            if (!formData[key] || (key === 'image' && formData[key] === null)) {
-                alert(`Please fill in the ${key}`);
-                return;
+        // const formData = {
+        //     name: name,
+        //     about: about,
+        //     email: email,
+        //     school: school,
+        //     course: course,
+        //     duration: duration,
+        //     userimage: imageurl
+        // }
+        try {
+            console.log(formData)
+            const resp = await fetch('http://localhost:3000/users/updateprofile', {
+                method : "PUT",
+                credentials: "include",
+                body : JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if(resp.status === 204){
+                enqueueSnackbar('User Profile Updated', { variant: 'success' });
             }
+        } catch (error) {
+            console.log(error);
         }
+        // Validation to ensure all fields are filled
         console.log('Form Data Submitted', formData);
+
         // Add actual submission logic here
     };
 
@@ -79,7 +163,7 @@ const EditUser = () => {
                                     type="text"
                                     name="name"
                                     value={formData.name}
-                                    onChange={handleInputChange}
+                                    onChange={handleChange}
                                     className="mt-1 p-2 w-full rounded-md border-2 border-black shadow-sm"
                                     required
                                 />
@@ -87,12 +171,12 @@ const EditUser = () => {
                         </div>
                         <div className="md:col-span-2">
                             <label className="block">
-                                <span className="text-black text-lg">Description</span>
+                                <span className="text-black text-lg">About</span>
                                 <textarea
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    className="mt-1  w-full rounded-md border-2 border-black shadow-sm "
+                                    name="about"
+                                    value={formData.about}
+                                    onChange={handleChange}
+                                    className="mt-1 p-1  w-full rounded-md border-2 border-black shadow-sm "
                                     required
                                 />
                             </label>
@@ -104,7 +188,7 @@ const EditUser = () => {
                                     type="email"
                                     name="email"
                                     value={formData.email}
-                                    onChange={handleInputChange}
+                                    onChange={handleChange}
                                     className="mt-1 w-full p-2 rounded-md border-2 border-black shadow-sm"
                                     required
                                 />
@@ -116,7 +200,7 @@ const EditUser = () => {
                                 <select
                                     name="school"
                                     value={formData.school}
-                                    onChange={handleInputChange}
+                                    onChange={handleChange}
                                     className=" mt-1 p-2 w-full rounded-md border-2 border-black shadow-sm"
                                     required
                                 >
@@ -133,7 +217,7 @@ const EditUser = () => {
                                 <select
                                     name="course"
                                     value={formData.course}
-                                    onChange={handleInputChange}
+                                    onChange={handleChange}
                                     className="  mt-1 p-2 w-full rounded-md border-2 border-black shadow-sm"
                                     required
                                     disabled={!formData.school}
@@ -152,7 +236,7 @@ const EditUser = () => {
                                     type="text"
                                     name="duration"
                                     value={formData.duration}
-                                    onChange={handleInputChange}
+                                    onChange={handleChange}
                                     className="mt-1 w-full p-2 rounded-md border-2 border-black shadow-sm"
                                     required
                                 />
@@ -163,7 +247,8 @@ const EditUser = () => {
                                 <span className="text-black text-lg">Profile Image</span>
                                 <input
                                     type="file"
-                                    onChange={handleFileChange}
+                                    accept="image/*" onChange={UploadImage}
+                                    value={formData.imageurl}
                                     className="mt-1 w-full p-2 rounded-md border-2 border-black shadow-sm"
                                     required
                                 />

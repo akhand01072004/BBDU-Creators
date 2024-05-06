@@ -117,6 +117,16 @@ router.post('/validate-otp', async(req,res) => {
 //     }
 // })
 
+router.put('/updateprofile', async(req,res) => {
+    const data = {...req.body};
+    const useremail = data?.email;
+    console.log(useremail);
+    const user = await UserModel.findOne({email : useremail});
+    const resp = await UserModel.findByIdAndUpdate(user._id,
+                   {...data});
+    res.status(202).json({message : user});
+})
+
 
 router.get("/totalUser", async(req,res) => {
     const user = await UserModel.find({});

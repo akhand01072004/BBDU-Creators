@@ -7,9 +7,11 @@ const userSchema = new Schema({
         unique: true
     },
     password: String,
+    about: String,
     school: String,
     course: String,
-    duration: String, 
+    duration: String,
+    userimage: String, 
     projects : [{
         type : Schema.Types.ObjectId,
         ref : 'ApprovedProject'
