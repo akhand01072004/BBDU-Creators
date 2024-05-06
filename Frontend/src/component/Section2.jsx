@@ -11,8 +11,8 @@ const Section2 = () => {
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4'>
                     {features.map((feature, index) => (
-                        <div key={index} className={`relative flex flex-col md:flex-row items-center  rounded-lg shadow-md p-4 md:ml-65 mb-10 ${feature.color}`}>
-                            <div className={`absolute md:-left-10 -left-4 top-1/2 transform -translate-y-1/2 h-16 w-16 md:h-20 md:w-20 rounded-full shadow-lg ${feature.bgColor} ${feature.img}`}></div>
+                        <div key={index} className={`relative flex flex-col md:flex-row items-center  rounded-lg shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] p-4 md:ml-65 mb-10 ${feature.color}`}>
+                            <div className={`absolute md:-left-10 -left-4 top-1/2 transform -translate-y-1/2 h-16 w-16 md:h-20 md:w-20 rounded-full shadow-[rgba(0,_0,_0,_0.2)_0px_60px_40px_-7px] ${feature.bgColor} ${feature.img}`}></div>
                             <div className="ml-12  md:w-96 ">
                                 <h2 className='text-xl md:text-2xl font-bold mb-2'>{feature.title}</h2>
                                 <p className='text-sm md:text-base'>{feature.description}</p>

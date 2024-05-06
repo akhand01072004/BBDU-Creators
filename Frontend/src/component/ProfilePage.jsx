@@ -30,7 +30,7 @@ const ProfilePage = () => {
     return (
         <div className="min-h-screen w bg-white flex justify-center items-start p-4">
 
-            <div className="flex flex-col  gap-4 w-full md:max-w-8xl rounded-4xl shadow-[0px_20px_20px_10px_#00000024]  ">
+            <div className="flex flex-col  gap-4 w-full md:max-w-8xl rounded-4xl  ">
                 <div className='w-full flex justify-end mt-4 mr-3'>
                     <div>
                         <Link to='/EditUser' className='self-center bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4 md:mt-auto w-full md:w-24'> Edit Profile</Link>
