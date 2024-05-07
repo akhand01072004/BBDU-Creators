@@ -26,7 +26,8 @@ function UserPublicProfile() {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
+    console.log(user);
     useEffect(() => {
         UserDetail();
     }, [])
@@ -39,13 +40,13 @@ function UserPublicProfile() {
                 {/* First Column */}
                 <div className="flex flex-col w-full  md:flex-row items-center justify-center bg-white  p-4 md:p-8 ">
                     <div className="w-full md:w-1/3 flex justify-center">
-                        <img src={Img} alt="Profile" className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 border-blue-500 shadow-xl" />
+                        <img src={user.userimage} alt="Profile" className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 border-blue-500 shadow-xl" />
                     </div>
 
                     <div className="w-full md:w-2/3 text-center md:text-left">
-                        <h2 className="text-2xl md:text-5xl font-bold">Hi there, My name is <span className='text-blue-600'>{user.name}</span></h2>
+                        <h2 className="text-2xl md:text-5xl font-bold">Hi there, My name is <span className='text-blue-600'>{user?.name}</span></h2>
                         <p className="mt-4 md:text-xl">
-                            I am a  student at Babu Banarsi Das University from the {user.school}. .
+                            I am a  student at Babu Banarsi Das University from the {user?.school}. .
                         </p>
                     </div>
                 </div>
@@ -54,10 +55,10 @@ function UserPublicProfile() {
                     <h1 className="text-3xl md:text-5xl font-bold my-2">About Me</h1>
                     <div className='md:flex md:flex-row flex flex-col justify-center'>
                         <div className="flex flex-col justify-center text-start gap-2 m-8 md:w-2/4 ">
-                            <p className=' text-xl md:text-2xl'><strong className='text-blue-600 text-xl md:text-2xl'>School:</strong> {user.school}</p>
-                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Course:</strong> {user.course}</p>
-                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Duration:</strong> {user.duration}</p>
-                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Email:</strong> {user.email}</p>
+                            <p className=' text-xl md:text-2xl'><strong className='text-blue-600 text-xl md:text-2xl'>School:</strong> {user?.school}</p>
+                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Course:</strong> {user?.course}</p>
+                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Duration:</strong> {user?.duration}</p>
+                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Email:</strong> {user?.email}</p>
                         </div>
                         <div className='md:w-2/4'>
                             <img src={male} alt="" className='h-96' />
