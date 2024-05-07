@@ -13,12 +13,12 @@ const AdminSchema = new mongoose.Schema({
     password : {
         type : String
     },
-    about : String,
+    about: String,
     experience : {
         type : String
     },
-    imageurl : String,
-    department : String
+    imageurl: String,
+    department: String
 })
 
 AdminSchema.pre("save",async function(next){

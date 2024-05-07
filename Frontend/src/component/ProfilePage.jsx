@@ -45,7 +45,7 @@ const ProfilePage = () => {
                     <div className="w-full md:w-2/3 text-center md:text-left">
                         <h2 className="text-2xl md:text-5xl font-bold">Hi there, My name is <span className='text-blue-600'>{user.name}</span></h2>
                         <p className="mt-4 md:text-xl">
-                            I am a  student at Babu Banarsi Das University from the {user.school}. .
+                            {user?.about} {user.school}. .
                         </p>
                     </div>
                 </div>

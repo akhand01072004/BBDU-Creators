@@ -7,11 +7,10 @@ const EditAdmin = () => {
     const [imageurl,setImageurl] = useState('');
     const [adminemail, setAdminEmail] = useState('');
     const [formData, setFormData] = useState({
-        name: 'Anas',
+        name: '',
         description: '',
-        aboutMe: '',
-        experience: '',
-        image: null
+        about: '',
+        experience: ''
     });
     const GetAdminData = async() => {
         const resp = await fetch('http://localhost:3000/admin/validatetoken',{
@@ -37,7 +36,7 @@ const EditAdmin = () => {
       const updateImage = async() => {
         const formdata = {
             email: adminemail,
-            userimage: imageurl
+            imageurl: imageurl
         }
         console.log(formdata)
         try {
@@ -142,7 +141,7 @@ const EditAdmin = () => {
                             <label className="block text-lg text-black">
                                 About Me
                                 <textarea
-                                    name="aboutMe"
+                                    name="about"
                                     value={formData.about}
                                     onChange={handleChange}
                                     placeholder="Describe yourself"
