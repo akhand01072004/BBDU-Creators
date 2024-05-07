@@ -20,6 +20,7 @@ const EditAdmin = () => {
             }
         });
         const admindata = await resp.json();
+        setImageurl(admindata?.imageurl);
         setAdminEmail(admindata?.email);
         setFormData(admindata);
     }
@@ -49,9 +50,6 @@ const EditAdmin = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            if(resp.status === 204){
-                enqueueSnackbar('User Profile Image Updated', { variant: 'success' });
-            }
         } catch (error) {
             console.log(error);
         }
@@ -91,7 +89,7 @@ const EditAdmin = () => {
                 }
             });
             updateImage();
-            if(resp.status === 204){
+            if(resp.status == '202'){
                 enqueueSnackbar('User Profile Updated', { variant: 'success' });
             }
         } catch (error) {
@@ -170,7 +168,6 @@ const EditAdmin = () => {
                                     type="file"
                                     onChange={UploadImage}
                                     className="mt-1 w-full p-2 rounded-md border-2 border-black shadow-sm"
-                                    required
                                 />
                             </label>
                         </div>

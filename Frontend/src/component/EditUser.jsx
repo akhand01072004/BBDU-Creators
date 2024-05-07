@@ -39,6 +39,7 @@ const EditUser = () => {
                 }
             });
             const userdata = await resp.json();
+            setImageurl(userdata?.userimage);
             setUserEmail(userdata?.email);
             SetformData(userdata);
             console.log(userdata);
@@ -86,7 +87,7 @@ const EditUser = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            if(resp.status === 204){
+            if(resp.status == '202'){
                 enqueueSnackbar('User Profile Image Updated', { variant: 'success' });
             }
         } catch (error) {
@@ -126,7 +127,7 @@ const EditUser = () => {
                 }
             });
             updateImage();
-            if(resp.status === 204){
+            if(resp.status == '202'){
                 enqueueSnackbar('User Profile Updated', { variant: 'success' });
             }
         } catch (error) {
