@@ -39,7 +39,8 @@ const ProfilePage = () => {
                 {/* First Column */}
                 <div className="flex flex-col w-full  md:flex-row items-center justify-center bg-white  p-4 md:p-8 ">
                     <div className="w-full md:w-1/3 flex justify-center">
-                        <img src={user?.userimage} alt="Profile" className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 border-blue-500 shadow-xl" />
+                        {user?.imageurl  ? <img src={Img} alt='avatar'/> :
+                        <img src={user?.userimage} alt="Profile" className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 border-blue-500 shadow-xl" />}
                     </div>
 
                     <div className="w-full md:w-2/3 text-center md:text-left">
