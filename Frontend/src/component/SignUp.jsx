@@ -60,7 +60,7 @@ const SignUp = () => {
         course : values?.course,
         duration : values?.duration
       }
-      const res = await fetch('http://localhost:3000/users/register', {
+      const res = await fetch('https://bbdu-backend-2.onrender.com/users/register', {
         method : "POST",
         body : JSON.stringify(formdata),
         headers: {

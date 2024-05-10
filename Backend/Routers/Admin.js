@@ -28,8 +28,8 @@ router.post('/login', async(req,res) => {
         if(!match){
             return res.status(400).json({message : "Wrong Password"});
         }
-        const token = jwt.sign({userId: user._id}, process.env.SECRETKEY , {expiresIn : '1d'});
-        res.cookie("admin_token", token, {httpOnly: true, secure : process.env.SECRETKEY});
+        const token = jwt.sign({userId: user._id},  process.env.SECRETKEY ,{expiresIn : '2d'});
+        res.cookie("admin_token", token, {httpOnly: true, sameSite : 'none', secure : process.env.SECRETKEY});
         res.status(200).json({userId: user._id});
     } catch (error) {
         res.status(500).json({message : "Something went wrong"});

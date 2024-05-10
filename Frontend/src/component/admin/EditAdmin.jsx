@@ -13,7 +13,7 @@ const EditAdmin = () => {
         experience: ''
     });
     const GetAdminData = async() => {
-        const resp = await fetch('http://localhost:3000/admin/validatetoken',{
+        const resp = await fetch('https://bbdu-backend-2.onrender.com/admin/validatetoken',{
             credentials : "include",
             headers : {
                 'Content-Type' : 'application/json'
@@ -42,7 +42,7 @@ const EditAdmin = () => {
         console.log(formdata)
         try {
             console.log(formData)
-            const resp = await fetch('http://localhost:3000/admin/updateImage', {
+            const resp = await fetch('https://bbdu-backend-2.onrender.com/admin/updateImage', {
                 method : "PUT",
                 credentials: "include",
                 body : JSON.stringify(formdata),
@@ -80,7 +80,7 @@ const EditAdmin = () => {
         e.preventDefault();
         try {
             console.log(formData)
-            const resp = await fetch('http://localhost:3000/admin/updateprofile', {
+            const resp = await fetch('https://bbdu-backend-2.onrender.com/admin/updateprofile', {
                 method : "PUT",
                 credentials: "include",
                 body : JSON.stringify(formData),

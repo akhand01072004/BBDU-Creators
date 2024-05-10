@@ -19,7 +19,7 @@ const AdminDashboard = () => {
 
   
   const LogOut = async() => {
-    const resp = await fetch('http://localhost:3000/admin/logout',{
+    const resp = await fetch('https://bbdu-backend-2.onrender.com/admin/logout',{
               credentials : "include",
               headers : {
                   'Content-Type' : 'application/json'

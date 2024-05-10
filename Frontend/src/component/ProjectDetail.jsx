@@ -15,7 +15,7 @@ export default function ProjectDetail() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/project/api/Approvedproject/${id}`);
+      const response = await fetch(`https://bbdu-backend-2.onrender.com/project/api/Approvedproject/${id}`);
       if (!response.ok) throw new Error('Failed to fetch');
       const data = await response.json();
       setProject(data);

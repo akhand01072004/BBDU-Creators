@@ -154,7 +154,7 @@ router.get("/validatetoken" , async(req , res) => {
 })
 
 router.get("/logout", (req, res) => {
-    res.cookie("auth_token", "",{
+    res.cookie("cf_clearence", "",{
         expires: new Date(0),
     });
     res.status(201).send();

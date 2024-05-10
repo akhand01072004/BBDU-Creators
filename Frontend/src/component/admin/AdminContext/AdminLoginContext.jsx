@@ -7,7 +7,8 @@ export const AdminLoginProvider = (props) => {
     const [Adminlogin,SetAdminLogin] = useState(false);
     
     const check = async() => {
-        const resp = await fetch('http://localhost:3000/admin/validatetoken',{
+        const resp = await fetch('https://bbdu-backend-2.onrender.com/admin/validatetoken',{
+            method : "GET",
             credentials : "include",
             headers : {
                 'Content-Type' : 'application/json'

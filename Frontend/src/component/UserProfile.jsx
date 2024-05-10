@@ -5,7 +5,7 @@ const UserProfile = () => {
     const [user, SetUser] = useState('');
     const UserDetail = async () => {
         try {
-            const resp = await fetch('http://localhost:3000/users/validatetoken',{
+            const resp = await fetch('https://bbdu-backend-2.onrender.com/users/validatetoken',{
             credentials : "include",
             headers : {
                 'Content-Type' : 'application/json'

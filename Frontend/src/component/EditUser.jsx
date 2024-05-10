@@ -32,7 +32,7 @@ const EditUser = () => {
     })
     const UserDetail = async () => {
         try {
-            const resp = await fetch('http://localhost:3000/users/validatetoken', {
+            const resp = await fetch('https://bbdu-backend-2.onrender.com/users/validatetoken', {
                 credentials: "include",
                 headers: {
                     'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ const EditUser = () => {
         console.log(formdata)
         try {
             console.log(formData)
-            const resp = await fetch('http://localhost:3000/users/updateImage', {
+            const resp = await fetch('https://bbdu-backend-2.onrender.com/users/updateImage', {
                 method : "PUT",
                 credentials: "include",
                 body : JSON.stringify(formdata),

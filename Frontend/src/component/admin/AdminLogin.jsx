@@ -29,7 +29,7 @@ const AdminLogin = () => {
         },
         validationSchema: LoginSchema,
         onSubmit: async (values, action) => {
-            const res = await fetch('http://localhost:3000/admin/login', {
+            const res = await fetch('https://bbdu-backend-2.onrender.com/admin/login', {
                 method: "POST",
                 body: JSON.stringify(values),
                 credentials: 'include',

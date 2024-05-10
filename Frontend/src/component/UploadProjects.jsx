@@ -98,7 +98,7 @@ const UploadProjects = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/project/api/uploadprojects', {
+            const response = await fetch('https://bbdu-backend-2.onrender.com/project/api/uploadprojects', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
