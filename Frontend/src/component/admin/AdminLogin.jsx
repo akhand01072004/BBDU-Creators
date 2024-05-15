@@ -13,6 +13,7 @@ const LoginSchema = yup.object().shape({
 });
 
 const AdminLogin = () => {
+
     const LoginState = useContext(AdminLoginContext);
 
     const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +30,7 @@ const AdminLogin = () => {
         },
         validationSchema: LoginSchema,
         onSubmit: async (values, action) => {
-            const res = await fetch('https://bbdu-backend-2.onrender.com/admin/login', {
+            const res = await fetch('http://localhost:3000/admin/login', {
                 method: "POST",
                 body: JSON.stringify(values),
                 credentials: 'include',

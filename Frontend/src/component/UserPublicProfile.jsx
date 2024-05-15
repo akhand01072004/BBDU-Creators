@@ -13,7 +13,7 @@ function UserPublicProfile() {
     }
     const UserDetail = async () => {
         try {
-            const resp = await fetch('https://bbdu-backend-2.onrender.com/users/userbyemail',{
+            const resp = await fetch('http://localhost:3000/users/userbyemail',{
             method : "POST",
             credentials : "include",
             body : JSON.stringify(data),

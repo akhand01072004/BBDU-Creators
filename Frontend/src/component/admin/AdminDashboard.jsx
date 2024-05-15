@@ -16,11 +16,11 @@ const AdminDashboard = () => {
   const LoginState = useContext(AdminLoginContext);
   const navigate = useNavigate();
   
-
+  const localhost_url =  "http://localhost:3000/admin/logout";
   
   const LogOut = async() => {
-    const resp = await fetch('https://bbdu-backend-2.onrender.com/admin/logout',{
-              credentials : "include",
+    const resp = await fetch(`${localhost_url}`,{
+              credentials: "include",
               headers : {
                   'Content-Type' : 'application/json'
               }

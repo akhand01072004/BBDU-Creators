@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState} from "react";
-import { LoginContext } from "../Context/LoginContext";
+import { LoginContext } from "./Context/LoginContext";
 import.meta.env;
 
 const Fileupload = () => {

@@ -13,7 +13,7 @@ const AdminProfile = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const response = await fetch('https://bbdu-backend-2.onrender.com/admin/validatetoken', {
+      const response = await fetch('http://localhost:3000/admin/validatetoken', {
         credentials: "include",
         headers: {
           'Content-Type': 'application/json'

@@ -15,7 +15,7 @@ const Navbar = () => {
     navigate('/UserProfile')
   } 
   const LogOut = async () => {
-    const response = await fetch('https://bbdu-backend-2.onrender.com/users/logout', {
+    const response = await fetch('http://localhost:3000/users/logout', {
       credentials: "include",
       headers: {
         'Content-Type': 'application/json'
