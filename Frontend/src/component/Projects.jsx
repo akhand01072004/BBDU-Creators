@@ -27,7 +27,7 @@ function Projects() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch('https://bbdu-backend-2.onrender.com/project/api/Approvedprojects');
+                const response = await fetch('http://localhost:3000/project/api/Approvedprojects');
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
                 setProjects(data);
