@@ -72,6 +72,57 @@ router.post('/login', async(req,res) => {
     }
 });
 
+router.post('/forgot-password', async(req,res) => {
+    const emailto = req.body?.email;
+    console.log("inside forgot pswd", emailto);
+    const sender = nodemailer.createTransport({
+        service: 'Gmail',
+        auth : {
+            user : process.env.USER,
+            pass : process.env.PASS
+        }
+    });
+    try {
+        const user = await UserModel.findOne({email : emailto});
+        const token = jwt.sign({email : user.email, id : user._id}, process.env.SECRETKEY, {expiresIn : "10m"});
+        const link = `http://localhost:5173/reset-password/${user._id}/${token}`;
+        const response = sender.sendMail({
+            from : process.env.USER,
+            to : req.body?.email,
+            subject : "Password Reset link",
+            text : `You are receving this email because a request was made for password reset. please click the link for reseting : ${link}`
+        });
+        console.log(link);
+        res.status(203).json({message : "Link sent"});
+    } catch (error) {
+        res.status(500).json({message : "Failed to sent link"});
+    }
+})
+
+router.post('/reset-password/:id/:token', async(req,res) => {
+    const {id,token} = req.params;
+    const {password} = req.body;
+    console.log(id,token);
+    try {
+        const user = await UserModel.findById(id);
+        if(!user){
+            return res.status(502).json({message : "User not found"});
+        }
+        const verify = await jwt.verify(token, process.env.SECRETKEY);
+        const encryptedpswd = await bcrypt.hash(password,8);
+        await UserModel.updateOne({
+            _id: id,
+        },{
+            $set: {
+            password: encryptedpswd,
+        },
+    });
+        res.status(201).json({message : "Password updated"});
+    } catch (error) {
+        res.status(500).json({message : "Invalid token"});
+    }
+})
+
 var otp;
 router.post('/SendEmail' , async(req,res) => {
     otp = Math.floor(100000 + Math.random() * 900000)
@@ -83,6 +134,7 @@ router.post('/SendEmail' , async(req,res) => {
             pass : process.env.PASS
         }
     });
+    console.log("before email sent", emailto);
     try {
         const response = sender.sendMail({
             from : process.env.USER,
@@ -90,6 +142,7 @@ router.post('/SendEmail' , async(req,res) => {
             subject : "One-time verification code",
             text : `You are receving this email because a request was made for email verifcation. Please enter the following code for verification : ${otp}`
         });
+        console.log("email sent");
         res.status(201).json({message : "email sent successfully"});
     } catch (error) {
         res.status(501).json({message : "failed to sent email"});
