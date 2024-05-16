@@ -78,9 +78,8 @@ export default function ProjectDetail() {
 
         <div className='m-12 p-4 rounded-lg  flex-grow'>
           <h2 className='text-2xl md:text-4xl text-black font-bold text-center mb-12 '><span className=' rounded-md p-2 border-t-2 border-b-2 border-black'>Project Description </span></h2>
-          <p className='text-lg mb-6 text-black border-b-2 border-black p-2 rounded-md'>
-            {project.projectDescription ?
-              <ReactTyped className="text-xl  rounded-md " strings={[project.projectDescription]} typeSpeed={0} cursorChar='.' /> : "No Project Description"}
+          <p className='text-lg mb-6  text-black border-b-2 border-black p-2 rounded-md'>
+            {project?.projectDescription}
           </p>  {/* Assuming 'description' is a field in the project data */}
         </div>
       </div>

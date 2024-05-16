@@ -16,21 +16,21 @@ function refreshPage() {
 const AdminDashboard = () => {
   const LoginState = useContext(AdminLoginContext);
   const navigate = useNavigate();
-
-
-
-  const LogOut = async () => {
-    const resp = await fetch('http://localhost:3000/admin/logout', {
-      credentials: "include",
-      headers: {
-        'Content-Type': 'application/json'
+  
+  const localhost_url =  "http://localhost:3000/admin/logout";
+  
+  const LogOut = async() => {
+    const resp = await fetch(`${localhost_url}`,{
+              credentials: "include",
+              headers : {
+                  'Content-Type' : 'application/json'
+              }
+            });
+      if(resp.status === 201){
+        enqueueSnackbar('Admin Logout Successfully', {variant : 'success'});
+        refreshPage();
+        navigate('/AdminLogin');
       }
-    });
-    if (resp.status === 201) {
-      enqueueSnackbar('Admin Logout Successfully', { variant: 'success' });
-      refreshPage();
-      navigate('/AdminLogin');
-    }
   }
 
   return (

@@ -17,7 +17,6 @@ const ProfilePage = () => {
             });
             const userdata = await resp.json();
             SetUser(userdata);
-            console.log(userdata);
         } catch (error) {
             console.log(error);
         }

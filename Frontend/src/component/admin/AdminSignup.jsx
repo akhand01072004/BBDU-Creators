@@ -44,7 +44,7 @@ const AdminSignup = () => {
       }
       console.log(formdata);
       try {
-        const res = await fetch('http://localhost:3000/admin/signup', {
+        const res = await fetch('https://bbdu-backend-2.onrender.com/admin/signup', {
           method: 'POST',
           body: JSON.stringify(formdata),
           headers: { 

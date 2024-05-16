@@ -7,7 +7,7 @@ const ManageUser = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:3000/users/getAll');
+            const response = await fetch('https://bbdu-backend-2.onrender.com/users/getAll');
             if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
             setUsers(data);
@@ -19,7 +19,7 @@ const ManageUser = () => {
 
     const deleteUser = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/users/delete/${id}`, {
+            const response = await fetch(`https://bbdu-backend-2.onrender.com/users/delete/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'

@@ -32,8 +32,8 @@ import ManageProjectDetail from './component/admin/Projectdetails';
 import EditUser from './component/EditUser';
 import EditAdmin from './component/admin/EditAdmin';
 import PageNotFound from './component/PageNotFound';
-
-
+import ResetPassword from './component/ResetPassword';
+import ForgotPswd from './ForgotPswd';
 
 
 function App() {
@@ -69,6 +69,8 @@ function App() {
           <Route path="/projectDetail/:id" element={<Layout><ProjectDetail /></Layout>} />
           <Route path="/fileupload" element={<Fileupload />} />
           <Route path="/email-verification" element={<Layout><EmailVerify /></Layout>} />
+          <Route path="/forgot-password" element={<Layout><ForgotPswd /></Layout>} />
+          <Route path='/reset-password/:email/:token' element={<Layout><ResetPassword /></Layout>} />
           <Route path='/AdminLogin' element={<Layout><AdminLoginProvider><AdminLogin /></AdminLoginProvider></Layout>} />
           <Route path='/AdminSignup' element={<Layout><AdminLoginProvider><AdminSignup /></AdminLoginProvider></Layout>} />
           <Route path='/Dashboard' element={<Layout><AdminLoginProvider><AdminDashboard /></AdminLoginProvider></Layout>}>

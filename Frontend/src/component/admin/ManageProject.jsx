@@ -27,7 +27,7 @@ const ManageProject = () => {
     // Fetch projects from the backend when the component mounts
     const fetchProjects = async () => {
         try {
-            const response = await fetch('http://localhost:3000/project/api/projects');
+            const response = await fetch('https://bbdu-backend-2.onrender.com/project/api/projects'); 
 
             if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
@@ -69,30 +69,30 @@ const ManageProject = () => {
 
     const Approve = async (id) => {
         try {
-            const data = await fetch(`http://localhost:3000/project/api/project/${id}`);
+            const data = await fetch(`https://bbdu-backend-2.onrender.com/project/api/project/${id}`);
             const proj = await data.json();
             const emailbody = {
                 emailto: proj.email,
                 name: proj.name
             }
             const resp = await fetch('http://localhost:3000/project/api/ApproveProject', {
-                method: 'POST',
-                body: JSON.stringify(proj),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
-            //send email to the student if his/her project get approved
-            const response = await fetch('http://localhost:3000/project/SendProjectStatusEmail', {
-                method: "POST",
-                body: JSON.stringify(emailbody),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            if (response.status === 201) {
-                enqueueSnackbar('Email Sent', { variant: 'success' })
+            method: 'POST',
+            body: JSON.stringify(proj),
+            headers: {
+            "Content-Type":"application/json"
+            },
+        });
+         //send email to the student if his/her project get approved
+         const response = await fetch('http://localhost:3000/project/SendProjectStatusEmail',{
+            method: "POST",
+            body: JSON.stringify(emailbody),
+            headers: {
+                "Content-Type":"application/json"
             }
+        })
+        if(response.status === 201){
+            enqueueSnackbar('Email Sent', {variant: 'success'})
+        }
 
 
             RejectProject(id);
@@ -106,7 +106,7 @@ const ManageProject = () => {
 
     const RejectProject = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/project/api/deleteProject/${id}`, {
+            const response = await fetch(`https://bbdu-backend-2.onrender.com/project/api/deleteProject/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
