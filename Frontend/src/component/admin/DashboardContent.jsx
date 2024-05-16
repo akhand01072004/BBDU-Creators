@@ -100,7 +100,7 @@ export default function DashboardContent() {
     //   FindTotalProjects();
     // },[])
   return (
-    <div className='mt-1 ml-8'>
+    <div className='mt-1 ml-1 bg-white min-h-screen'>
         <h1 className='text-6xl ml-[38%] mb-2 my-1 text-blue-500'>DashBoard</h1>
         <div className="w-[50%] ml-[25%] mt-4 cursor-pointer">
         <Bar options={options} data={data} />

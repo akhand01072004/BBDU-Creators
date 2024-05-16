@@ -1,82 +1,116 @@
 import { useState, useEffect } from 'react';
+import { enqueueSnackbar } from 'notistack';
 import { Link } from 'react-router-dom';
-import Img from "../assets/male.png"
-import male from "../assets/about-male-bg.jpg"
-import './Sign.css';
 
-const ProfilePage = () => {
+const ManageProject = () => {
+    const [projects, setProjects] = useState([]);
 
-    const [user, SetUser] = useState('');
-    const UserDetail = async () => {
+    // Fetch projects from the backend when the component mounts
+    const fetchProjects = async () => {
         try {
-            const resp = await fetch('http://localhost:3000/users/validatetoken', {
-                credentials: "include",
+            const response = await fetch('http://localhost:3000/project/api/projects'); 
+
+            if (!response.ok) throw new Error('Failed to fetch');
+            const data = await response.json();
+            setProjects(data);
+        } catch (error) {
+            console.error("Error fetching projects:", error);
+        }
+    };
+    useEffect(() => {
+        fetchProjects();
+    }, []); // The empty dependency array ensures this effect runs once on mount
+
+    const Approve = async(id) => {
+        try {
+            const data = await fetch(`http://localhost:3000/project/api/project/${id}`);
+            const proj = await data.json();
+            const emailbody = {
+                emailto : proj.email,
+                name : proj.name
+            }
+            const resp = await fetch('http://localhost:3000/project/api/ApproveProject', {
+            method: 'POST',
+            body: JSON.stringify(proj),
+            headers: {
+            "Content-Type":"application/json"
+            },
+        });
+         //send email to the student if his/her project get approved
+         const response = await fetch('http://localhost:3000/project/SendProjectStatusEmail',{
+            method: "POST",
+            body: JSON.stringify(emailbody),
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        if(response.status === 201){
+            enqueueSnackbar('Email Sent', {variant: 'success'})
+        }
+
+
+        RejectProject(id);
+        if(!resp){
+            enqueueSnackbar('Project Approved', {variant: 'success'})
+        }
+        } catch (error) {
+            console.log("facing error while uploading")
+        }
+    }
+
+    const RejectProject = async(id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/project/api/deleteProject/${id}`, {
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            const userdata = await resp.json();
-            SetUser(userdata);
-            console.log(userdata);
+            fetchProjects();
+            if (response.status === 200) {
+                enqueueSnackbar('Project Deleted Successfully', {variant: 'success'})
+            } else {
+                enqueueSnackbar('Facing error while deleting', {variant: 'error'})
+            }
         } catch (error) {
-            console.log(error);
+            console.log("Facing error while deleting")
         }
     }
-    console.log(user)
-    useEffect(() => {
-        UserDetail();
-    }, [])
-
-    return (
-        <div className="min-h-screen w bg-white flex justify-center items-start p-4">
-
-            <div className="flex flex-col  gap-4 w-full md:max-w-8xl rounded-4xl shadow-[0px_20px_20px_10px_#00000024]  ">
-                
-                {/* First Column */}
-                <div className="flex flex-col w-full  md:flex-row items-center justify-center bg-white  p-4 md:p-8 ">
-                    <div className="w-full md:w-1/3 flex justify-center">
-                        <img src={Img} alt="Profile" className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 border-blue-500 shadow-xl" />
-                    </div>
-
-                    <div className="w-full md:w-2/3 text-center md:text-left">
-                        <h2 className="text-2xl md:text-5xl font-bold">Hi there, My name is <span className='text-blue-600'>{user.name}</span></h2>
-                        <p className="mt-4 md:text-xl">
-                            I am a  student at Babu Banarsi Das University from the {user.school}. .
-                        </p>
-                    </div>
-                </div>
-                <div className="flex flex-col items-center justify-center bg-white">
-
-                    <h1 className="text-3xl md:text-5xl font-bold my-2">About Me</h1>
-                    <div className='md:flex md:flex-row flex flex-col justify-center'>
-                        <div className="flex flex-col justify-center text-start gap-2 m-8 md:w-2/4 ">
-                            <p className=' text-xl md:text-2xl'><strong className='text-blue-600 text-xl md:text-2xl'>School:</strong> {user.school}</p>
-                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Course:</strong> {user.course}</p>
-                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Duration:</strong> {user.duration}</p>
-                            <p className='text-xl md:text-2xl'><strong className='text-blue-600 '>Email:</strong> {user.email}</p>
+    return ( 
+        <div>
+            <nav className="flex justify-between items-center py-4 px-6 bg-blue-500 text-white">
+                <h1 className="font-bold text-lg">Manage Projects</h1>
+            </nav>
+            <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {projects.length > 0 ? projects.map((project, index) => (
+                    <div key={index} className="border p-4 bg-white rounded-lg shadow">
+                        <div className='flex flex-col'>
+                            <p><strong>Name:</strong> {project.name}</p>
+                            <p><strong>Department:</strong> {project.school}</p>
+                            {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline">GitHub Repo</a>}
+                            {project.projectVideo && <a href={project.projectVideo} className="text-blue-500 hover:underline">Project Video</a>}
+                            <Link to={`/Dashboard/Manageprojectdetail/${project._id}`} className='text-rose-500 hover:text-rose-700'>View More</Link>
+                            <div className='flex gap-2 mt-2'>
+                                <button 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        Approve(project._id);
+                                    }}
+                                    className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Accept</button>
+                                <button  
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        RejectProject(project._id)
+                                    }} 
+                                    className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Reject</button>
+                            </div>
                         </div>
-                        <div className='md:w-2/4'>
-                            <img src={male} alt="" className='h-96' />
-                        </div>
-
                     </div>
-                </div>
-                <div className="flex flex-col items-center  rounded-2xl bg-white-100 ">
-                    <h1 className="text-4xl md:text-5xl font-bold my-2">Projects</h1>
-
-                    {user?.projects?.map((project, index) => (
-                        <div key={index} className="bg-white p-4 rounded-lg flex flex-col md:flex-row justify-between shadow-md w-full md:max-w-6xl mb-4">
-                            <h3 className="font-bold mt-2 cursor-text">ProjectId : {project}</h3>
-                            <Link to={`/projectDetail/${project}`} className="self-center bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4 md:mt-auto w-full md:w-32">
-                                View Project
-                            </Link>
-                        </div>
-                    ))}
-                </div>
+                )) : <p className="text-center">No projects found.</p>}
             </div>
         </div>
-
+            
     );
-};
+}
 
-export default ProfilePage;
+export default ManageProject;

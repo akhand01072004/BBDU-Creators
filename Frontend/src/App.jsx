@@ -31,6 +31,7 @@ import DashboardContent from './component/admin/DashboardContent';
 import ManageProjectDetail from './component/admin/Projectdetails';
 import EditUser from './component/EditUser';
 import EditAdmin from './component/admin/EditAdmin';
+import PageNotFound from './component/PageNotFound';
 
 
 
@@ -77,6 +78,7 @@ function App() {
             <Route path='ManageProjectAdmin' element={<ManageProject />} />
             <Route path='ManageUserAdmin' element={<ManageUserAdmin />}/>
           </Route>
+          <Route path="*" element={<PageNotFound/>}/>
         </Routes>
     </BrowserRouter>
     </SnackbarProvider>

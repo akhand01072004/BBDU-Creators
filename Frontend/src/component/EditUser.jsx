@@ -244,7 +244,7 @@ const EditUser = () => {
                                     accept="image/*" onChange={UploadImage}
                                     value={formData.imageurl}
                                     className="mt-1 w-full p-2 rounded-md border-2 border-black shadow-sm"
-                                    required
+                                    
                                 />
                             </label>
                         </div>
