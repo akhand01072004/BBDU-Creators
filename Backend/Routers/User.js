@@ -74,7 +74,6 @@ router.post('/login', async(req,res) => {
 
 router.post('/forgot-password', async(req,res) => {
     const emailto = req.body?.email;
-    console.log("inside forgot pswd", emailto);
     const sender = nodemailer.createTransport({
         service: 'Gmail',
         auth : {
@@ -134,11 +133,10 @@ router.post('/SendEmail' , async(req,res) => {
             pass : process.env.PASS
         }
     });
-    console.log("before email sent", emailto);
     try {
         const response = sender.sendMail({
             from : process.env.USER,
-            to : req.body.emailto,
+            to : req.body?.emailto,
             subject : "One-time verification code",
             text : `You are receving this email because a request was made for email verifcation. Please enter the following code for verification : ${otp}`
         });

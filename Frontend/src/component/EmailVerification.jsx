@@ -12,7 +12,7 @@ function EmailVerification() {
     try {
       const response = await fetch('http://localhost:3000/users/SendEmail', {
         method: "POST",
-        body: JSON.stringify({ emailto: email }),
+        body: JSON.stringify({emailto : email }),
         headers: {
           "Content-Type": "application/json"
         },

@@ -8,7 +8,7 @@ const ManageProject = () => {
     // Fetch projects from the backend when the component mounts
     const fetchProjects = async () => {
         try {
-            const response = await fetch('https://bbdu-backend-2.onrender.com/project/api/projects'); 
+            const response = await fetch('http://localhost:3000/project/api/projects'); 
 
             if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
@@ -23,13 +23,13 @@ const ManageProject = () => {
 
     const Approve = async(id) => {
         try {
-            const data = await fetch(`https://bbdu-backend-2.onrender.com/project/api/project/${id}`);
+            const data = await fetch(`http://localhost:3000/project/api/project/${id}`);
             const proj = await data.json();
             const emailbody = {
                 emailto : proj.email,
                 name : proj.name
             }
-            const resp = await fetch('https://bbdu-backend-2.onrender.com/project/api/ApproveProject', {
+            const resp = await fetch('http://localhost:3000/project/api/ApproveProject', {
             method: 'POST',
             body: JSON.stringify(proj),
             headers: {
@@ -37,7 +37,7 @@ const ManageProject = () => {
             },
         });
          //send email to the student if his/her project get approved
-         const response = await fetch('https://bbdu-backend-2.onrender.com/project/SendProjectStatusEmail',{
+         const response = await fetch('http://localhost:3000/project/SendProjectStatusEmail',{
             method: "POST",
             body: JSON.stringify(emailbody),
             headers: {
@@ -60,7 +60,7 @@ const ManageProject = () => {
 
     const RejectProject = async(id) => {
         try {
-            const response = await fetch(`https://bbdu-backend-2.onrender.com/project/api/deleteProject/${id}`, {
+            const response = await fetch(`http://localhost:3000/project/api/deleteProject/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'

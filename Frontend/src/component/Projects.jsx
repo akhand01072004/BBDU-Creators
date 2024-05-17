@@ -23,6 +23,9 @@ function Projects() {
     const [course, setCourse] = useState('');
     const [coursesOptions, setCoursesOptions] = useState([]);
     const [year, setYear] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postPerPage, setPostsPerPage] = useState(3);
+
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -37,6 +40,31 @@ function Projects() {
         };
         fetchProjects();
     }, []);
+
+    //get current projects
+    const indexofLastProject = currentPage * postPerPage;
+    const indexofFirstProject = indexofLastProject - postPerPage;
+    const currentProjects = projects.slice(indexofFirstProject,indexofLastProject);
+
+    //pagination
+    const pageNumber = [];
+    for(let i= 1; i<=Math.ceil(currentProjects.length / postPerPage) + 1; i++){
+        pageNumber.push(i);
+    }
+
+    function paginate(pagenum){
+        setCurrentPage(pagenum);
+    }
+    function paginateprev(){
+        if(currentPage > 1){
+        setCurrentPage(currentPage-1);
+        }
+    }
+    function paginatenext(){
+        if(currentPage+1 < indexofLastProject){
+        setCurrentPage(currentPage+1);
+        }
+    }
 
     useEffect(() => {
         if (school) {
@@ -54,12 +82,13 @@ function Projects() {
     const handleCourseChange = (e) => setCourse(e.target.value);
     const handleYearChange = (e) => setYear(e.target.value);
 
-    const filteredProjects = projects.filter(project =>
+    const filteredProjects = currentProjects.filter(project =>
         project.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (school ? project.school === school : true) &&
         (course ? project.course === course : true) &&
         (year ? project.yearOfSubmission === year : true)
     );
+    
 
     return (
         <div className='min-h-screen'>
@@ -123,11 +152,27 @@ function Projects() {
                                 <Link to={`/projectDetail/${project._id}`} className="self-center bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4 md:mt-auto w-full md:w-32">
                                     View More
                                 </Link>
-
                             </div>
                         </div>
                     )) : <p className="h-screen text-center">No projects found.</p>}
                 </div>
+            </div>
+            <div>
+                <nav>
+                    <ul className="inline-flex -space-x-px text-sm ml-[40%] mt-[18]%">
+                    <li>
+                        <Link to="" onClick={() => {paginateprev();}} className="flex items-center justify-center px-3 h-8 ms-0 leading-tight">Previous</Link>
+                    </li>
+                        {pageNumber.map((pagenum,index) => (
+                            <li key={index}>
+                                <Link to="" onClick={() => {paginate(pagenum);}} className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-blue-400 bg-white border border-e-0 border-gray-300 rounded-s  hover:text-blue-500">{pagenum}</Link>
+                            </li>
+                        ))}
+                        <li>
+                        <Link to="" onClick={() => {paginatenext();}} className="flex items-center justify-center px-3 h-8 ms-0 leading-tight">Next</Link>
+                    </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     );

@@ -130,7 +130,7 @@ const AdminSignup = () => {
             <div className="mb-4">
               <label htmlFor="" className='block text-lg font-medium text-black-700'>Special Code</label>
               <input
-                type="text"
+                type="passwordN"
                 name="code"
                 id="code"
                 onChange={formik.handleChange}
