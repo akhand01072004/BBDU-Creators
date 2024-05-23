@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=New+Tegomin&family=Pacifico&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=New+Tegomin&family=Pacifico&display=swap');
 *{
   margin: 0;
   padding: 0;
@@ -7,13 +7,15 @@
 }
 
 .fo{
-    font-family: "Merriweather", cursive;
+  font-family: "Concert One", sans-serif;;
   font-weight: 400;
   font-style: normal;
 }
 
+
+
 .upb{
-    background-image: url('../assets/Upload.jpg');
+    background-image: url('../assets/Contact-bg.png');
     background-size: cover;
 }
 
@@ -22,7 +24,9 @@
 }
 
 .nav-icon{
-  height: 65px;
+  max-height: 50px;
+  min-height: 40px;
+  
   
 }
 
@@ -75,4 +79,20 @@
 .back{
   background-image: url('../assets/Upload.png');
   background-size: cover;
+}
+
+/* User Profile  ----------------------- */
+.user-div-bg{
+  background-image: url('../assets/user-div1.png');
+  
+}
+
+/* projects details */
+.bg-detail{
+  background-image:url('../assets/Sign-bg-1.png');
+}
+
+/* Edit user */
+.user-edit{
+  background-color: url('../assets/Edit.jpg');
 }

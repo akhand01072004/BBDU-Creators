@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from 'notistack';
-import NavBar from "./NavBar";
+
 
 function EmailVerification() {
   const [email, setEmail] = useState('');
@@ -10,9 +10,9 @@ function EmailVerification() {
 
   const sendVerificationMail = async () => {
     try {
-      const response = await fetch('http://localhost:3000/user/SendEmail', {
+      const response = await fetch('http://localhost:3000/users/SendEmail', {
         method: "POST",
-        body: JSON.stringify({ emailto: email }),
+        body: JSON.stringify({emailto : email }),
         headers: {
           "Content-Type": "application/json"
         },
@@ -29,7 +29,7 @@ function EmailVerification() {
 
   const verify = async () => {
     try {
-      const response = await fetch('http://localhost:3000/user/validate-otp', {
+      const response = await fetch('http://localhost:3000/users/validate-otp', {
         method: "POST",
         body: JSON.stringify({ otp }),
         headers: {
@@ -49,7 +49,7 @@ function EmailVerification() {
 
   return (
     <>
-    <NavBar></NavBar>
+    
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)]">
         <h1 className="text-xl font-semibold text-center">Verify Your Email</h1>

@@ -1,193 +1,116 @@
-import { useContext, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
-import './Sign.css';
-import { LoginContext } from '../Context/LoginContext';
+import { Link } from 'react-router-dom';
 
+const ManageProject = () => {
+    const [projects, setProjects] = useState([]);
 
-const UploadProjects = () => {
-    const LoginState = useContext(LoginContext);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [projectName, setProjectName] = useState('');
-    const [department, setDepartment] = useState('');
-    const [githubRepo, setGithubRepo] = useState('');
-    const [projectDescription, setProjectDescription] = useState('');
-    const [projectImage, setProjectImage] = useState('');
-    const [projectVideo, setProjectVideo] = useState(null);
-    const [showGitHub, setShowGitHub] = useState(false);
-
-    const handleDepartmentChange = (event) => {
-        const selectedDepartment = event.target.value;
-        setDepartment(selectedDepartment);
-        setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering');
-    };
-
-    const UploadImage = async (event) => {
-        const file = event.target.files[0];
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
+    // Fetch projects from the backend when the component mounts
+    const fetchProjects = async () => {
         try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/image/upload', {
-                method: "POST",
-                body: data
-            });
-            const resp = await response.json();
-            setProjectImage(resp.url);
-            console.log(resp.url);
-            console.log(projectImage);
-        } catch (error) {
-            console.log("failed to upload");
-        }
-    }
+            const response = await fetch('http://localhost:3000/project/api/projects'); 
 
-    const UploadVideo = async (event) => {
-        const file = event.target.files[0];
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default");
-        data.append("cloud_name", "dl81ig8l5")
-        try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dl81ig8l5/video/upload', {
-                method: "POST",
-                body: data
-            });
-            const resp = await response.json();
-            setProjectVideo(resp.url);
-            console.log(resp.url);
-            console.log(projectVideo);
-        } catch (error) {
-            console.log("failed to upload");
-        }
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = {
-            name: name,
-            email: email,
-            projectName: projectName,
-            department: department,
-            projectDescription: projectDescription,
-            githubRepo: githubRepo,
-            projectImage: projectImage,
-            projectVideo: projectVideo
-        }
-
-        if (LoginState.login == false) {
-            enqueueSnackbar('Please Login', { variant: "error" });
-        }
-
-        try {
-            const response = await fetch('http://localhost:3000/project/api/uploadprojects', {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
+            if (!response.ok) throw new Error('Failed to fetch');
             const data = await response.json();
-            if (response.status === 201) {
-                enqueueSnackbar("Project Submitted", { variant: "success" });
-            } else {
-                enqueueSnackbar("Project Not Submitted", { variant: "error" });
-            }
-            console.log('Form submission successful', data);
-            // Reset form and states if needed
+            setProjects(data);
         } catch (error) {
-            console.error('Form submission error', error);
+            console.error("Error fetching projects:", error);
         }
     };
+    useEffect(() => {
+        fetchProjects();
+    }, []); // The empty dependency array ensures this effect runs once on mount
 
-    return (
-        <div className="flex items-center justify-center min-h-screen upb">
-            <div className="bg-gray-100 p-8 rounded-lg shadow-md w-auto bg-opacity-20 ">
-                <h2 className="text-4xl  mb-5 text-center text-style">Upload Project</h2>
-                <form onSubmit={handleSubmit} encType='multipart/form-data'>
-                    {/* Name */}
-                    <div className="flex ">
-                        <div className='mr-5 '>
-                            <div className="mb-4">
-                                <label htmlFor="name" className="block text-black-700 text-lg font-bold mb-2">Name</label>
-                                <input type="text" value={name} onChange={(e) => setName(e.target.value)} id="name" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+    const Approve = async(id) => {
+        try {
+            const data = await fetch(`http://localhost:3000/project/api/project/${id}`);
+            const proj = await data.json();
+            const emailbody = {
+                emailto : proj.email,
+                name : proj.name
+            }
+            const resp = await fetch('http://localhost:3000/project/api/ApproveProject', {
+            method: 'POST',
+            body: JSON.stringify(proj),
+            headers: {
+            "Content-Type":"application/json"
+            },
+        });
+         //send email to the student if his/her project get approved
+         const response = await fetch('http://localhost:3000/project/SendProjectStatusEmail',{
+            method: "POST",
+            body: JSON.stringify(emailbody),
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        if(response.status === 201){
+            enqueueSnackbar('Email Sent', {variant: 'success'})
+        }
+
+
+        RejectProject(id);
+        if(!resp){
+            enqueueSnackbar('Project Approved', {variant: 'success'})
+        }
+        } catch (error) {
+            console.log("facing error while uploading")
+        }
+    }
+
+    const RejectProject = async(id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/project/api/deleteProject/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            fetchProjects();
+            if (response.status === 200) {
+                enqueueSnackbar('Project Deleted Successfully', {variant: 'success'})
+            } else {
+                enqueueSnackbar('Facing error while deleting', {variant: 'error'})
+            }
+        } catch (error) {
+            console.log("Facing error while deleting")
+        }
+    }
+    return ( 
+        <div>
+            <nav className="flex justify-between items-center py-4 px-6 bg-blue-500 text-white">
+                <h1 className="font-bold text-lg">Manage Projects</h1>
+            </nav>
+            <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {projects.length > 0 ? projects.map((project, index) => (
+                    <div key={index} className="border p-4 bg-white rounded-lg shadow">
+                        <div className='flex flex-col'>
+                            <p><strong>Name:</strong> {project.name}</p>
+                            <p><strong>Department:</strong> {project.school}</p>
+                            {project.githubRepo && <a href={project.githubRepo} className="text-blue-500 hover:underline">GitHub Repo</a>}
+                            {project.projectVideo && <a href={project.projectVideo} className="text-blue-500 hover:underline">Project Video</a>}
+                            <Link to={`/Dashboard/Manageprojectdetail/${project._id}`} className='text-rose-500 hover:text-rose-700'>View More</Link>
+                            <div className='flex gap-2 mt-2'>
+                                <button 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        Approve(project._id);
+                                    }}
+                                    className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Accept</button>
+                                <button  
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        RejectProject(project._id)
+                                    }} 
+                                    className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Reject</button>
                             </div>
-
-                            {/* Email */}
-                            <div className="mb-4">
-                                <label htmlFor="email" className="block text-black-700 text-lg font-bold mb-2">Email</label>
-                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Project Name */}
-                            <div className="mb-4">
-                                <label htmlFor="projectName" className="block text-black-700 text-lg font-bold mb-2">Project Name</label>
-                                <input type="text" value={projectName} onChange={(e) => setProjectName(e.target.value)} id="projectName" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            {/* Department Name */}
-                            <div className="mb-4">
-                                <label htmlFor="department" className="block text-black-700 text-lg font-bold mb-2">Department Name</label>
-                                <select id="department" value={department} onChange={handleDepartmentChange} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="">Select a Department</option>
-                                    <option value="School of Computer Applications">School of Computer Applications</option>
-                                    <option value="School of Engineering">School of Engineering</option>
-                                    <option value="School of Management">School of Management</option>
-                                    <option value="School Of Pharmacy">School Of Pharmacy</option>
-                                    <option value="School of Legal Studies">School of Legal Studies</option>
-                                    <option value="School of Basic Science">School of Basic Science</option>
-                                    <option value="School of Education">School of Education</option>
-                                    <option value="School of Humanities and Social Science">School of Humanities and Social Science</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-
-                            {/* Conditional GitHub Repository or Project Video */}
-                            {showGitHub ? (
-                                <>
-                                    <div className="mb-4">
-                                        <label htmlFor="githubRepo" className="block text-black-700 text-lg font-bold mb-2">GitHub Repository</label>
-                                        <input type="url" value={githubRepo} onChange={(e) => setGithubRepo(e.target.value)} id="githubRepo" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                    </div>
-
-                                </>
-                            ) : (
-                                <>
-
-                                </>
-                            )}
-
-                            {/* Project Image */}
-                            <div className="mb-4">
-                                <label className="block text-black-700 text-lg font-bold">Project Image</label>
-                                <input type="file" onChange={UploadImage} accept="image/*" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block text-black-700 text-lg font-bold">Project Video</label>
-                                <input type="file" onChange={UploadVideo} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                            </div>
-
-
                         </div>
                     </div>
-                    <div>
-                        <div className="mb-4">
-                            <label htmlFor="projectDescription" className="block text-black-700 text-lg font-bold mb-2">Project Description</label>
-                            <input type="text" value={projectDescription} onChange={(e) => setProjectDescription(e.target.value)} id="projectName" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                        </div>
-                    </div>
-                    <div>
-                        {/* Submit Button */}
-                        <div className="flex justify-center mt-6">
-                            <button type="submit" onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
-                        </div>
-                    </div>
-                </form>
+                )) : <p className="text-center">No projects found.</p>}
             </div>
         </div>
+            
     );
-};
+}
 
-export default UploadProjects;
+export default ManageProject;

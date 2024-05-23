@@ -7,10 +7,15 @@ const userSchema = new Schema({
         unique: true
     },
     password: String,
-    verified : {
-        type : Boolean,
-        default : false
-    }
+    about: String,
+    school: String,
+    course: String,
+    duration: String,
+    userimage: String, 
+    projects : [{
+        type : Schema.Types.ObjectId,
+        ref : 'ApprovedProject'
+    }]
 });
 
 userSchema.pre("save",async function(next){

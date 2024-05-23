@@ -4,7 +4,7 @@ import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaUserShield } from 're
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-800 text-white p-6">
+    <footer className="bg-blue-800 text-white p-6 w-full">
       <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-4"> {/* Changed to 4 columns */}
         <div>
           <h2 className="text-lg font-semibold mb-2">About BBD Creators</h2>

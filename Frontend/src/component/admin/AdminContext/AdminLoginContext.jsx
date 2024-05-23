@@ -1,28 +1,30 @@
 import { createContext, useState } from "react";
-import { enqueueSnackbar } from "notistack";
 export const AdminLoginContext = createContext(null);
 
 
 
 export const AdminLoginProvider = (props) => {
+
     const [Adminlogin,SetAdminLogin] = useState(false);
+
+    const localhost_url =  "http://localhost:3000/admin/validatetoken";
+    //const render_url = "https://bbdu-backend-2.onrender.com/admin/validatetoken";
     
     const check = async() => {
-        const resp = await fetch('http://localhost:3000/admin/validatetoken',{
+        const resp = await fetch(`${localhost_url}`,{
             credentials : "include",
             headers : {
                 'Content-Type' : 'application/json'
             }
         });
-        console.log(resp)
+        console.log(resp.body)
         if(resp.status === 201){
             SetAdminLogin(true);
-            enqueueSnackbar('Admin LoggedIn', {variant: 'success'})
-        }else{
-            enqueueSnackbar('Admin Not LoggedIn', {variant: 'error'})
         }
     }
+
     check();
+    
     return(
         <AdminLoginContext.Provider value={{Adminlogin, SetAdminLogin}}>
         {props.children}

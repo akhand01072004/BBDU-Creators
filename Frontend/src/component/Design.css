@@ -6,7 +6,7 @@
     
 }
 .fw{
-    color: aliceblue;
+    color: rgb(255, 255, 255);
 }
 .bg:hover{
     background-color: #166534;
@@ -46,9 +46,14 @@
 /* ----------SignUP 2---------- */
 
 .back-bg{
-    background-image: url("../assets/Sign-bg.jpg");
-    background-size: contain;
+    background-image: url("../assets/Sign-bg.png");
+    background-size: cover;
     
+}
+
+.bg-sign{
+    background-image: url("../assets/Sign-bg-user.png");
+    background-size: cover;
 }
 
 
@@ -62,7 +67,7 @@
 
 /*----------------------- About  ---------------- */
 .sec3{
-    background-image: url("../assets/About-bg.jpg");
+    background-image: url("../assets/About-bg.png");
     background-size: cover;
     /* background-attachment: fixed;  */
     background-repeat: no-repeat;
@@ -103,4 +108,28 @@
 .admin-bg{
     background-image: url('../assets/admin-form-bg.jpg');
     background-size: cover;
+}
+
+/* background */
+
+.bg-contact{
+    background-image: url('../assets/Contact-bg.png');
+    background-size: cover;
+}
+
+/* User SignUp Page  */
+
+
+.bg-signin-logo{
+    background-image: url("../assets/bg-signin-logo.png");
+    background-size: cover;
+}
+
+/* Header  */
+.bg-head{
+    background-image: url("../assets/header-bg.png");
+    background-size: cover;
+}
+.img-header{
+    /* height: 600px; */
 }
