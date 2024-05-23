@@ -65,7 +65,7 @@ function App() {
         <Route path="/projectDetail/:id" element={<ProjectDetail />} />
         <Route path='/ManageProjectAdmin' element={<ManageProject />} />
         <Route path="/fileupload" element={<Fileupload />} />
-        <Route path="/email-verification" element={<EmailVerify />} />
+        <Route path="/email-verification" element={<EmailVerify/>} />
         <Route path='/AdminLogin' element={<AdminLogin />}/>
         <Route path='/AdminSignup' element={<AdminSignup />} />
         <Route path='/Dashboard' element={<AdminDashboard />}>

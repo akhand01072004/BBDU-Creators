@@ -19,7 +19,7 @@ const UploadProjects = () => {
     const handleDepartmentChange = (event) => {
         const selectedDepartment = event.target.value;
         setDepartment(selectedDepartment);
-        setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering');
+        setShowGitHub(selectedDepartment === 'School of Computer Applications' || selectedDepartment === 'School of Engineering' );
     };
 
     const UploadImage = async (event) => {

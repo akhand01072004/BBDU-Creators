@@ -8,6 +8,7 @@ const UserRouter = require('./Routers/User');
 const ProjRouter = require('./Routers/Projects');
 const UtilRouter = require('./Routers/util');
 const AdminRouter = require('./Routers/Admin');
+const ContactRouter = require('./Routers/Contact');
 
 
 
@@ -24,6 +25,7 @@ app.use('/util', UtilRouter);
 app.use('/user', UserRouter);
 app.use('/project', ProjRouter);
 app.use('/admin', AdminRouter);
+app.use('/contact', ContactRouter);
 
 app.use(express.static('./static/uploads'))
 

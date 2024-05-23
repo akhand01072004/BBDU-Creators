@@ -57,9 +57,9 @@ export default function ProjectDetail() {
               <div className="w-40 h-40 rounded-full bg-blue-300 flex items-center justify-center text-white text-lg font-bold mb-8 border-2 border-black">
                 <p className='text-6xl'>S</p>
               </div>
-              <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              {/* <button className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 View Profile
-              </button>
+              </button> */}
             </div>
           </div>
 

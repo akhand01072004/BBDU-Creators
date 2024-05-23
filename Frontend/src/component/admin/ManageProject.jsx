@@ -3,6 +3,7 @@ import { enqueueSnackbar } from 'notistack';
 import { Link } from 'react-router-dom';
 
 const ManageProject = () => {
+    
     const [projects, setProjects] = useState([]);
 
     // Fetch projects from the backend when the component mounts
